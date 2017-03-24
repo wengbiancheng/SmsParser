@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/item_helper_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true"
+        android:text="小明"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/item_helper_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/item_helper_name"
+        android:layout_marginLeft="30dp"
+        android:layout_centerVertical="true"
+        android:text="15622211254"
+        android:textSize="16sp"/>
+
+    <CheckBox
+        android:id="@+id/item_helper_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="30dp"
+        android:focusable="false"
+        />
+
+</RelativeLayout>

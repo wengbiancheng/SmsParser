@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/item_sms_image"
+        android:layout_width="64dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/item_sms_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_toRightOf="@id/item_sms_image"
+        android:padding="10dp"
+        android:text="15612144751"
+
+        android:textColor="@color/black"
+
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/item_sms_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@id/item_sms_phone"
+        android:layout_toRightOf="@id/item_sms_image"
+        android:paddingBottom="10dp"
+
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="这是一个软件的测试版本，我们使用这个进行相应的测试工作，然后我们可以收..."
+
+        android:textColor="#999"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/item_sms_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentRight="true"
+        android:padding="10dp"
+        android:text="2016-01-13"
+
+        android:textColor="@android:color/black"
+
+        android:textSize="12sp" />
+
+</RelativeLayout>

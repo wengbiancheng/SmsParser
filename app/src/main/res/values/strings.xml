@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SmsParser</string>
+    <string name="order_good_list">订货短信列表</string>
+    <string name="pay_sms_list">付款短信列表</string>
+</resources>
