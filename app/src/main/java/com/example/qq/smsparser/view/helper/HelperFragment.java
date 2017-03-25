@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.qq.smsparser.MyApplication;
 import com.example.qq.smsparser.R;
@@ -68,11 +69,17 @@ public class HelperFragment extends BaseFragment {
     }
 
     private void DeleteHelper(final int position) {
-        AlertDialog alertDialog = new AlertDialog.Builder(Baseactivity).setMessage("您真的要删除这个帮工信息吗?").setPositiveButton("取消",
+        AlertDialog alertDialog = new AlertDialog.Builder(Baseactivity).setMessage("您真的要删除这个帮工信息吗?").setPositiveButton("确定",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DbutilHelper.getInstance().deleteHelper(data.get(position).getId(),((MyApplication)Baseactivity.getApplication()).getSQLiteOpenHelper().getWritableDatabase());
+                        int code=DbutilHelper.getInstance().deleteHelper(data.get(position).getId(),((MyApplication)Baseactivity.getApplication()).getSQLiteOpenHelper().getWritableDatabase());
+                        if(code==1){
+                            data.remove(position);
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(Baseactivity,"删除成功",Toast.LENGTH_SHORT).show();
+                        }
+                        Log.e("SQLite","Helper数据库删除:deleteHelper()的结果是:"+code);
                     }
                 }).setNegativeButton("取消",null).create();
         alertDialog.show();
@@ -98,9 +105,12 @@ public class HelperFragment extends BaseFragment {
                 helperMessage.setCheck(false);
                 long code=DbutilHelper.getInstance().saveHelper(helperMessage,((MyApplication)Baseactivity.getApplication()).getSQLiteOpenHelper().getWritableDatabase());
                 Log.e("SQLite","Helper数据库插入:saveHelper()的结果是:"+code);
-//                data = DbutilHelper.getInstance().getHelperListData(((MyApplication)Baseactivity.getApplication()).getSQLiteOpenHelper().getReadableDatabase());//得到所有的列表数据
-//                adapter = new HelperAdapter(Baseactivity, data);
-//                listView.setAdapter(adapter);
+                List<HelperMessage> temp = DbutilHelper.getInstance().getHelperListData(((MyApplication)Baseactivity.getApplication()).getSQLiteOpenHelper().getReadableDatabase());//得到所有的列表数据
+                if(temp.size()-data.size()==1){
+                    data.add(temp.get(temp.size()-1));
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(Baseactivity,"添加成功",Toast.LENGTH_SHORT).show();
+                }
                 alertDialog1.dismiss();
             }
         });

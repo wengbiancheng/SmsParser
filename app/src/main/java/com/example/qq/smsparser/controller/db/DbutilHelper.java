@@ -41,24 +41,21 @@ public class DbutilHelper{
 
     public int deleteHelper(int id,SQLiteDatabase write_sqlite){
         Log.e("SQLite","Helper数据库删除:deleteHelper()");
-        return write_sqlite.delete(TABLE_HELPER,"id="+id,null);
+        return write_sqlite.delete(TABLE_HELPER,"_id="+id,null);
     }
 
     public List<HelperMessage> getHelperListData(SQLiteDatabase read_sqlite){
-        Log.e("SQLite","Helper数据库检索:getHelperListData()");
         Cursor cursor = read_sqlite.query(TABLE_HELPER, HELPER_COLS, null, null, null, null, null);
         List<HelperMessage> list=new ArrayList<>();
         cursor.moveToFirst();
-        if(cursor!=null){
-            do{
-                HelperMessage helperMessage=new HelperMessage();
-                helperMessage.setId(cursor.getInt(0));
-                helperMessage.setName(cursor.getString(1));
-                helperMessage.setPhone(cursor.getString(2));
-                helperMessage.setCheck(cursor.getInt(3)==1?true:false);
-                list.add(helperMessage);
-                cursor.moveToNext();
-            }while(cursor.moveToNext());
+        for(int i=0;i<cursor.getCount();i++){
+            HelperMessage helperMessage=new HelperMessage();
+            helperMessage.setId(cursor.getInt(0));
+            helperMessage.setName(cursor.getString(1));
+            helperMessage.setPhone(cursor.getString(2));
+            helperMessage.setCheck(cursor.getInt(3)==1?true:false);
+            list.add(helperMessage);
+            cursor.moveToNext();
         }
         Log.e("SQLite","Helper数据库检索:getHelperListData()---list集合的大小是:"+list.size());
         return list;

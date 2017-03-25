@@ -131,7 +131,7 @@ public class DbutilOrder{
 
         Cursor cursor = read_sqlite.query(TABLE_ORDER, ORDER_COLS, selection, selectionArgs, null, null, null);
         cursor.moveToFirst();
-        if(cursor!=null){
+        if(cursor!=null&&cursor.getCount()>0){
             OrderGood orderGood=new OrderGood();
             orderGood.setOrder_id(cursor.getInt(0));
             orderGood.setGood_id(cursor.getInt(1));
