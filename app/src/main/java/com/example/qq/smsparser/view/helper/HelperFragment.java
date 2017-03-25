@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.example.qq.smsparser.MyApplication;
 import com.example.qq.smsparser.R;
 import com.example.qq.smsparser.controller.db.DbutilHelper;
 import com.example.qq.smsparser.entity.HelperMessage;
@@ -36,8 +37,7 @@ public class HelperFragment extends BaseFragment {
         Log.e("Process", "HelperFragment:onCreateView");
         View view = inflater.inflate(R.layout.fragment_helper, null);
 
-        dbutilHelper = DbutilHelper.getInstance(Baseactivity.getApplicationContext());
-        data = dbutilHelper.getHelperListData();//得到所有的列表数据
+        data = DbutilHelper.getInstance().getHelperListData(((MyApplication)Baseactivity.getApplication()).getSQLiteOpenHelper().getReadableDatabase());//得到所有的列表数据
 
         listView = (ListView) view.findViewById(R.id.helper_listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -72,7 +72,7 @@ public class HelperFragment extends BaseFragment {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dbutilHelper.deleteHelper(data.get(position).getId());
+                        DbutilHelper.getInstance().deleteHelper(data.get(position).getId(),((MyApplication)Baseactivity.getApplication()).getSQLiteOpenHelper().getWritableDatabase());
                     }
                 }).setNegativeButton("取消",null).create();
         alertDialog.show();
@@ -96,7 +96,12 @@ public class HelperFragment extends BaseFragment {
                 helperMessage.setName(name.getText().toString());
                 helperMessage.setPhone(phone.getText().toString());
                 helperMessage.setCheck(false);
-                dbutilHelper.saveHelper(helperMessage);
+                long code=DbutilHelper.getInstance().saveHelper(helperMessage,((MyApplication)Baseactivity.getApplication()).getSQLiteOpenHelper().getWritableDatabase());
+                Log.e("SQLite","Helper数据库插入:saveHelper()的结果是:"+code);
+//                data = DbutilHelper.getInstance().getHelperListData(((MyApplication)Baseactivity.getApplication()).getSQLiteOpenHelper().getReadableDatabase());//得到所有的列表数据
+//                adapter = new HelperAdapter(Baseactivity, data);
+//                listView.setAdapter(adapter);
+                alertDialog1.dismiss();
             }
         });
 

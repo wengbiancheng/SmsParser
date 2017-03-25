@@ -8,8 +8,10 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.qq.smsparser.MyApplication;
 import com.example.qq.smsparser.controller.db.DbutilOrder;
 import com.example.qq.smsparser.controller.db.DbutilHelper;
+import com.example.qq.smsparser.controller.db.MySQLiteHelper;
 import com.example.qq.smsparser.entity.OrderGood;
 import com.example.qq.smsparser.entity.PayMessage;
 import com.example.qq.smsparser.entity.SendMessage;
@@ -23,8 +25,6 @@ import com.example.qq.smsparser.controller.send.SendToHelperUtil;
  */
 public class SmsService extends Service {
 
-    private DbutilOrder dbutils_order=null;
-    private DbutilHelper dbutils_helper=null;
     private SmsObserver smsObserver=null;
     private SmsParserUtil smsParserUtil =null;
     private SendToHelperUtil sendToHelperUtil =null;
@@ -33,6 +33,7 @@ public class SmsService extends Service {
     private OrderGood orderGood=new OrderGood();
     private PayMessage payMessage=new PayMessage();
     private SendMessage sendMessage=new SendMessage();
+    private MySQLiteHelper mySQLiteHelper;
 
     @Nullable
     @Override
@@ -44,9 +45,8 @@ public class SmsService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.e("TestService","SmsService:onCreate()");
-        dbutils_order= DbutilOrder.getInstance(this.getApplicationContext());
-        dbutils_helper=DbutilHelper.getInstance(this.getApplicationContext());
-        smsObserver=new SmsObserver(this,handler,dbutils_helper);
+        mySQLiteHelper=((MyApplication)this.getApplication()).getSQLiteOpenHelper();
+        smsObserver=new SmsObserver(this,handler,mySQLiteHelper);
         smsParserUtil = SmsParserUtil.getInstance(this,handler);
         sendToHelperUtil = SendToHelperUtil.getInstance(this);
     }
@@ -60,8 +60,6 @@ public class SmsService extends Service {
     @Override
     public void onDestroy() {
         Log.e("TestService","SmsService:onDestroy()");
-        dbutils_helper=null;
-        dbutils_order=null;
         smsObserver=null;
         smsParserUtil =null;
         sendToHelperUtil =null;
@@ -86,7 +84,7 @@ public class SmsService extends Service {
                         payMessage= smsParserUtil.getPayMessage(smsMessage.getBody());
                         updateOrderMessage(payMessage);
                         //TODO 应该发送短信给帮工，而发送给帮工的话，就得需要购买者的一些信息了
-                        OrderGood orderGood=dbutils_order.getOrderGood(payMessage.getOrder_id());
+                        OrderGood orderGood=DbutilOrder.getInstance().getOrderGood(payMessage.getOrder_id(),mySQLiteHelper.getReadableDatabase());
                         sendSmsToHelper(orderGood);
                     }else if(smsMessage.getType()==2){
                         sendMessage= smsParserUtil.getSendMessage(smsMessage.getBody());
@@ -101,17 +99,17 @@ public class SmsService extends Service {
     //TODO 短信解析完成后，我们应该新建一个方法调用Dbutils提供的接口进行数据的存取，注意是多种数据进行存取的
     private void saveOrderMessage(OrderGood orderGood){
         Log.e("TestService","SmsService:saveOrderMessage()");
-        dbutils_order.saveOrderMessage(orderGood);
+        DbutilOrder.getInstance().saveOrderMessage(orderGood,mySQLiteHelper.getWritableDatabase());
     }
 
     private void updateOrderMessage(PayMessage payMessage){
         Log.e("TestService","SmsService:updateOrderMessage(PayMessage)");
-        dbutils_order.updateOrderMessage(payMessage);
+        DbutilOrder.getInstance().updateOrderMessage(payMessage,mySQLiteHelper.getReadableDatabase(),mySQLiteHelper.getWritableDatabase());
     }
 
     private void updateOrderMessage(SendMessage sendMessage){
         Log.e("TestService","SmsService:updateOrderMessage(SendMessage)");
-        dbutils_order.updateOrderMessage(sendMessage);
+        DbutilOrder.getInstance().updateOrderMessage(sendMessage,mySQLiteHelper.getReadableDatabase(),mySQLiteHelper.getWritableDatabase());
     }
 
     //TODO 短信解析完成后，我们应该新建一个方法调用SendToHelper的短信接口，进行帮工短信的发送（注意多线程）

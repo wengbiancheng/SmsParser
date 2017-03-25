@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.example.qq.smsparser.Configs;
 import com.example.qq.smsparser.controller.db.DbutilHelper;
+import com.example.qq.smsparser.controller.db.MySQLiteHelper;
 import com.example.qq.smsparser.entity.SmsMessage;
 
 import java.util.List;
@@ -25,13 +26,13 @@ class SmsObserver extends ContentObserver {
     private Context context;
     private Uri SMS_INBOX = Uri.parse("content://sms/");
     private Handler handler;
-    private DbutilHelper dbutils;
+    private MySQLiteHelper sqLiteHelper;
 
-    public SmsObserver(Context context, Handler handler,DbutilHelper dbutils) {
+    public SmsObserver(Context context, Handler handler,MySQLiteHelper sqLiteHelper) {
         super(handler);
         this.context=context;
         this.handler=handler;
-        this.dbutils=dbutils;
+        this.sqLiteHelper=sqLiteHelper;
     }
 
     @Override
@@ -68,6 +69,7 @@ class SmsObserver extends ContentObserver {
             String type=body.substring(0,1);
             String content=body.substring(3,body.length()-1);
 
+            Log.e("TestService","SmsObserver:搜索到的短信号码是:"+number);
             if(number.equals(Configs.SMS_ORDER_AND_PAY_NUMBER)){
                 if(type.equals("订货")){
                     smsMessage.setType(0);
@@ -75,7 +77,7 @@ class SmsObserver extends ContentObserver {
                     smsMessage.setType(1);
                 }
             }else{
-                List<String> helper=dbutils.getHelperPhone();
+                List<String> helper=DbutilHelper.getInstance().getHelperPhone(sqLiteHelper.getWritableDatabase());
                 if(helper.contains(number)) {
                     if(type.equals("发货")){
                         smsMessage.setType(2);

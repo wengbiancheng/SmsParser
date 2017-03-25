@@ -1,6 +1,7 @@
 package com.example.qq.smsparser.view;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.qq.smsparser.R;
+import com.example.qq.smsparser.controller.db.MySQLiteHelper;
 import com.example.qq.smsparser.controller.parser.SmsService;
 import com.example.qq.smsparser.view.utils.MainFragmentController;
 
@@ -30,6 +32,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     private TextView title_middle;
     private Button title_right;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +42,9 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         initUI();
 
         //TODO 进行后台的测试工作，测试成功后再开启新的进程变成后台运行的
-        initTestService();
+//        initTestService();
     }
+
 
     /**
      * 测试后台数据

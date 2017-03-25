@@ -41,6 +41,8 @@ public class MainFragmentController {
 
     //初始化fragment
     private void initFragment(){
+        FragmentTransaction ft=fm.beginTransaction();
+
         fragmentList=new ArrayList<Fragment>();
 
         fragmentList.add(new OrderGoodFragment());
@@ -48,7 +50,7 @@ public class MainFragmentController {
         fragmentList.add(new SaleListFragment());
         fragmentList.add(new HelperFragment());
 
-        FragmentTransaction ft=fm.beginTransaction();
+
         for(Fragment fragment:fragmentList){
             ft.add(containerId,fragment);
         }

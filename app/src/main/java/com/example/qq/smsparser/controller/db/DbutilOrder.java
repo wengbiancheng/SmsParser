@@ -14,57 +14,23 @@ import com.example.qq.smsparser.entity.SendMessage;
 /**
  * Created by qq on 2017/3/17.
  */
-public class DbutilOrder {
+public class DbutilOrder{
     private static DbutilOrder dbutils = null;
-    private Context context;
-    private SQLiteDatabase read_sqlite;
-    private SQLiteOpenHelper helper;
-    private SQLiteDatabase write_sqlite;
-    private int version = 5;
-
-    private Dbutil dbutil=null;
-
-    //初始化数据库表
+    private String TABLE_ORDER = "orderGoodDB";
     private final String[] ORDER_COLS = new String[]{"id", "goodId", "goodName",
             "price", "number", "cost", "buyerName", "buyerAddress", "buyerPhone", "postcard", "isPay","helperId", "sendName", "sendTime","sendPrice","isSend"};
-    private String DB = "SmsParseDB";
-    private String TABLE_ORDER = "orderGoodDB";
-    public String create_table_order = "create table " + TABLE_ORDER +
-            "(id integer primary key autoincrement,goodId integer,goodName text,price real,number integer," +
-            "cost real,buyerName text,buyerAddress text,buyerPhone text,postcard text,isPay integer,helperId integer,sendName text,sendTime text,sendPrice real," +
-            "isSend integer)";
 
-    public static DbutilOrder getInstance(Context context) {
-        if (dbutils == null) {
-            dbutils = new DbutilOrder(context);
+    public static DbutilOrder getInstance(){
+        if(dbutils==null){
+            dbutils=new DbutilOrder();
             return dbutils;
         }
         return dbutils;
     }
 
-    private DbutilOrder(Context context) {
-        this.context = context;
-        init();
-    }
-
-    private void init() {
-        if (helper == null) {
-            helper = new MySQLiteHelper(context, DB, null, version);
-            write_sqlite = helper.getWritableDatabase();
-            read_sqlite = helper.getReadableDatabase();
-        } else {
-            write_sqlite = helper.getWritableDatabase();
-            read_sqlite = helper.getReadableDatabase();
-        }
-
-        if(dbutil==null){
-            dbutil=Dbutil.getInstance(context);
-        }
-    }
-
     //TODO add,remove,update,search
 
-    public long saveOrderMessage(OrderGood orderGood) {
+    public long saveOrderMessage(OrderGood orderGood,SQLiteDatabase write_sqlite) {
         Log.e("SQLite","Order数据库插入:saveOrderMessage()");
         ContentValues values = new ContentValues();
         values.put("id", orderGood.getOrder_id());
@@ -84,7 +50,7 @@ public class DbutilOrder {
      * 根据订单号去搜索数据库，然后更新数据库的信息
      * @param payMessage
      */
-    public int updateOrderMessage(PayMessage payMessage) {
+    public int updateOrderMessage(PayMessage payMessage,SQLiteDatabase read_sqlite,SQLiteDatabase write_sqlite) {
         Log.e("SQLite","Order数据库更新:updateOrderMessage(PayMessage)");
         Cursor cursor = read_sqlite.query(TABLE_ORDER, ORDER_COLS, null, null, null, null, null);
         cursor.moveToFirst();
@@ -118,7 +84,7 @@ public class DbutilOrder {
      * 根据订单号去搜索数据库，然后更新数据库的信息
      * @param sendMessage
      */
-    public int updateOrderMessage(SendMessage sendMessage) {
+    public int updateOrderMessage(SendMessage sendMessage,SQLiteDatabase read_sqlite,SQLiteDatabase write_sqlite) {
         Log.e("SQLite","Order数据库更新:updateOrderMessage(SendMessage)");
         Cursor cursor = read_sqlite.query(TABLE_ORDER, ORDER_COLS, null, null, null, null, null);
         cursor.moveToFirst();
@@ -158,7 +124,7 @@ public class DbutilOrder {
      * @param id
      * @return
      */
-    public OrderGood getOrderGood(int id){
+    public OrderGood getOrderGood(int id,SQLiteDatabase read_sqlite){
         Log.e("SQLite","Order数据库检索:getOrderGood()");
         String selection = "id=?";
         String[] selectionArgs = new String[]{id+""};
@@ -180,26 +146,5 @@ public class DbutilOrder {
             return orderGood;
         }
         return null;
-    }
-
-    class MySQLiteHelper extends SQLiteOpenHelper {
-
-        public MySQLiteHelper(Context context, String name,
-                              SQLiteDatabase.CursorFactory factory, int version) {
-            super(context, name, factory, version);
-        }
-
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-            db.execSQL(create_table_order);
-            Log.e("SQLite","Order数据库建立:OnCreate()");
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            Log.e("SQLite","Order数据库更新:onUpgrade()");
-            db.execSQL("DROP TABLE IF EXISTS "+TABLE_ORDER);
-            this.onCreate(db);
-        }
     }
 }
