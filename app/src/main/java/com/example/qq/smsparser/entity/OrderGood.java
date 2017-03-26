@@ -1,7 +1,7 @@
 package com.example.qq.smsparser.entity;
 
 /**
- * 订货信息的实体类,不是说数据库就使用这个实体类，要简化的
+ * 订货信息的实体类
  */
 public class OrderGood {
 

@@ -1,7 +1,7 @@
 package com.example.qq.smsparser.entity;
 
 /**
- * Created by qq on 2017/3/18.
+ * 帮工数据的实体类
  */
 public class HelperMessage {
 
