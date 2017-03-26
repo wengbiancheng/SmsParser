@@ -1,7 +1,7 @@
 package com.example.qq.smsparser;
 
 /**
- * Created by qq on 2017/3/12.
+ * 常量类
  */
 public class Configs {
 
