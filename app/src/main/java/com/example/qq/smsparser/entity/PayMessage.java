@@ -1,23 +1,24 @@
 package com.example.qq.smsparser.entity;
 
+import java.io.Serializable;
+
 /**
  * 订货信息的付款实体类
  */
-public class PayMessage {
-    private int order_id;
+public class PayMessage implements Serializable {
+    private String order_id;
     private boolean pay;
 
-    private String buyer_name;
-    private String buyer_address;
-    private String buyer_phone;
-    private String buyer_postcard;
+    @Override
+    public String toString() {
+        return "order_id:"+getOrder_id()+";pay:"+pay;
+    }
 
-
-    public int getOrder_id() {
+    public String getOrder_id() {
         return order_id;
     }
 
-    public void setOrder_id(int order_id) {
+    public void setOrder_id(String order_id) {
         this.order_id = order_id;
     }
 

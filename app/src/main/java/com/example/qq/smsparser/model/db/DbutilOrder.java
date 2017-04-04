@@ -15,7 +15,7 @@ import com.example.qq.smsparser.entity.SendMessage;
 public class DbutilOrder{
     private static DbutilOrder dbutils = null;
     private String TABLE_ORDER = "orderGoodDB";
-    private final String[] ORDER_COLS = new String[]{"id", "goodId", "goodName",
+    private final String[] ORDER_COLS = new String[]{"_id","orderId","goodId", "goodName",
             "price", "number", "cost", "buyerName", "buyerAddress", "buyerPhone", "postcard", "isPay","helperId", "sendName", "sendTime","sendPrice","isSend"};
 
     public static DbutilOrder getInstance(){
@@ -31,7 +31,7 @@ public class DbutilOrder{
     public long saveOrderMessage(OrderGood orderGood,SQLiteDatabase write_sqlite) {
         Log.e("SQLite","Order数据库插入:saveOrderMessage()");
         ContentValues values = new ContentValues();
-        values.put("id", orderGood.getOrder_id());
+        values.put("orderId", orderGood.getOrder_id());
         values.put("goodId", orderGood.getGood_id());
         values.put("goodName", orderGood.getGood_name());
         values.put("price", orderGood.getGood_price());
@@ -52,15 +52,16 @@ public class DbutilOrder{
         Log.e("SQLite","Order数据库更新:updateOrderMessage(PayMessage)");
         Cursor cursor = read_sqlite.query(TABLE_ORDER, ORDER_COLS, null, null, null, null, null);
         cursor.moveToFirst();
-        int order_id;
+        String order_id;
         int count = cursor.getCount();
         for (int i = 0; i < count; i++) {
-            order_id = cursor.getInt(0);
-            if (payMessage.getOrder_id() == order_id) {
+            order_id = cursor.getString(1);
+            if (payMessage.getOrder_id().equals(order_id)) {
                 ContentValues values = new ContentValues();
 
-                values.put("id", cursor.getInt(1));
-                values.put("goodId", cursor.getInt(2));
+                values.put("_id", cursor.getInt(0));
+                values.put("orderId", cursor.getString(1));
+                values.put("goodId", cursor.getString(2));
                 values.put("goodName", cursor.getString(3));
                 values.put("price", cursor.getFloat(4));
                 values.put("number", cursor.getInt(5));
@@ -71,7 +72,7 @@ public class DbutilOrder{
                 values.put("postcard", cursor.getString(10));
                 values.put("isPay", payMessage.isPay()?1:0);
 
-                return write_sqlite.update(TABLE_ORDER, values, "id=" + payMessage.getOrder_id(), null);
+                return write_sqlite.update(TABLE_ORDER, values, "_id=" + cursor.getInt(0), null);
             }
             cursor.moveToNext();
         }
@@ -86,15 +87,16 @@ public class DbutilOrder{
         Log.e("SQLite","Order数据库更新:updateOrderMessage(SendMessage)");
         Cursor cursor = read_sqlite.query(TABLE_ORDER, ORDER_COLS, null, null, null, null, null);
         cursor.moveToFirst();
-        int order_id;
+        String order_id;
         int count = cursor.getCount();
         for (int i = 0; i < count; i++) {
-            order_id = cursor.getInt(0);
-            if (sendMessage.getOrder_id() == order_id) {
+            order_id = cursor.getString(1);
+            if (sendMessage.getOrder_id().equals(order_id)) {
                 ContentValues values = new ContentValues();
 
-                values.put("id", cursor.getInt(1));
-                values.put("goodId", cursor.getInt(2));
+                values.put("_id", cursor.getInt(0));
+                values.put("orderId", cursor.getString(1));
+                values.put("goodId", cursor.getString(2));
                 values.put("goodName", cursor.getString(3));
                 values.put("price", cursor.getFloat(4));
                 values.put("number", cursor.getInt(5));
@@ -110,7 +112,7 @@ public class DbutilOrder{
                 values.put("sendPrice",sendMessage.getDelivery_price());
                 values.put("isSend",sendMessage.isSend()?1:0);
 
-                return write_sqlite.update(TABLE_ORDER, values, "id=" + sendMessage.getOrder_id(), null);
+                return write_sqlite.update(TABLE_ORDER, values, "_id=" + cursor.getInt(0), null);
             }
             cursor.moveToNext();
         }
@@ -119,28 +121,32 @@ public class DbutilOrder{
 
     /**
      * 订货短信到达后，我们得到发货数据，进行帮工的短信发送工作
-     * @param id
+     * @param orderId
      * @return
      */
-    public OrderGood getOrderGood(int id,SQLiteDatabase read_sqlite){
+    public OrderGood getOrderGood(String orderId,SQLiteDatabase read_sqlite){
         Log.e("SQLite","Order数据库检索:getOrderGood()");
-        String selection = "id=?";
-        String[] selectionArgs = new String[]{id+""};
+        String selection = "orderId=?";
+        String[] selectionArgs = new String[]{orderId};
 
         Cursor cursor = read_sqlite.query(TABLE_ORDER, ORDER_COLS, selection, selectionArgs, null, null, null);
         cursor.moveToFirst();
         if(cursor!=null&&cursor.getCount()>0){
+
             OrderGood orderGood=new OrderGood();
-            orderGood.setOrder_id(cursor.getInt(0));
-            orderGood.setGood_id(cursor.getInt(1));
-            orderGood.setGood_name(cursor.getString(2));
-            orderGood.setGood_price(cursor.getFloat(3));
-            orderGood.setGood_number(cursor.getInt(4));
-            orderGood.setCost(cursor.getFloat(5));
-            orderGood.setBuyer_name(cursor.getString(5));
-            orderGood.setBuyer_phone(cursor.getString(6));
-            orderGood.setBuyer_postcard(cursor.getString(7));
+            orderGood.setId(cursor.getInt(0));
+            orderGood.setOrder_id(cursor.getString(1));
+            orderGood.setGood_id(cursor.getString(2));
+            orderGood.setGood_name(cursor.getString(3));
+            orderGood.setGood_price(cursor.getFloat(4));
+            orderGood.setGood_number(cursor.getInt(5));
+            orderGood.setCost(cursor.getFloat(6));
+            orderGood.setBuyer_name(cursor.getString(7));
             orderGood.setBuyer_address(cursor.getString(8));
+            orderGood.setBuyer_phone(cursor.getString(9));
+            orderGood.setBuyer_postcard(cursor.getString(10));
+            orderGood.getPayMessage().setPay(cursor.getInt(11)==1?true:false);
+            orderGood.getPayMessage().setOrder_id(orderGood.getOrder_id());
             return orderGood;
         }
         return null;

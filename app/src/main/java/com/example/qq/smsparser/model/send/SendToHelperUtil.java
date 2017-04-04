@@ -1,7 +1,10 @@
 package com.example.qq.smsparser.model.send;
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.telephony.SmsManager;
+import android.util.Log;
 
 import com.example.qq.smsparser.entity.OrderGood;
 
@@ -27,7 +30,8 @@ public class SendToHelperUtil {
         return sendToHelperUtil;
     }
 
-    public void sendSms(OrderGood orderGood) {
+    public void sendSms(OrderGood orderGood,PendingIntent pintent) {
+        Log.e("TestService","调用了SendSms方法");
 //        Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
 //        sendIntent.setData(Uri.parse("smsto:" + phone));
 //        sendIntent.putExtra("sms_body", content);
@@ -36,16 +40,16 @@ public class SendToHelperUtil {
         /**
          * 拼接短信内容
          */
-        String content="商家信息;订单号:"+orderGood.getOrder_id()+";商品号:"+orderGood.getGood_id()
-                +";商品名称:"+orderGood.getGood_name()+";买家昵称:"+orderGood.getBuyer_name()+
-                ";买家地址:"+orderGood.getBuyer_address()+";买家电话:"+orderGood.getBuyer_phone()+
-                ";买家邮编:"+orderGood.getBuyer_postcard()+";请以下面的格式发回给我信息---"+
-                "发货;订单号:订单号:"+orderGood.getOrder_id()+";商品号:"+orderGood.getGood_id()
-                +";商品名称:"+orderGood.getGood_name()+";买家昵称:"+orderGood.getBuyer_name()+
-                ";买家地址:"+orderGood.getBuyer_address()+";买家电话:"+orderGood.getBuyer_phone()+
-                ";买家邮编:"+orderGood.getBuyer_postcard()+";发货快递:(自己补充);发货时间:(自己补充);+发货费用:(自己补充)。";
+        String content="商家信息;订单号:"+orderGood.getOrder_id()+";商品号:"+orderGood.getGood_id();
+//                +";商品名称:"+orderGood.getGood_name()+";买家昵称:"+orderGood.getBuyer_name()+
+//                ";买家地址:"+orderGood.getBuyer_address()+";买家电话:"+orderGood.getBuyer_phone()+
+//                ";买家邮编:"+orderGood.getBuyer_postcard()+";请以下面的格式发回给我信息---"+
+//                "发货;订单号:订单号:"+orderGood.getOrder_id()+";商品号:"+orderGood.getGood_id()
+//                +";商品名称:"+orderGood.getGood_name()+";买家昵称:"+orderGood.getBuyer_name()+
+//                ";买家地址:"+orderGood.getBuyer_address()+";买家电话:"+orderGood.getBuyer_phone()+
+//                ";买家邮编:"+orderGood.getBuyer_postcard()+";发货快递:(自己补充);发货时间:(自己补充);+发货费用:(自己补充)。";
 
         SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(orderGood.getBuyer_phone(), "18814122731", content, null, null);
+        sms.sendTextMessage("5556", "5554", content, pintent, null);
     }
 }

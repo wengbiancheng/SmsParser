@@ -13,7 +13,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     protected Context context;
     private static MySQLiteHelper helper;
     private final  String create_table_order = "create table " + Configs.TABLE_ORDER +
-            "(id integer primary key autoincrement,goodId integer,goodName text,price real,number integer," +
+            "(_id integer primary key autoincrement,orderId text,goodId text,goodName text,price real,number integer," +
             "cost real,buyerName text,buyerAddress text,buyerPhone text,postcard text,isPay integer,helperId integer,sendName text,sendTime text,sendPrice real," +
             "isSend integer)";
     private final  String create_table_helper = "CREATE TABLE " + Configs.TABLE_HELPER +

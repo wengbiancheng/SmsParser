@@ -5,8 +5,8 @@ package com.example.qq.smsparser.entity;
  */
 public class SendMessage {
 
-    private int order_id;
-    private int good_id;
+    private String order_id;
+    private String good_id;
     private int helper_id;
     private String good_name;
     private String buyer_name;
@@ -19,6 +19,13 @@ public class SendMessage {
     private float delivery_price;
     private boolean send;
 
+    @Override
+    public String toString() {
+        return "order_id:"+getOrder_id()+";good_id:"+getGood_id()+";helper_id:"+getHelper_id()+";good_name:"+getGood_name()+
+                ";buyer_name:"+getBuyer_name()+";buyer_address:"+getBuyer_address()+";buyer_phone:"+getBuyer_phone()+";buyer_postcard:"+
+                getBuyer_postcard()+";delivery_name"+getDelivery_name()+";delivery_time"+getDelivery_time()+
+                ";delivery_price:"+getDelivery_price()+";send:"+isSend();
+    }
 
     public boolean isSend() {
         return send;
@@ -36,19 +43,19 @@ public class SendMessage {
         this.helper_id = helper_id;
     }
 
-    public int getOrder_id() {
+    public String getOrder_id() {
         return order_id;
     }
 
-    public void setOrder_id(int order_id) {
+    public void setOrder_id(String order_id) {
         this.order_id = order_id;
     }
 
-    public int getGood_id() {
+    public String getGood_id() {
         return good_id;
     }
 
-    public void setGood_id(int good_id) {
+    public void setGood_id(String good_id) {
         this.good_id = good_id;
     }
 
@@ -115,4 +122,6 @@ public class SendMessage {
     public void setDelivery_price(float delivery_price) {
         this.delivery_price = delivery_price;
     }
+
+
 }

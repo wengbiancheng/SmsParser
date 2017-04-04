@@ -1,6 +1,7 @@
 package com.example.qq.smsparser.controller;
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -17,13 +19,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.qq.smsparser.R;
+import com.example.qq.smsparser.entity.OrderGood;
 import com.example.qq.smsparser.model.parser.SmsService;
 import com.example.qq.smsparser.controller.utils.MainFragmentController;
 
 /**
  * 主界面，主要用来合并几个零散的界面
  */
-public class MainActivity extends FragmentActivity implements RadioGroup.OnCheckedChangeListener{
+public class MainActivity extends FragmentActivity implements RadioGroup.OnCheckedChangeListener {
 
     private MainFragmentController controller;
 
@@ -43,32 +46,33 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        controller= MainFragmentController.getInstance(this,R.id.fl_content);
+        controller = MainFragmentController.getInstance(this, R.id.fl_content);
 
         initUI();
 
         //申请相应的权限
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)!= PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_SMS},0);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS}, 0);
         }
 
         //TODO 进行后台的测试工作，测试成功后再开启新的进程变成后台运行的
-        initTestService();
+//        initTestService();
     }
 
 
     /**
      * 测试后台数据
      */
-    private void initTestService(){
-        Log.e("TestService","startService");
-        Intent intent=new Intent(MainActivity.this,SmsService.class);
+    private void initTestService() {
+        Log.e("TestService", "startService");
+        Intent intent = new Intent(MainActivity.this, SmsService.class);
         this.startService(intent);
     }
 
-    private void initUI(){
+    private void initUI() {
         rg_tab = (RadioGroup) findViewById(R.id.rg_tab);
-        rb_order= (RadioButton) findViewById(R.id.main_rb_order);
+        rb_order = (RadioButton) findViewById(R.id.main_rb_order);
         rb_send = (RadioButton) findViewById(R.id.main_rb_send);
         rb_sale = (RadioButton) findViewById(R.id.main_rb_sale);
         rb_helper = (RadioButton) findViewById(R.id.main_rb_helper);
@@ -89,15 +93,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
             case R.id.main_rb_order:
                 controller.showFragment(0);
                 title_middle.setText("订货信息列表");
-                String[] projection = new String[]{"_id", "address", "body", "date"};
-                String where = "date>" + (System.currentTimeMillis() - 4*60*60*1000);//1秒内收到的短信
-                Cursor cur = getContentResolver().query(SMS_INBOX, projection, where, null, "date desc");
-                Log.e("TestService", "获取短信数量是:"+cur.getCount());
-                if(cur.getCount()>0) {
-                    cur.moveToFirst();
-                    Log.e("TestService", "获取的短信内容第一条是:" + cur.getString(cur.getColumnIndex("body")));
-                }
-                cur.close();
+                sendSmsToHelper();
                 break;
             case R.id.main_rb_send:
                 controller.showFragment(1);
@@ -122,4 +118,18 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         MainFragmentController.onDestroy();
     }
 
+    //TODO 短信解析完成后，我们应该新建一个方法调用SendToHelper的短信接口，进行帮工短信的发送（注意多线程）
+    private void sendSmsToHelper() {
+        Log.e("TestService", "SmsService:sendSmsToHelper()");
+        try {
+            PendingIntent pintent = PendingIntent.getBroadcast(MainActivity.this, 0, new Intent(), 0);
+            String content = "现在是22:18分";
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage("5556", "5554", content, null, null);
+            Log.e("TestService", "SmsService:sendSmsToHelper()发送短信成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("TestService", "SmsService:sendSmsToHelper()发送短信失败");
+        }
+    }
 }
