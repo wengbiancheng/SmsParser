@@ -57,6 +57,7 @@ class SmsObserver extends ContentObserver {
             return;
         }
         getSmsFromPhone();
+        //TODO 存在问题是:当你发送短信息的时候 也会自动调用这个onChange()方法，这显然是我们所不想看到的
     }
 
     /**
@@ -99,7 +100,6 @@ class SmsObserver extends ContentObserver {
                 smsMessage.setType(1);
             }
         } else {
-            //TODO 短信接收是好了，可是这个帮工短信的判断还需要再改改
             List<String> helper = DbutilHelper.getInstance().getHelperPhone(sqLiteHelper.getWritableDatabase());
             if (helper.contains(number)) {
                 if (type.equals("发货")) {
