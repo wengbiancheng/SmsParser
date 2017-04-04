@@ -10,7 +10,7 @@ import com.example.qq.smsparser.entity.PayMessage;
 import com.example.qq.smsparser.entity.SendMessage;
 
 /**
- * 数据库的操作类，主要进行数据的创建和销毁，数据库的增删查改等操作
+ * 数据库的订单表操作类，主要进行数据的创建和销毁，数据库的增删查改等操作
  */
 public class DbutilOrder{
     private static DbutilOrder dbutils = null;

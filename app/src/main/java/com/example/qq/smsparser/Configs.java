@@ -5,9 +5,9 @@ package com.example.qq.smsparser;
  */
 public class Configs {
 
-    public final static String SMS_ORDER_AND_PAY_NUMBER="18814122731";
+    public final static String SMS_ORDER_AND_PAY_NUMBER="15608443963";
 
-    public final static int version = 7;
+    public final static int version = 8;
 
     //初始化数据库表
     public final static String[] ORDER_COLS = new String[]{"id", "goodId", "goodName",

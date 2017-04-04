@@ -1,8 +1,14 @@
 package com.example.qq.smsparser.controller;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -30,6 +36,8 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     private TextView title_middle;
     private Button title_right;
 
+    private Uri SMS_INBOX = Uri.parse("content://sms/inbox");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +46,11 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         controller= MainFragmentController.getInstance(this,R.id.fl_content);
 
         initUI();
+
+        //申请相应的权限
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)!= PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_SMS},0);
+        }
 
         //TODO 进行后台的测试工作，测试成功后再开启新的进程变成后台运行的
         initTestService();
@@ -76,6 +89,15 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
             case R.id.main_rb_order:
                 controller.showFragment(0);
                 title_middle.setText("订货信息列表");
+                String[] projection = new String[]{"_id", "address", "body", "date"};
+                String where = "date>" + (System.currentTimeMillis() - 4*60*60*1000);//1秒内收到的短信
+                Cursor cur = getContentResolver().query(SMS_INBOX, projection, where, null, "date desc");
+                Log.e("TestService", "获取短信数量是:"+cur.getCount());
+                if(cur.getCount()>0) {
+                    cur.moveToFirst();
+                    Log.e("TestService", "获取的短信内容第一条是:" + cur.getString(cur.getColumnIndex("body")));
+                }
+                cur.close();
                 break;
             case R.id.main_rb_send:
                 controller.showFragment(1);

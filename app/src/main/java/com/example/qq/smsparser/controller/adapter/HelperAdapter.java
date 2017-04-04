@@ -41,7 +41,7 @@ public class HelperAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int position, View view, ViewGroup viewGroup) {
         final ViewHolder viewHolder;
         if (view == null) {
             viewHolder = new ViewHolder();
@@ -54,9 +54,10 @@ public class HelperAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        viewHolder.name.setText(datas.get(i).getName());
-        viewHolder.phone.setText(datas.get(i).getPhone());
-        viewHolder.selected.setChecked(datas.get(i).isCheck());
+        //每一项的控件的赋值操作
+        viewHolder.name.setText(datas.get(position).getName());
+        viewHolder.phone.setText(datas.get(position).getPhone());
+        viewHolder.selected.setChecked(datas.get(position).isCheck());
 
         return view;
     }

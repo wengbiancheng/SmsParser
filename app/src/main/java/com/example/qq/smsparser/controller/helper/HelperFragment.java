@@ -41,6 +41,9 @@ public class HelperFragment extends BaseFragment {
         data = DbutilHelper.getInstance().getHelperListData(((MyApplication)Baseactivity.getApplication()).getSQLiteOpenHelper().getReadableDatabase());//得到所有的列表数据
 
         listView = (ListView) view.findViewById(R.id.helper_listView);
+        adapter = new HelperAdapter(Baseactivity, data);
+        listView.setAdapter(adapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -53,11 +56,10 @@ public class HelperFragment extends BaseFragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
                 DeleteHelper(position);
-                return false;
+                return true;
             }
         });
-        adapter = new HelperAdapter(Baseactivity, data);
-        listView.setAdapter(adapter);
+
 
         view.findViewById(R.id.helper_add_helper_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +113,7 @@ public class HelperFragment extends BaseFragment {
                     adapter.notifyDataSetChanged();
                     Toast.makeText(Baseactivity,"添加成功",Toast.LENGTH_SHORT).show();
                 }
-                alertDialog1.dismiss();
+                alertDialog1.dismiss();//对话框消失
             }
         });
 

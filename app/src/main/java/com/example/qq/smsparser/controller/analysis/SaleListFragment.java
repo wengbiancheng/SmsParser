@@ -91,7 +91,7 @@ public class SaleListFragment extends BaseFragment implements LineChartOnValueSe
     private void setPointsValues() {
         for (int i = 0; i < maxNumberOfLines; ++i) {
             for (int j = 0; j < numberOfPoints; ++j) {
-                randomNumbersTab[i][j] = (float) Math.random() * 100f;
+                randomNumbersTab[i][j] = (float) Math.random() * 100f;//随机数
             }
         }
     }

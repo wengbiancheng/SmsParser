@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 数据库的操作类，主要进行数据的创建和销毁，数据库的增删查改等操作
+ * 数据库帮工表的操作类，主要进行数据的创建和销毁，数据库的增删查改等操作
  */
 public class DbutilHelper{
     private static DbutilHelper dbutils=null;
@@ -71,7 +71,7 @@ public class DbutilHelper{
         int order_id;
         int count = cursor.getCount();
         for (int i = 0; i < count; i++) {
-            list.add(cursor.getString(3));
+            list.add(cursor.getString(2));
             cursor.moveToNext();
         }
         return list;

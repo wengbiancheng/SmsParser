@@ -1,12 +1,16 @@
 package com.example.qq.smsparser.model.parser;
 
+import android.Manifest;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.example.qq.smsparser.MyApplication;
@@ -79,22 +83,26 @@ public class SmsService extends Service {
         public boolean handleMessage(Message message) {
             switch (message.what){
                 case 0:
-                    Log.e("TestService","SmsService:handleMessage()");
                     smsMessage= (SmsMessage) message.getData().getSerializable("sms");
-                    if(smsMessage.getType()==0){
-                        orderGood= smsParserUtil.getOrderData(smsMessage.getBody());
-                        saveOrderMessage(orderGood);
-                    }else if(smsMessage.getType()==1){
-                        //TODO 得到了付款短信，这个时候应该只是更新下数据库信息就好了
-                        payMessage= smsParserUtil.getPayMessage(smsMessage.getBody());
-                        updateOrderMessage(payMessage);
-                        //TODO 应该发送短信给帮工，而发送给帮工的话，就得需要购买者的一些信息了
-                        OrderGood orderGood=DbutilOrder.getInstance().getOrderGood(payMessage.getOrder_id(),mySQLiteHelper.getReadableDatabase());
-                        sendSmsToHelper(orderGood);
-                    }else if(smsMessage.getType()==2){
-                        sendMessage= smsParserUtil.getSendMessage(smsMessage.getBody());
-                        updateOrderMessage(sendMessage);
-                    }
+                    Log.e("TestService1","SmsService:handleMessage()"+smsMessage.getBody()+";smsType:"+smsMessage.getType());
+
+//                    if(smsMessage.getType()==0){
+//                        orderGood= smsParserUtil.getOrderData(smsMessage.getBody());
+//                        saveOrderMessage(orderGood);
+//                    }else if(smsMessage.getType()==1){
+//                        //TODO 得到了付款短信，这个时候应该只是更新下数据库信息就好了
+//                        payMessage= smsParserUtil.getPayMessage(smsMessage.getBody());
+//                        updateOrderMessage(payMessage);
+//                        //TODO 应该发送短信给帮工，而发送给帮工的话，就得需要购买者的一些信息了
+//                        OrderGood orderGood=DbutilOrder.getInstance().getOrderGood(payMessage.getOrder_id(),mySQLiteHelper.getReadableDatabase());
+//                        sendSmsToHelper(orderGood);
+//                    }else if(smsMessage.getType()==2){
+//                        sendMessage= smsParserUtil.getSendMessage(smsMessage.getBody());
+//                        updateOrderMessage(sendMessage);
+//                    }
+                    break;
+                default:
+                    Log.e("TestService","SmsService:handleMessage():default");
                     break;
             }
             return true;

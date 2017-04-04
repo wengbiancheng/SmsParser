@@ -19,6 +19,8 @@ public class SonFragmentPagerAdapter extends FragmentPagerAdapter {
     public SonFragmentPagerAdapter(FragmentManager fm,boolean flag)
     {
         super(fm);
+
+
         this.flag=flag;
     }
 
@@ -26,6 +28,7 @@ public class SonFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int arg0){
         int position=arg0%TITLES.length;
         return flag? SendGoodFragmentControl.getInstance().getFragment(position):
+
                 OrderGoodFragmentControl.getInstance().getFragment(position);
     }
 
