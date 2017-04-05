@@ -7,7 +7,7 @@ public class Configs {
 
     public final static String SMS_ORDER_AND_PAY_NUMBER="15608443963";
 
-    public final static int version = 11;
+    public final static int version = 12;
 
     //初始化数据库表
     public final static String[] ORDER_COLS = new String[]{"id", "goodId", "goodName",

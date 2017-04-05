@@ -106,7 +106,7 @@ public class SmsParserUtil {
             }else if(item[0].equals("发货快递")){
                 sendMessage.setDelivery_name("申通快递");
             }else if(item[0].equals("发货时间")){
-                sendMessage.setDelivery_time(item[1]);
+                sendMessage.setDelivery_time(item[1]+":"+item[2]);
             }else if(item[0].equals("发货费用")){
                 sendMessage.setDelivery_price(Float.parseFloat(item[1]));
             }else if(item[0].equals("是否发货")){

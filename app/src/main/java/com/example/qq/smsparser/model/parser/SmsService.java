@@ -67,9 +67,9 @@ public class SmsService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("TestService","SmsService:onStartCommand()");
-//        initSendTestData();
-//        initOrderTestData();
-//        initPayTestData();
+        initOrderTestData();
+        initPayTestData();
+        initSendTestData();
         return super.onStartCommand(intent, flags, startId);
     }
 

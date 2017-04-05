@@ -60,8 +60,8 @@ public class OrderGoodMessageAty extends Activity implements View.OnClickListene
         ((TextView)findViewById(R.id.good_id)).setText(orderGood.getGood_id());
         ((TextView)findViewById(R.id.good_name)).setText(orderGood.getGood_name());
         ((TextView)findViewById(R.id.good_number)).setText(orderGood.getGood_number()+"");
-        ((TextView)findViewById(R.id.good_price)).setText(orderGood.getGood_price()+"");
-        ((TextView)findViewById(R.id.good_total_price)).setText(orderGood.getCost()+"");
+        ((TextView)findViewById(R.id.good_price)).setText(orderGood.getGood_price()+"元");
+        ((TextView)findViewById(R.id.good_total_price)).setText(orderGood.getCost()+"元");
         ((TextView)findViewById(R.id.buy_name)).setText(orderGood.getBuyer_name());
         ((TextView)findViewById(R.id.buy_address)).setText(orderGood.getBuyer_address());
         ((TextView)findViewById(R.id.buy_phone)).setText(orderGood.getBuyer_phone());

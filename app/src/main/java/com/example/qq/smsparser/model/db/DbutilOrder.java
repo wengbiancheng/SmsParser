@@ -160,4 +160,30 @@ public class DbutilOrder{
         }
         return null;
     }
+
+    public SendMessage getSendMessage(String orderId,SQLiteDatabase read_sqlite){
+        Log.e("SQLite","Order数据库检索:getSendMessage()");
+        String selection = "orderId=?";
+        String[] selectionArgs = new String[]{orderId};
+
+        Cursor cursor = read_sqlite.query(TABLE_ORDER, ORDER_COLS, selection, selectionArgs, null, null, null);
+        cursor.moveToFirst();
+        if(cursor!=null&&cursor.getCount()>0){
+
+            SendMessage sendMessage=new SendMessage();
+            sendMessage.setOrder_id(cursor.getString(1));
+            sendMessage.setGood_id(cursor.getString(2));
+            sendMessage.setGood_name(cursor.getString(3));
+            sendMessage.setBuyer_name(cursor.getString(7));
+            sendMessage.setBuyer_address(cursor.getString(8));
+            sendMessage.setBuyer_phone(cursor.getString(9));
+            sendMessage.setBuyer_postcard(cursor.getString(10));
+            sendMessage.setDelivery_name(cursor.getString(13));
+            sendMessage.setDelivery_time(cursor.getString(14));
+            sendMessage.setDelivery_price(cursor.getFloat(15));
+
+            return sendMessage;
+        }
+        return null;
+    }
 }
