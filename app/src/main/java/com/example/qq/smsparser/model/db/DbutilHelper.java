@@ -30,7 +30,6 @@ public class DbutilHelper{
     public long saveHelper(HelperMessage helperMessage,SQLiteDatabase write_sqlite){
         Log.e("SQLite","Helper数据库插入:saveHelper()");
         ContentValues values = new ContentValues();
-//        values.put("_id", helperMessage.getId());
         values.put("name", helperMessage.getName());
         values.put("phone", helperMessage.getPhone());
         values.put("choose", helperMessage.isCheck()?1:0);

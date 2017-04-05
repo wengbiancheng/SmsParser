@@ -57,7 +57,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         }
 
         //TODO 进行后台的测试工作，测试成功后再开启新的进程变成后台运行的
-        initTestService();
+//        initTestService();
     }
 
 

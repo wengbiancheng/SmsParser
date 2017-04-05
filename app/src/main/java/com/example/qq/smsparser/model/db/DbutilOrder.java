@@ -41,6 +41,13 @@ public class DbutilOrder{
         values.put("buyerAddress", orderGood.getBuyer_address());
         values.put("buyerPhone", orderGood.getBuyer_phone());
         values.put("postcard", orderGood.getBuyer_postcard());
+
+        values.put("isPay", -1);
+        values.put("helperId",-1);
+        values.put("sendName","");
+        values.put("sendTime","");
+        values.put("sendPrice","");
+        values.put("isSend",-1);
         return write_sqlite.insert(TABLE_ORDER, null, values);
     }
 
@@ -59,17 +66,17 @@ public class DbutilOrder{
             if (payMessage.getOrder_id().equals(order_id)) {
                 ContentValues values = new ContentValues();
 
-                values.put("_id", cursor.getInt(0));
-                values.put("orderId", cursor.getString(1));
-                values.put("goodId", cursor.getString(2));
-                values.put("goodName", cursor.getString(3));
-                values.put("price", cursor.getFloat(4));
-                values.put("number", cursor.getInt(5));
-                values.put("cost", cursor.getFloat(6));
-                values.put("buyerName", cursor.getString(7));
-                values.put("buyerAddress", cursor.getString(8));
-                values.put("buyerPhone", cursor.getString(9));
-                values.put("postcard", cursor.getString(10));
+//                values.put("_id", cursor.getInt(0));
+//                values.put("orderId", cursor.getString(1));
+//                values.put("goodId", cursor.getString(2));
+//                values.put("goodName", cursor.getString(3));
+//                values.put("price", cursor.getFloat(4));
+//                values.put("number", cursor.getInt(5));
+//                values.put("cost", cursor.getFloat(6));
+//                values.put("buyerName", cursor.getString(7));
+//                values.put("buyerAddress", cursor.getString(8));
+//                values.put("buyerPhone", cursor.getString(9));
+//                values.put("postcard", cursor.getString(10));
                 values.put("isPay", payMessage.isPay()?1:0);
 
                 return write_sqlite.update(TABLE_ORDER, values, "_id=" + cursor.getInt(0), null);
@@ -93,19 +100,19 @@ public class DbutilOrder{
             order_id = cursor.getString(1);
             if (sendMessage.getOrder_id().equals(order_id)) {
                 ContentValues values = new ContentValues();
-
-                values.put("_id", cursor.getInt(0));
-                values.put("orderId", cursor.getString(1));
-                values.put("goodId", cursor.getString(2));
-                values.put("goodName", cursor.getString(3));
-                values.put("price", cursor.getFloat(4));
-                values.put("number", cursor.getInt(5));
-                values.put("cost", cursor.getFloat(6));
-                values.put("buyerName", cursor.getString(7));
-                values.put("buyerAddress", cursor.getString(8));
-                values.put("buyerPhone", cursor.getString(9));
-                values.put("postcard", cursor.getString(10));
-                values.put("isPay", cursor.getInt(11));
+//
+//                values.put("_id", cursor.getInt(0));
+//                values.put("orderId", cursor.getString(1));
+//                values.put("goodId", cursor.getString(2));
+//                values.put("goodName", cursor.getString(3));
+//                values.put("price", cursor.getFloat(4));
+//                values.put("number", cursor.getInt(5));
+//                values.put("cost", cursor.getFloat(6));
+//                values.put("buyerName", cursor.getString(7));
+//                values.put("buyerAddress", cursor.getString(8));
+//                values.put("buyerPhone", cursor.getString(9));
+//                values.put("postcard", cursor.getString(10));
+//                values.put("isPay", cursor.getInt(11));
                 values.put("helperId",sendMessage.getHelper_id());
                 values.put("sendName",sendMessage.getDelivery_name());
                 values.put("sendTime",sendMessage.getDelivery_time());
@@ -147,6 +154,8 @@ public class DbutilOrder{
             orderGood.setBuyer_postcard(cursor.getString(10));
             orderGood.getPayMessage().setPay(cursor.getInt(11)==1?true:false);
             orderGood.getPayMessage().setOrder_id(orderGood.getOrder_id());
+            orderGood.setSend(cursor.getInt(16)==1?true:false);
+
             return orderGood;
         }
         return null;

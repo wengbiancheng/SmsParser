@@ -251,7 +251,7 @@
             android:layout_below="@id/textView_is_pay"
             android:padding="5dp"
             style="@style/OrderGoodMessageTextStyle"
-            android:text="是否付款:"/>
+            android:text="是否发货:"/>
         <TextView
             android:id="@+id/is_send"
             android:layout_width="wrap_content"
