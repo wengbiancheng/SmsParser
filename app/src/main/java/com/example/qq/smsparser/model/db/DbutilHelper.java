@@ -68,7 +68,6 @@ public class DbutilHelper{
 
         Cursor cursor = read_sqlite.query(TABLE_HELPER, HELPER_COLS, null, null, null, null, null);
         cursor.moveToFirst();
-        int order_id;
         int count = cursor.getCount();
         for (int i = 0; i < count; i++) {
             list.add(cursor.getString(2));

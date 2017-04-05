@@ -57,7 +57,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         }
 
         //TODO 进行后台的测试工作，测试成功后再开启新的进程变成后台运行的
-//        initTestService();
+        initTestService();
     }
 
 
@@ -93,7 +93,6 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
             case R.id.main_rb_order:
                 controller.showFragment(0);
                 title_middle.setText("订货信息列表");
-                sendSmsToHelper();
                 break;
             case R.id.main_rb_send:
                 controller.showFragment(1);
@@ -116,20 +115,5 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     protected void onDestroy() {
         super.onDestroy();
         MainFragmentController.onDestroy();
-    }
-
-    //TODO 短信解析完成后，我们应该新建一个方法调用SendToHelper的短信接口，进行帮工短信的发送（注意多线程）
-    private void sendSmsToHelper() {
-        Log.e("TestService", "SmsService:sendSmsToHelper()");
-        try {
-            PendingIntent pintent = PendingIntent.getBroadcast(MainActivity.this, 0, new Intent(), 0);
-            String content = "现在是22:18分";
-            SmsManager sms = SmsManager.getDefault();
-            sms.sendTextMessage("5556", "5554", content, null, null);
-            Log.e("TestService", "SmsService:sendSmsToHelper()发送短信成功");
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("TestService", "SmsService:sendSmsToHelper()发送短信失败");
-        }
     }
 }

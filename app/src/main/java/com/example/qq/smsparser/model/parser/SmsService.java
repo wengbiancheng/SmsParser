@@ -25,6 +25,8 @@ import com.example.qq.smsparser.entity.SendMessage;
 import com.example.qq.smsparser.entity.SmsMessage;
 import com.example.qq.smsparser.model.send.SendToHelperUtil;
 
+import java.util.ArrayList;
+
 /**
  * 运行在后台的Service，有短信到达的时候触发这个Service进行短信获取，然后
  * 进行相应的跳转到相应的短信
@@ -66,8 +68,8 @@ public class SmsService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("TestService","SmsService:onStartCommand()");
 //        initSendTestData();
-        initPayTestData();
 //        initOrderTestData();
+        initPayTestData();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -189,15 +191,7 @@ public class SmsService extends Service {
 
     //TODO 短信解析完成后，我们应该新建一个方法调用SendToHelper的短信接口，进行帮工短信的发送（注意多线程）
     private void sendSmsToHelper(OrderGood orderGood){
-        Log.e("TestService","SmsService:sendSmsToHelper(),并且发送的数据是:"+orderGood.toString());
-        PendingIntent pintent = PendingIntent.getBroadcast(SmsService.this, 0, new Intent(), 0);
-
-        String content="商家信息;订单号:"+orderGood.getOrder_id()+";商品号:"+orderGood.getGood_id();
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage("5556", null, content, pintent, null);
-
-        Log.e("TestService","SmsService:sendSmsToHelper()发送短信成功");
-
-//        sendToHelperUtil.sendSms(orderGood,pintent);
+        Log.e("TestService", "调用了sendSmsToHelper方法");
+        sendToHelperUtil.sendSms(orderGood);
     }
 }
