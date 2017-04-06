@@ -24,6 +24,8 @@ import java.util.List;
  */
 public class OrderGoodSmsListFragment extends BaseFragment{
 
+
+
     private ListView listView;
     private SonFragmentAdapter adapter;
     private List<SmsMessage> list=new ArrayList<>();
