@@ -13,6 +13,11 @@ import com.example.qq.smsparser.R;
 import com.example.qq.smsparser.controller.BaseFragment;
 import com.example.qq.smsparser.controller.MainActivity;
 import com.example.qq.smsparser.controller.adapter.SonFragmentAdapter;
+import com.example.qq.smsparser.entity.SmsMessage;
+import com.example.qq.smsparser.model.db.DbutilSms;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 收到帮工短信列表
@@ -21,6 +26,7 @@ public class ReceiveSmsListFragment extends BaseFragment {
 
     private ListView listView;
     private SonFragmentAdapter adapter;
+    private List<SmsMessage> list=new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,7 +45,8 @@ public class ReceiveSmsListFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
-        adapter=new SonFragmentAdapter(Baseactivity);
+        list= DbutilSms.getInstance().getHelperSmsList(Baseactivity.getApplicationContext());
+        adapter=new SonFragmentAdapter(Baseactivity,list);
         listView.setAdapter(adapter);
         return view;
     }

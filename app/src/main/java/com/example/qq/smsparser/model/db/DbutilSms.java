@@ -17,7 +17,15 @@ import java.util.List;
 public class DbutilSms {
 
     private Uri SMS_INBOX = Uri.parse("content://sms/");
+    private static DbutilSms dbutils=null;
 
+    public static DbutilSms getInstance(){
+        if(dbutils==null){
+            dbutils=new DbutilSms();
+            return dbutils;
+        }
+        return dbutils;
+    }
 
     public List<SmsMessage> getOrderSmsList(Context context){
         List<SmsMessage> list=new ArrayList<>();
@@ -116,5 +124,9 @@ public class DbutilSms {
             }
         }
         return list;
+    }
+
+    public List<SmsMessage> getSendHelperSmsList(Context context){
+        return null;
     }
 }

@@ -8,6 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.qq.smsparser.R;
+import com.example.qq.smsparser.entity.SmsMessage;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * OrderGoodSmsListFragment、PaySmsListFragment
@@ -15,15 +21,17 @@ import com.example.qq.smsparser.R;
  */
 public class SonFragmentAdapter extends BaseAdapter {
 
-
     private Context context;
+    private List<SmsMessage> list=new ArrayList<>();
 
-    public SonFragmentAdapter(Context context){
+    public SonFragmentAdapter(Context context, List<SmsMessage> list){
         this.context=context;
+        this.list=list;
     }
+
     @Override
     public int getCount() {
-        return 10;
+        return list.size();
     }
 
     @Override
@@ -51,6 +59,9 @@ public class SonFragmentAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
+        viewHolder.phone.setText(list.get(i).getNumber());
+        viewHolder.content.setText(list.get(i).getBody());
+        viewHolder.time.setText( new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(list.get(i).getTime())));
 
         return view;
     }

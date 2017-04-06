@@ -13,6 +13,11 @@ import com.example.qq.smsparser.R;
 import com.example.qq.smsparser.controller.BaseFragment;
 import com.example.qq.smsparser.controller.MainActivity;
 import com.example.qq.smsparser.controller.adapter.SonFragmentAdapter;
+import com.example.qq.smsparser.entity.SmsMessage;
+import com.example.qq.smsparser.model.db.DbutilSms;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 付款短信列表，主要用来展示收到的付款短信列表
@@ -21,6 +26,7 @@ public class PaySmsListFragment extends BaseFragment {
 
     private ListView listView;
     private SonFragmentAdapter adapter;
+    private List<SmsMessage> list=new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +46,8 @@ public class PaySmsListFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
-        adapter=new SonFragmentAdapter(Baseactivity);
+        list= DbutilSms.getInstance().getPaySmsList(Baseactivity.getApplicationContext());
+        adapter=new SonFragmentAdapter(Baseactivity,list);
         listView.setAdapter(adapter);
         return view;
     }

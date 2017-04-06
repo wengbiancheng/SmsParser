@@ -13,7 +13,7 @@ public class SmsMessage implements Serializable{
     private String body;
     private String time;
     private String number;
-    private ImageView icon;
+//    private ImageView icon;
     private int type;
 
     public int getType() {
@@ -56,11 +56,11 @@ public class SmsMessage implements Serializable{
         this.number = number;
     }
 
-    public ImageView getIcon() {
-        return icon;
-    }
-
-    public void setIcon(ImageView icon) {
-        this.icon = icon;
-    }
+//    public ImageView getIcon() {
+//        return icon;
+//    }
+//
+//    public void setIcon(ImageView icon) {
+//        this.icon = icon;
+//    }
 }
