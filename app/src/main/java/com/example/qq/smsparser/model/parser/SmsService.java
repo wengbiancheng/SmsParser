@@ -67,9 +67,9 @@ public class SmsService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("TestService","SmsService:onStartCommand()");
-        initOrderTestData();
+//        initOrderTestData();
         initPayTestData();
-        initSendTestData();
+//        initSendTestData();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -192,6 +192,6 @@ public class SmsService extends Service {
     //TODO 短信解析完成后，我们应该新建一个方法调用SendToHelper的短信接口，进行帮工短信的发送（注意多线程）
     private void sendSmsToHelper(OrderGood orderGood){
         Log.e("TestService", "调用了sendSmsToHelper方法:要发送的数据是:"+orderGood.toString());
-//        sendToHelperUtil.sendSms(orderGood);
+        sendToHelperUtil.sendSms(orderGood);
     }
 }

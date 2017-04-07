@@ -43,4 +43,5 @@ public class SonFragmentPagerAdapter extends FragmentPagerAdapter {
     {
         return flag?TITLES2.length:TITLES.length;
     }
+
 }

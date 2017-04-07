@@ -32,23 +32,23 @@ public class SendToHelperUtil {
          * 拼接短信内容
          */
         try {
-            String content = "商家信息;订单号:" + orderGood.getOrder_id() + ";商品号:" + orderGood.getGood_id()
+            String content = "帮工:订单号:" + orderGood.getOrder_id() + ";商品号:" + orderGood.getGood_id()
                     + ";商品名称:" + orderGood.getGood_name() + ";买家昵称:" + orderGood.getBuyer_name() +
                     ";买家地址:" + orderGood.getBuyer_address() + ";买家电话:" + orderGood.getBuyer_phone() +
                     ";买家邮编:" + orderGood.getBuyer_postcard() + ";请以下面的格式发回给我信息---" +
                     "发货;订单号:订单号:" + orderGood.getOrder_id() + ";商品号:" + orderGood.getGood_id()
                     + ";商品名称:" + orderGood.getGood_name() + ";买家昵称:" + orderGood.getBuyer_name() +
                     ";买家地址:" + orderGood.getBuyer_address() + ";买家电话:" + orderGood.getBuyer_phone() +
-                    ";买家邮编:" + orderGood.getBuyer_postcard() + ";发货快递:(自己补充);发货时间:(自己补充);发货费用:(自己补充)。";
+                    ";买家邮编:" + orderGood.getBuyer_postcard() + ";发货快递:(自己补充);发货时间:(自己补充);发货费用:(自己补充);是否发货:(是或者不是)";
             SmsManager sms = SmsManager.getDefault();
             if (content.length() > 70) {
                 //拆分短信
                 ArrayList<String> phoneList = sms.divideMessage(content);
                 //发送短信
-                sms.sendMultipartTextMessage("+8618814122731", null, phoneList, null, null);
+                sms.sendMultipartTextMessage("+8615608443963", null, phoneList, null, null);
             } else {
                 //不超过70字时使用sendTextMessage发送
-                sms.sendTextMessage("+8618814122731", null, content, null, null);
+                sms.sendTextMessage("+8615608443963", null, content, null, null);
             }
             Log.e("TestService", "SmsService:sendSms()发送短信成功");
         } catch (Exception e) {

@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 import com.example.qq.smsparser.Configs;
 import com.example.qq.smsparser.entity.SmsMessage;
@@ -16,7 +17,8 @@ import java.util.List;
  */
 public class DbutilSms {
 
-    private Uri SMS_INBOX = Uri.parse("content://sms/");
+    private Uri SMS_INBOX = Uri.parse("content://sms/inbox");
+    private Uri SMS_OUTBOX=Uri.parse("content://sms/sent");
     private static DbutilSms dbutils=null;
 
     public static DbutilSms getInstance(){
@@ -32,11 +34,11 @@ public class DbutilSms {
 
         ContentResolver cr = context.getContentResolver();
         String[] projection = new String[] { "_id", "address", "body","date"};
-        String where =" address="+ Configs.SMS_ORDER_AND_PAY_NUMBER;
 
-        Cursor cur = cr.query(SMS_INBOX, projection, null, null, "date desc");
+        Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{Configs.SMS_SERVER_NUMBER}, "date desc");
         if (cur==null) return null;
 
+        Log.e("SmsTest","得到的订货短信的cur数量是:"+cur.getCount());
         cur.moveToFirst();
         int count=cur.getCount();
         for(int i=0;i<count;i++){
@@ -45,7 +47,7 @@ public class DbutilSms {
             String body = cur.getString(cur.getColumnIndex("body"));//短信具体内容
             String date=cur.getString(cur.getColumnIndex("date"));
 
-            String type=body.substring(0,1);
+            String type = body.substring(0, 2);
             if(type.equals("订货")){
                 SmsMessage smsMessage=new SmsMessage();
 
@@ -56,7 +58,9 @@ public class DbutilSms {
                 smsMessage.setType(0);
                 list.add(smsMessage);
             }
+            cur.moveToNext();
         }
+        Log.e("SmsTest","得到的订货短信的数量是:"+list.size());
         return list;
     }
 
@@ -65,9 +69,8 @@ public class DbutilSms {
 
         ContentResolver cr = context.getContentResolver();
         String[] projection = new String[] { "_id", "address", "body","date"};
-        String where =" address="+ Configs.SMS_ORDER_AND_PAY_NUMBER;
 
-        Cursor cur = cr.query(SMS_INBOX, projection, null, null, "date desc");
+        Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{Configs.SMS_SERVER_NUMBER}, "date desc");
         if (cur==null) return null;
 
         cur.moveToFirst();
@@ -78,7 +81,7 @@ public class DbutilSms {
             String body = cur.getString(cur.getColumnIndex("body"));//短信具体内容
             String date=cur.getString(cur.getColumnIndex("date"));
 
-            String type=body.substring(0,1);
+            String type = body.substring(0, 2);
             if(type.equals("付款")){
                 SmsMessage smsMessage=new SmsMessage();
 
@@ -89,7 +92,9 @@ public class DbutilSms {
                 smsMessage.setType(1);
                 list.add(smsMessage);
             }
+            cur.moveToNext();
         }
+        Log.e("SmsTest","得到的付款短信的数量是:"+list.size());
         return list;
     }
 
@@ -98,9 +103,8 @@ public class DbutilSms {
 
         ContentResolver cr = context.getContentResolver();
         String[] projection = new String[] { "_id", "address", "body","date"};
-        String where =" address="+ Configs.SMS_ORDER_AND_PAY_NUMBER;
 
-        Cursor cur = cr.query(SMS_INBOX, projection, null, null, "date desc");
+        Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{Configs.SMS_HELPER_NUMBER}, "date desc");
         if (cur==null) return null;
 
         cur.moveToFirst();
@@ -111,7 +115,7 @@ public class DbutilSms {
             String body = cur.getString(cur.getColumnIndex("body"));//短信具体内容
             String date=cur.getString(cur.getColumnIndex("date"));
 
-            String type=body.substring(0,1);
+            String type = body.substring(0, 2);
             if(type.equals("发货")){
                 SmsMessage smsMessage=new SmsMessage();
 
@@ -122,11 +126,43 @@ public class DbutilSms {
                 smsMessage.setType(2);
                 list.add(smsMessage);
             }
+            cur.moveToNext();
         }
+        Log.e("SmsTest","得到的发货短信的数量是:"+list.size());
         return list;
     }
 
     public List<SmsMessage> getSendHelperSmsList(Context context){
-        return null;
+        List<SmsMessage> list=new ArrayList<>();
+
+        ContentResolver cr = context.getContentResolver();
+        String[] projection = new String[] { "_id", "address", "body","date"};
+
+        Cursor cur = cr.query(SMS_OUTBOX, projection, "address=?", new String[]{Configs.SMS_HELPER_NUMBER}, "date desc");
+        if (cur==null) return null;
+
+        cur.moveToFirst();
+        int count=cur.getCount();
+        for(int i=0;i<count;i++){
+            int id=cur.getInt(cur.getColumnIndex("_id"));
+            String number = cur.getString(cur.getColumnIndex("address"));//手机号
+            String body = cur.getString(cur.getColumnIndex("body"));//短信具体内容
+            String date=cur.getString(cur.getColumnIndex("date"));
+
+            String type = body.substring(0, 2);
+            if(type.equals("帮工")){
+                SmsMessage smsMessage=new SmsMessage();
+
+                smsMessage.setBody(body);
+                smsMessage.setId(id);
+                smsMessage.setNumber(number);
+                smsMessage.setTime(date);
+                smsMessage.setType(2);
+                list.add(smsMessage);
+            }
+            cur.moveToNext();
+        }
+        Log.e("SmsTest","发送给帮工的数量是:"+list.size());
+        return list;
     }
 }

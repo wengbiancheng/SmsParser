@@ -8,10 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.qq.smsparser.R;
+import com.example.qq.smsparser.controller.utils.TimeUtils;
 import com.example.qq.smsparser.entity.SmsMessage;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -61,7 +64,7 @@ public class SonFragmentAdapter extends BaseAdapter {
 
         viewHolder.phone.setText(list.get(i).getNumber());
         viewHolder.content.setText(list.get(i).getBody());
-        viewHolder.time.setText( new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date(list.get(i).getTime())));
+        viewHolder.time.setText(TimeUtils.getTime(list.get(i).getTime()));
 
         return view;
     }

@@ -50,7 +50,7 @@
         android:layout_alignParentRight="true"
         android:padding="10dp"
         android:text="2016-01-13"
-
+        android:gravity="center_vertical"
         android:textColor="@android:color/black"
 
         android:textSize="12sp" />

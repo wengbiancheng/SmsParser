@@ -26,7 +26,7 @@ public class SendGoodFragment extends BaseFragment implements RadioGroup.OnCheck
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.e("Process","SendGoodFragment:onCreateView");
-        View view=inflater.inflate(R.layout.fragment_send_good,null);
+        final View view=inflater.inflate(R.layout.fragment_send_good,null);
         rg_tab= (RadioGroup) view.findViewById(R.id.booklist_rg_tab);
         viewPager= (ViewPager) view.findViewById(R.id.orderGood_viewPager);
         adapter=new SonFragmentPagerAdapter(this.getChildFragmentManager(),true);
@@ -37,6 +37,27 @@ public class SendGoodFragment extends BaseFragment implements RadioGroup.OnCheck
         ReceiveSms= (RadioButton) view.findViewById(R.id.pay_sms_list);
         SendSms.setText("发送帮工短信列表");
         ReceiveSms.setText("收到帮工短信列表");
+
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position==0){
+                    ((RadioButton) view.findViewById(R.id.order_good_sms_list)).setChecked(true);
+                }else if(position==1){
+                    ((RadioButton) view.findViewById(R.id.pay_sms_list)).setChecked(true);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         viewPager.setCurrentItem(0);
         return view;

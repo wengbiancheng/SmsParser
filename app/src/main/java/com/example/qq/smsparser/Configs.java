@@ -5,7 +5,10 @@ package com.example.qq.smsparser;
  */
 public class Configs {
 
-    public final static String SMS_ORDER_AND_PAY_NUMBER="15608443963";
+    //假设服务器发过来的短信号码是:18814122731
+    public final static String SMS_SERVER_NUMBER="+8618814122731";
+    //假设帮工的电话号码是：+8615608443963
+    public final static String SMS_HELPER_NUMBER="+8615608443963";
 
     public final static int version = 12;
 

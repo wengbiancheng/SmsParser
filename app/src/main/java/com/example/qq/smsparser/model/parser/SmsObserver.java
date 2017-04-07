@@ -89,11 +89,11 @@ class SmsObserver extends ContentObserver {
         cur.close();
         //TODO 短信检索就先利用号码进行过滤，然后判断前两个字符来选出 订货短信或者付款短信，就不存入数据库了。
         SmsMessage smsMessage = new SmsMessage();
-        String type = body.substring(0, 1);
-        String content = body.substring(3, body.length() - 1);
+        String type = body.substring(0, 2);
+        String content = body.substring(3, body.length());
 
         Log.e("TestService", "收到的短信的号码是:" + number);
-        if (number.equals(Configs.SMS_ORDER_AND_PAY_NUMBER)) {
+        if (number.equals(Configs.SMS_SERVER_NUMBER)) {
             if (type.equals("订货")) {
                 smsMessage.setType(0);
             } else if (type.equals("付款")) {
