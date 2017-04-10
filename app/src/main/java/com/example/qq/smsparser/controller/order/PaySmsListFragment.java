@@ -13,8 +13,10 @@ import com.example.qq.smsparser.R;
 import com.example.qq.smsparser.controller.BaseFragment;
 import com.example.qq.smsparser.controller.MainActivity;
 import com.example.qq.smsparser.controller.adapter.SonFragmentAdapter;
+import com.example.qq.smsparser.entity.OrderGood;
 import com.example.qq.smsparser.entity.SmsMessage;
 import com.example.qq.smsparser.model.db.DbutilSms;
+import com.example.qq.smsparser.model.parser.SmsParserUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,10 @@ public class PaySmsListFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent=new Intent(Baseactivity,OrderGoodMessageAty.class);
+                String content=list.get(i).getBody();
+                OrderGood orderGood= SmsParserUtil.getInstance()
+                        .getOrderData(content.substring(3,content.length()));
+                intent.putExtra("orderId",orderGood.getOrder_id());
                 startActivity(intent);
             }
         });

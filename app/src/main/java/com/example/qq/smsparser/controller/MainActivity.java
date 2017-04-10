@@ -41,6 +41,14 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
 
     private Uri SMS_INBOX = Uri.parse("content://sms/inbox");
 
+    //帮工数据是否修改的标志位
+    private boolean flag=false;
+    public boolean isFlag() {
+        return flag;
+    }
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +65,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         }
 
         //TODO 进行后台的测试工作，测试成功后再开启新的进程变成后台运行的
-//        initTestService();
+        initTestService();
     }
 
 

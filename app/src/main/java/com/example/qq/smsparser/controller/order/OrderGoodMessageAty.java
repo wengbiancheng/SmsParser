@@ -32,7 +32,7 @@ public class OrderGoodMessageAty extends Activity implements View.OnClickListene
         setContentView(R.layout.activity_order_good_message);
 
         orderId=getIntent().getStringExtra("orderId");
-        initTest();
+//        initTest();
         initUI();
         initData();
     }

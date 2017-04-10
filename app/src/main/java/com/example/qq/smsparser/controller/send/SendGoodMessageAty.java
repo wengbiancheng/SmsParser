@@ -32,7 +32,8 @@ public class SendGoodMessageAty extends Activity implements View.OnClickListener
         setContentView(R.layout.activity_send_good_message);
 
         orderId=getIntent().getStringExtra("orderId");
-        initTest();
+        Log.e("TestData","orderId is:"+orderId);
+//        initTest();
         initUI();
         initData();
     }

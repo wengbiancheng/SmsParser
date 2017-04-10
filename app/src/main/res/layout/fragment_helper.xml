@@ -15,7 +15,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="5dp"
         android:text="添加成员"
+        android:textColor="#fff"
+        android:background="@color/s_black"
         android:layout_alignParentBottom="true" />
 </RelativeLayout>

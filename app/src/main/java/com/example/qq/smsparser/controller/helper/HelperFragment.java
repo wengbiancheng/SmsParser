@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -80,6 +81,7 @@ public class HelperFragment extends BaseFragment {
                             data.remove(position);
                             adapter.notifyDataSetChanged();
                             Toast.makeText(Baseactivity,"删除成功",Toast.LENGTH_SHORT).show();
+                            Baseactivity.setFlag(true);
                         }
                         Log.e("SQLite","Helper数据库删除:deleteHelper()的结果是:"+code);
                     }
@@ -103,7 +105,11 @@ public class HelperFragment extends BaseFragment {
             public void onClick(View view) {
                 HelperMessage helperMessage=new HelperMessage();
                 helperMessage.setName(name.getText().toString());
-                helperMessage.setPhone(phone.getText().toString());
+                if(phone.getText().toString().substring(0,3).equals("+86")){
+                    helperMessage.setPhone(phone.getText().toString());
+                }else{
+                    helperMessage.setPhone("+86"+phone.getText().toString());
+                }
                 helperMessage.setCheck(false);
                 long code=DbutilHelper.getInstance().saveHelper(helperMessage,((MyApplication)Baseactivity.getApplication()).getSQLiteOpenHelper().getWritableDatabase());
                 Log.e("SQLite","Helper数据库插入:saveHelper()的结果是:"+code);
@@ -112,6 +118,7 @@ public class HelperFragment extends BaseFragment {
                     data.add(temp.get(temp.size()-1));
                     adapter.notifyDataSetChanged();
                     Toast.makeText(Baseactivity,"添加成功",Toast.LENGTH_SHORT).show();
+                    Baseactivity.setFlag(true);
                 }
                 alertDialog1.dismiss();//对话框消失
             }

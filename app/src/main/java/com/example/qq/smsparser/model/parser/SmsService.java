@@ -58,7 +58,7 @@ public class SmsService extends Service {
         Log.e("TestService","SmsService:onCreate()");
         mySQLiteHelper=((MyApplication)this.getApplication()).getSQLiteOpenHelper();
         smsObserver=new SmsObserver(this,handler,mySQLiteHelper);
-        smsParserUtil = SmsParserUtil.getInstance(this,handler);
+        smsParserUtil = SmsParserUtil.getInstance();
         sendToHelperUtil = SendToHelperUtil.getInstance(this);
 
 //        this.getContentResolver().registerContentObserver(SMS_INBOX,true,smsObserver);
@@ -68,15 +68,15 @@ public class SmsService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("TestService","SmsService:onStartCommand()");
 //        initOrderTestData();
-        initPayTestData();
-//        initSendTestData();
+//        initPayTestData();
+        initSendTestData();
         return super.onStartCommand(intent, flags, startId);
     }
 
     private void initSendTestData(){
-        String content="订单号:12345679;商品号:87654322;帮工号:11;商品名称:蓝天水杯;" +
-                "买家昵称:小明买家;买家地址:湖南省长沙市;买家电话:456123789;买家邮编:126456"+
-                ";发货快递:申通快递;发货时间:2017-01-01 15:36;发货费用:25.5;是否发货:是";
+        String content="订单号：12345679；商品号：87654322；帮工号：11；商品名称：蓝天水杯；买家昵称：" +
+                "小明买家；买家地址：湖南省长沙市；买家电话：456123789；买家邮编：126456；发货快递：" +
+                "申通快递；发货时间：2017-01-01 15：36；发货费用：25.5；是否发货：是";
         SmsMessage smsMessage1=new SmsMessage();
         smsMessage1.setBody(content);
         smsMessage1.setId(1);

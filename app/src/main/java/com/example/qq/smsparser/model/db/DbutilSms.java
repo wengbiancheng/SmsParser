@@ -98,13 +98,13 @@ public class DbutilSms {
         return list;
     }
 
-    public List<SmsMessage> getHelperSmsList(Context context){
+    public List<SmsMessage> getHelperSmsList(Context context,String phone){
         List<SmsMessage> list=new ArrayList<>();
 
         ContentResolver cr = context.getContentResolver();
         String[] projection = new String[] { "_id", "address", "body","date"};
 
-        Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{Configs.SMS_HELPER_NUMBER}, "date desc");
+        Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{phone}, "date desc");
         if (cur==null) return null;
 
         cur.moveToFirst();
@@ -132,13 +132,13 @@ public class DbutilSms {
         return list;
     }
 
-    public List<SmsMessage> getSendHelperSmsList(Context context){
+    public List<SmsMessage> getSendHelperSmsList(Context context,String phone){
         List<SmsMessage> list=new ArrayList<>();
 
         ContentResolver cr = context.getContentResolver();
         String[] projection = new String[] { "_id", "address", "body","date"};
 
-        Cursor cur = cr.query(SMS_OUTBOX, projection, "address=?", new String[]{Configs.SMS_HELPER_NUMBER}, "date desc");
+        Cursor cur = cr.query(SMS_OUTBOX, projection, "address=?", new String[]{phone}, "date desc");
         if (cur==null) return null;
 
         cur.moveToFirst();

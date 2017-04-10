@@ -13,28 +13,22 @@ import com.example.qq.smsparser.entity.SendMessage;
  */
 public class SmsParserUtil {
 
-    private Context context;
-    private Handler handler;
     private static SmsParserUtil smsParserUtil =null;
 
-    public static SmsParserUtil getInstance(Context context, Handler handler){
+    public static SmsParserUtil getInstance(){
         if(smsParserUtil ==null){
-            smsParserUtil =new SmsParserUtil(context,handler);
+            smsParserUtil =new SmsParserUtil();
             return smsParserUtil;
         }
         return smsParserUtil;
-    }
-    private SmsParserUtil(Context context, Handler handler){
-        this.context=context;
-        this.handler=handler;
     }
 
     public OrderGood getOrderData(String content){
         Log.e("TestService","SmsParserUtil:getOrderData()");
         OrderGood orderGood=new OrderGood();
-        String[] data=content.split(";");
+        String[] data=content.split("；");
         for(int i=0;i<data.length;i++){
-            String[] item=data[i].split(":");
+            String[] item=data[i].split("：");
             if(item[0].equals("订单号")){
                 orderGood.setOrder_id(item[1]);
             }else if(item[0].equals("商品号")){
@@ -64,9 +58,9 @@ public class SmsParserUtil {
     public PayMessage getPayMessage(String content) {
         Log.e("TestService","SmsParserUtil:getPayMessage()");
         PayMessage paymessage=new PayMessage();
-        String[] data=content.split(";");
+        String[] data=content.split("；");
         for(int i=0;i<data.length;i++) {
-            String[] item = data[i].split(":");
+            String[] item = data[i].split("：");
             if(item[0].equals("订单号")){
                 paymessage.setOrder_id(item[1]);
             }else if(item[0].equals("是否付款")){
@@ -84,9 +78,9 @@ public class SmsParserUtil {
     public SendMessage getSendMessage(String content) {
         Log.e("TestService","SmsParserUtil:getSendMessage()");
         SendMessage sendMessage=new SendMessage();
-        String[] data=content.split(";");
+        String[] data=content.split("；");
         for(int i=0;i<data.length;i++) {
-            String[] item = data[i].split(":");
+            String[] item = data[i].split("：");
             if(item[0].equals("订单号")){
                 sendMessage.setOrder_id(item[1]);
             }else if(item[0].equals("商品号")){
@@ -115,5 +109,17 @@ public class SmsParserUtil {
         }
         Log.e("TestService","SmsParserUtil解析得到的发货数据是:"+sendMessage.toString());
         return sendMessage;
+    }
+
+    public String getOrderId(String content){
+        String[] data1=content.split("---");
+        String[] data=data1[0].split("；");
+        for(int i=0;i<data.length;i++) {
+            String[] item = data[i].split("：");
+            if (item[0].equals("订单号")) {
+                return item[1];
+            }
+        }
+        return null;
     }
 }
