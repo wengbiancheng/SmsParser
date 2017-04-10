@@ -96,11 +96,4 @@ public class ReceiveSmsListFragment extends BaseFragment {
         });
         return view;
     }
-
-    @Override
-    public void onResume() {
-        Log.e("Test", "onResume:onResume");
-
-        super.onResume();
-    }
 }
