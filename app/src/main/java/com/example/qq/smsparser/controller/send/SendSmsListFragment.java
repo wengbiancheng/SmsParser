@@ -82,6 +82,11 @@ public class SendSmsListFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 if(listView.getAdapter()==sms_adapter){
+                    if(Baseactivity.isFlag()){
+                        data = DbutilHelper.getInstance().getHelperListData(((MyApplication)Baseactivity.getApplication()).getSQLiteOpenHelper().getReadableDatabase());//得到所有的列表数据
+                        help_adapter = new HelperSmsAdapter(Baseactivity, data);
+                        Baseactivity.setFlag1(false);
+                    }
                     listView.setAdapter(help_adapter);
                     back.setVisibility(View.GONE);
                 }

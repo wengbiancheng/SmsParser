@@ -74,4 +74,22 @@ public class DbutilHelper{
         }
         return list;
     }
+
+    public int updateHelper(HelperMessage helperMessage,SQLiteDatabase read_sqlite,SQLiteDatabase write_sqlite){
+        Log.e("SQLite","Helper数据库更新:updateHelper()");
+        Cursor cursor = read_sqlite.query(TABLE_HELPER, HELPER_COLS, "_id=?",new String[]{helperMessage.getId()+""}, null, null, null);
+        cursor.moveToFirst();
+        int id;
+        int count = cursor.getCount();
+        for (int i = 0; i < count; i++) {
+            id = cursor.getInt(0);
+            if (helperMessage.getId()==id) {
+                ContentValues values = new ContentValues();
+                values.put("choose", helperMessage.isCheck()?1:0);
+                return write_sqlite.update(TABLE_HELPER, values, "_id=?",new String[]{helperMessage.getId()+""});
+            }
+            cursor.moveToNext();
+        }
+        return -1;
+    }
 }

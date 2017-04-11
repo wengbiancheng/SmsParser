@@ -57,7 +57,7 @@ public class DbutilOrder{
      */
     public int updateOrderMessage(PayMessage payMessage,SQLiteDatabase read_sqlite,SQLiteDatabase write_sqlite) {
         Log.e("SQLite","Order数据库更新:updateOrderMessage(PayMessage)");
-        Cursor cursor = read_sqlite.query(TABLE_ORDER, ORDER_COLS, null, null, null, null, null);
+        Cursor cursor = read_sqlite.query(TABLE_ORDER, ORDER_COLS, "orderId=?", new String[]{payMessage.getOrder_id()}, null, null, null);
         cursor.moveToFirst();
         String order_id;
         int count = cursor.getCount();
@@ -92,7 +92,7 @@ public class DbutilOrder{
      */
     public int updateOrderMessage(SendMessage sendMessage,SQLiteDatabase read_sqlite,SQLiteDatabase write_sqlite) {
         Log.e("SQLite","Order数据库更新:updateOrderMessage(SendMessage)");
-        Cursor cursor = read_sqlite.query(TABLE_ORDER, ORDER_COLS, null, null, null, null, null);
+        Cursor cursor = read_sqlite.query(TABLE_ORDER, ORDER_COLS, "orderId=?", new String[]{sendMessage.getOrder_id()}, null, null, null);
         cursor.moveToFirst();
         String order_id;
         int count = cursor.getCount();

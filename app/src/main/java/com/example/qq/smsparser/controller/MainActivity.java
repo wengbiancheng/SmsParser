@@ -43,11 +43,15 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
 
     //帮工数据是否修改的标志位
     private boolean flag=false;
+    private boolean flag1=false;
     public boolean isFlag() {
-        return flag;
+        return flag||flag1;
     }
     public void setFlag(boolean flag) {
         this.flag = flag;
+    }
+    public void setFlag1(boolean flag1){
+        this.flag1=flag1;
     }
 
     @Override
@@ -65,7 +69,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         }
 
         //TODO 进行后台的测试工作，测试成功后再开启新的进程变成后台运行的
-        initTestService();
+//        initTestService();
     }
 
 

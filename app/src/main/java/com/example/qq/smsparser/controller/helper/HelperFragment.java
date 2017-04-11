@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +36,32 @@ public class HelperFragment extends BaseFragment {
 
     private List<HelperMessage> data = new ArrayList<>();
 
+    private Handler handler=new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message message) {
+            int position=message.arg1;
+            boolean isChecked= (boolean) message.obj;
+            HelperMessage helperMessage=data.get(position);
+            helperMessage.setCheck(isChecked);
+            if(message.what==11){
+                //执行数据库的更新操作
+                int result=DbutilHelper.getInstance().updateHelper(helperMessage,((MyApplication)Baseactivity.getApplication()).getSQLiteOpenHelper().getReadableDatabase(),
+                        ((MyApplication)Baseactivity.getApplication()).getSQLiteOpenHelper().getWritableDatabase());
+                Log.e("SQLite","HelperFragment:updateHelper的结果是:"+result);
+                if(result!=-1){
+                    data.set(position,helperMessage);
+                    adapter.notifyDataSetChanged();
+                    Baseactivity.setFlag(true);
+                    Baseactivity.setFlag1(true);
+                    Toast.makeText(Baseactivity,"选择成功",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(Baseactivity,"选择失败",Toast.LENGTH_SHORT).show();
+                }
+            }
+            return true;
+        }
+    });
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.e("Process", "HelperFragment:onCreateView");
@@ -42,7 +70,7 @@ public class HelperFragment extends BaseFragment {
         data = DbutilHelper.getInstance().getHelperListData(((MyApplication)Baseactivity.getApplication()).getSQLiteOpenHelper().getReadableDatabase());//得到所有的列表数据
 
         listView = (ListView) view.findViewById(R.id.helper_listView);
-        adapter = new HelperAdapter(Baseactivity, data);
+        adapter = new HelperAdapter(Baseactivity, data,handler);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -82,6 +110,7 @@ public class HelperFragment extends BaseFragment {
                             adapter.notifyDataSetChanged();
                             Toast.makeText(Baseactivity,"删除成功",Toast.LENGTH_SHORT).show();
                             Baseactivity.setFlag(true);
+                            Baseactivity.setFlag1(true);
                         }
                         Log.e("SQLite","Helper数据库删除:deleteHelper()的结果是:"+code);
                     }
@@ -119,6 +148,7 @@ public class HelperFragment extends BaseFragment {
                     adapter.notifyDataSetChanged();
                     Toast.makeText(Baseactivity,"添加成功",Toast.LENGTH_SHORT).show();
                     Baseactivity.setFlag(true);
+                    Baseactivity.setFlag1(true);
                 }
                 alertDialog1.dismiss();//对话框消失
             }
