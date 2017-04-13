@@ -67,22 +67,22 @@ public class SmsService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("TestService","SmsService:onStartCommand()");
-//        initOrderTestData();
-//        initPayTestData();
+        initOrderTestData();
+        initPayTestData();
         initSendTestData();
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void initSendTestData(){
-        String content="订单号：12345679；商品号：87654322；帮工号：11；商品名称：蓝天水杯；买家昵称：" +
-                "小明买家；买家地址：湖南省长沙市；买家电话：456123789；买家邮编：126456；发货快递：" +
-                "申通快递；发货时间：2017-01-01 15：36；发货费用：25.5；是否发货：是";
+    private void initOrderTestData(){
+        String content="订单号:12345679;商品号:87654322,123456;商品名称:蓝天水杯,鸿天纸巾;" +
+                "购买数量:3,5;商品单价:15.5,20.0;需要支付金额:145.5;买家昵称:小明买家;" +
+                "买家地址:湖南省长沙市;买家电话:456123789;买家邮编:126456";
         SmsMessage smsMessage1=new SmsMessage();
         smsMessage1.setBody(content);
         smsMessage1.setId(1);
         smsMessage1.setNumber("+8618814122731");
         smsMessage1.setTime(System.currentTimeMillis()+"");
-        smsMessage1.setType(2);
+        smsMessage1.setType(0);
 
         Message message=new Message();
         Bundle bundle=new Bundle();
@@ -110,16 +110,16 @@ public class SmsService extends Service {
         handler.sendMessage(message);
     }
 
-    private void initOrderTestData(){
-        String content="订单号:12345679;商品号:87654322;商品名称:蓝天水杯;" +
-                "购买数量:3;商品单价:15.5;需要支付金额:45.5;买家昵称:小明买家;" +
-                "买家地址:湖南省长沙市;买家电话:456123789;买家邮编:126456";
+    private void initSendTestData(){
+        String content="订单号:12345679;商品号:87654322,123456;帮工号:11;商品名称:蓝天水杯,鸿天纸巾;" +
+                "买家昵称:小明买家;买家地址:湖南省长沙市;买家电话:456123789;买家邮编:126456;" +
+                "发货快递:申通快递;发货时间:2017-01-01 15:36;发货费用:25.5;是否发货:是";
         SmsMessage smsMessage1=new SmsMessage();
         smsMessage1.setBody(content);
         smsMessage1.setId(1);
         smsMessage1.setNumber("+8618814122731");
         smsMessage1.setTime(System.currentTimeMillis()+"");
-        smsMessage1.setType(0);
+        smsMessage1.setType(2);
 
         Message message=new Message();
         Bundle bundle=new Bundle();
@@ -192,6 +192,6 @@ public class SmsService extends Service {
     //TODO 短信解析完成后，我们应该新建一个方法调用SendToHelper的短信接口，进行帮工短信的发送（注意多线程）
     private void sendSmsToHelper(OrderGood orderGood){
         Log.e("TestService", "调用了sendSmsToHelper方法:要发送的数据是:"+orderGood.toString());
-        sendToHelperUtil.sendSms(orderGood);
+//        sendToHelperUtil.sendSms(orderGood);
     }
 }

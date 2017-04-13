@@ -145,8 +145,8 @@ public class DbutilOrder{
             orderGood.setOrder_id(cursor.getString(1));
             orderGood.setGood_id(cursor.getString(2));
             orderGood.setGood_name(cursor.getString(3));
-            orderGood.setGood_price(cursor.getFloat(4));
-            orderGood.setGood_number(cursor.getInt(5));
+            orderGood.setGood_price(cursor.getString(4));
+            orderGood.setGood_number(cursor.getString(5));
             orderGood.setCost(cursor.getFloat(6));
             orderGood.setBuyer_name(cursor.getString(7));
             orderGood.setBuyer_address(cursor.getString(8));

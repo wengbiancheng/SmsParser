@@ -9,8 +9,8 @@ public class OrderGood {
     private String order_id;
     private String good_id;
     private String good_name;
-    private int good_number;
-    private float good_price;
+    private String good_number;
+    private String good_price;
     private float cost;
     private String buyer_name;
     private String buyer_address;
@@ -76,22 +76,6 @@ public class OrderGood {
         this.good_name = good_name;
     }
 
-    public int getGood_number() {
-        return good_number;
-    }
-
-    public void setGood_number(int good_number) {
-        this.good_number = good_number;
-    }
-
-    public float getGood_price() {
-        return good_price;
-    }
-
-    public void setGood_price(float good_price) {
-        this.good_price = good_price;
-    }
-
     public float getCost() {
         return cost;
     }
@@ -130,5 +114,21 @@ public class OrderGood {
 
     public void setBuyer_postcard(String buyer_postcard) {
         this.buyer_postcard = buyer_postcard;
+    }
+
+    public String getGood_number() {
+        return good_number;
+    }
+
+    public void setGood_number(String good_number) {
+        this.good_number = good_number;
+    }
+
+    public String getGood_price() {
+        return good_price;
+    }
+
+    public void setGood_price(String good_price) {
+        this.good_price = good_price;
     }
 }
