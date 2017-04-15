@@ -20,7 +20,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -30,7 +29,6 @@ import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
-import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.ValueShape;
 import lecho.lib.hellocharts.model.Viewport;
@@ -276,8 +274,23 @@ public class SaleListFragment extends BaseFragment implements LineChartOnValueSe
     }
 
     @Override
-    public void onValueSelected(int i, int i1, PointValue pointValue) {
+    public void onValueSelected(int line, int month, PointValue pointValue) {
         Intent intent = new Intent(Baseactivity, SaleMessageAty.class);
+        List<OrderSaleMessage> list=map.get(month+1);
+        float sale=0,helper_cost=0,send_cost=0,other_cost=0,profit=0;
+        for(int i=0;i<list.size();i++){
+            sale=sale+list.get(i).getGood_price();
+            helper_cost=helper_cost+list.get(i).getHelper_cost();
+            send_cost=send_cost+list.get(i).getDelivery_price();
+            other_cost=other_cost+list.get(i).getOther_cost();
+            profit=profit+list.get(i).getProfit();
+        }
+        intent.putExtra("month",month+1);
+        intent.putExtra("sale",sale);
+        intent.putExtra("helper_cost",helper_cost);
+        intent.putExtra("send_cost",send_cost);
+        intent.putExtra("other_cost",other_cost);
+        intent.putExtra("profit",profit);
         startActivity(intent);
     }
 

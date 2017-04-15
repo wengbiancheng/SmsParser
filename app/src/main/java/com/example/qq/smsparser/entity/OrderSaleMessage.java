@@ -1,9 +1,11 @@
 package com.example.qq.smsparser.entity;
 
+import java.io.Serializable;
+
 /**
  * 一个订单的销售统计,主要是帮工的工资，快递费用这些可以在这个类中统一修改，方便以后扩展
  */
-public class OrderSaleMessage {
+public class OrderSaleMessage implements Serializable{
 
     private String orderId;
     private int month;
