@@ -126,7 +126,7 @@ public class SmsService extends Service {
         int orderId=12345680;
         int month=1;
         for(int i=0;i<12;i++){
-            String content="订单号:"+orderId+";商品号:87654322,123456;帮工号:11;商品名称:蓝天水杯,鸿天纸巾;" +
+            String content="订单号:"+orderId+";商品号:87654322,123456;帮工号:1;商品名称:蓝天水杯,鸿天纸巾;" +
                     "买家昵称:小明买家;买家地址:湖南省长沙市;买家电话:456123789;买家邮编:126456;" +
                     "发货快递:申通快递;发货时间:2017-0"+month+"-01 15:36;发货费用:5.5;是否发货:是";
             SmsMessage smsMessage1=new SmsMessage();

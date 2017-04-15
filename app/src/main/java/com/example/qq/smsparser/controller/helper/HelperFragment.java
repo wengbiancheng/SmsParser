@@ -18,10 +18,13 @@ import android.widget.Toast;
 
 import com.example.qq.smsparser.MyApplication;
 import com.example.qq.smsparser.R;
+import com.example.qq.smsparser.controller.analysis.SaleMessageAty;
+import com.example.qq.smsparser.entity.OrderSaleMessage;
 import com.example.qq.smsparser.model.db.DbutilHelper;
 import com.example.qq.smsparser.entity.HelperMessage;
 import com.example.qq.smsparser.controller.BaseFragment;
 import com.example.qq.smsparser.controller.adapter.HelperAdapter;
+import com.example.qq.smsparser.model.db.DbutilOrder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +80,25 @@ public class HelperFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(Baseactivity, HelperMessageAty.class);
+                List<OrderSaleMessage> list= DbutilOrder.getInstance().getAllHelperSaleMessage(((MyApplication)Baseactivity.getApplication()).
+                        getSQLiteOpenHelper().getReadableDatabase(),data.get(i).getId());
+                float sale=0,helper_cost=0,send_cost=0,other_cost=0,profit=0;
+                for(int t=0;t<list.size();t++){
+                    sale=sale+list.get(t).getGood_price();
+                    helper_cost=helper_cost+list.get(t).getHelper_cost();
+                    send_cost=send_cost+list.get(t).getDelivery_price();
+                    other_cost=other_cost+list.get(t).getOther_cost();
+                    profit=profit+list.get(t).getProfit();
+                }
+                intent.putExtra("sale",sale);
+                intent.putExtra("helper_cost",helper_cost);
+                intent.putExtra("send_cost",send_cost);
+                intent.putExtra("other_cost",other_cost);
+                intent.putExtra("profit",profit);
+                intent.putExtra("number",list.size());
+                intent.putExtra("helperName",data.get(i).getName());
                 startActivity(intent);
+                Log.e("TestHelper","点击的帮工的id是:"+data.get(i).getId());
             }
         });
 

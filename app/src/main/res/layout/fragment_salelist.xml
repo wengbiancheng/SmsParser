@@ -100,14 +100,6 @@
             android:textColor="#000"
             android:textSize="20sp" />
 
-        <!--<lecho.lib.hellocharts.view.PieChartView-->
-        <!--android:id="@+id/lvc_pie"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="360dp"-->
-        <!--android:layout_gravity="center|top"-->
-        <!--android:layout_marginTop="-20dp"-->
-        <!--android:transitionName="line" />-->
-
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/lvc_pie"
             android:layout_width="match_parent"

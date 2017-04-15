@@ -238,6 +238,36 @@ public class DbutilOrder{
         return null;
     }
 
+    public List<OrderSaleMessage> getAllHelperSaleMessage(SQLiteDatabase read_sqlite,int helperId){
+        Log.e("SQLite","Order数据库检索:getAllOrderSaleMessage()");
+
+        List<OrderSaleMessage> list=new ArrayList<>();
+
+        Cursor cursor = read_sqlite.query(TABLE_ORDER, ORDER_COLS, "helperId=?", new String[]{helperId+""}, null, null, null);
+        cursor.moveToFirst();
+        if(cursor!=null&&cursor.getCount()>0){
+            for(int i=0;i<cursor.getCount();i++){
+
+                //当订货数据不是当前的年份的时候
+                if(OrderSaleUtils.getMonth(cursor.getString(14))==-1){
+                    cursor.moveToNext();
+                    continue;
+                }
+                OrderSaleMessage orderSaleMessage=new OrderSaleMessage();
+                orderSaleMessage.setOrderId(cursor.getString(1));
+                orderSaleMessage.setMonth(OrderSaleUtils.getMonth(cursor.getString(14)));
+                orderSaleMessage.setHelpId(cursor.getInt(12));
+                orderSaleMessage.setGood_price(cursor.getFloat(6));
+                orderSaleMessage.setDelivery_price(cursor.getFloat(15));
+                orderSaleMessage.setHelper_cost(OrderSaleUtils.getNumber(cursor.getString(5)));
+                orderSaleMessage.setOther_cost(OrderSaleUtils.getNumber(cursor.getString(5)));
+                list.add(orderSaleMessage);
+                cursor.moveToNext();
+            }
+            return list;
+        }
+        return null;
+    }
 
     public List<SendMessage> getAllSendMessage(SQLiteDatabase read_sqlite){
         Log.e("SQLite","Order数据库检索:getAllSendMessage()");
