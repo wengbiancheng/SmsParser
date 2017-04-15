@@ -74,59 +74,78 @@ public class SmsService extends Service {
     }
 
     private void initOrderTestData(){
-        String content="订单号:12345679;商品号:87654322,123456;商品名称:蓝天水杯,鸿天纸巾;" +
-                "购买数量:3,5;商品单价:15.5,20.0;需要支付金额:145.5;买家昵称:小明买家;" +
-                "买家地址:湖南省长沙市;买家电话:456123789;买家邮编:126456";
-        SmsMessage smsMessage1=new SmsMessage();
-        smsMessage1.setBody(content);
-        smsMessage1.setId(1);
-        smsMessage1.setNumber("+8618814122731");
-        smsMessage1.setTime(System.currentTimeMillis()+"");
-        smsMessage1.setType(0);
+        int orderId=12345680;
+        float cost=10.5f;
+        for(int i=0;i<12;i++){
+            String content="订单号:"+orderId+";商品号:87654322,123456;商品名称:蓝天水杯,鸿天纸巾;" +
+                    "购买数量:3,5;商品单价:15.5,20.0;需要支付金额:"+cost+";买家昵称:小明买家;" +
+                    "买家地址:湖南省长沙市;买家电话:456123789;买家邮编:126456";
+            SmsMessage smsMessage1=new SmsMessage();
+            smsMessage1.setBody(content);
+            smsMessage1.setId(1);
+            smsMessage1.setNumber("+8618814122731");
+            smsMessage1.setTime(System.currentTimeMillis()+"");
+            smsMessage1.setType(0);
 
-        Message message=new Message();
-        Bundle bundle=new Bundle();
-        bundle.putSerializable("sms", smsMessage1);
-        message.setData(bundle);
-        message.what = 0;
-        handler.sendMessage(message);
+            Message message=new Message();
+            Bundle bundle=new Bundle();
+            bundle.putSerializable("sms", smsMessage1);
+            message.setData(bundle);
+            message.what = 0;
+            handler.sendMessage(message);
+
+            orderId++;
+            cost=cost+5;
+        }
     }
 
     private void initPayTestData(){
-        String content="订单号:12345679;是否付款:是";
+        int orderId=12345680;
+        for(int i=0;i<12;i++){
+            String content="订单号:"+orderId+";是否付款:是";
 
-        SmsMessage smsMessage1=new SmsMessage();
-        smsMessage1.setBody(content);
-        smsMessage1.setId(1);
-        smsMessage1.setNumber("+8618814122731");
-        smsMessage1.setTime(System.currentTimeMillis()+"");
-        smsMessage1.setType(1);
+            SmsMessage smsMessage1=new SmsMessage();
+            smsMessage1.setBody(content);
+            smsMessage1.setId(1);
+            smsMessage1.setNumber("+8618814122731");
+            smsMessage1.setTime(System.currentTimeMillis()+"");
+            smsMessage1.setType(1);
 
-        Message message=new Message();
-        Bundle bundle=new Bundle();
-        bundle.putSerializable("sms", smsMessage1);
-        message.setData(bundle);
-        message.what = 0;
-        handler.sendMessage(message);
+            Message message=new Message();
+            Bundle bundle=new Bundle();
+            bundle.putSerializable("sms", smsMessage1);
+            message.setData(bundle);
+            message.what = 0;
+            handler.sendMessage(message);
+
+            orderId++;
+        }
     }
 
     private void initSendTestData(){
-        String content="订单号:12345679;商品号:87654322,123456;帮工号:11;商品名称:蓝天水杯,鸿天纸巾;" +
-                "买家昵称:小明买家;买家地址:湖南省长沙市;买家电话:456123789;买家邮编:126456;" +
-                "发货快递:申通快递;发货时间:2017-01-01 15:36;发货费用:25.5;是否发货:是";
-        SmsMessage smsMessage1=new SmsMessage();
-        smsMessage1.setBody(content);
-        smsMessage1.setId(1);
-        smsMessage1.setNumber("+8618814122731");
-        smsMessage1.setTime(System.currentTimeMillis()+"");
-        smsMessage1.setType(2);
+        int orderId=12345680;
+        int month=1;
+        for(int i=0;i<12;i++){
+            String content="订单号:"+orderId+";商品号:87654322,123456;帮工号:11;商品名称:蓝天水杯,鸿天纸巾;" +
+                    "买家昵称:小明买家;买家地址:湖南省长沙市;买家电话:456123789;买家邮编:126456;" +
+                    "发货快递:申通快递;发货时间:2017-0"+month+"-01 15:36;发货费用:5.5;是否发货:是";
+            SmsMessage smsMessage1=new SmsMessage();
+            smsMessage1.setBody(content);
+            smsMessage1.setId(1);
+            smsMessage1.setNumber("+8618814122731");
+            smsMessage1.setTime(System.currentTimeMillis()+"");
+            smsMessage1.setType(2);
 
-        Message message=new Message();
-        Bundle bundle=new Bundle();
-        bundle.putSerializable("sms", smsMessage1);
-        message.setData(bundle);
-        message.what = 0;
-        handler.sendMessage(message);
+            Message message=new Message();
+            Bundle bundle=new Bundle();
+            bundle.putSerializable("sms", smsMessage1);
+            message.setData(bundle);
+            message.what = 0;
+            handler.sendMessage(message);
+
+            orderId++;
+            month++;
+        }
     }
 
     @Override

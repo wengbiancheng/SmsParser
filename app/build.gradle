@@ -24,4 +24,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile files('libs/hellocharts-library-1.5.8.jar')
+    compile files('libs/mpandroidchartlibrary-2-1-5.jar')
 }

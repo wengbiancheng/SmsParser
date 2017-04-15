@@ -15,4 +15,5 @@
     <dimen name="one_and_a_half_grid_unit">12dp</dimen>
 
     <dimen name="textsize_20sp">20sp</dimen>
+    <dimen name="pie_chart_text1_size">14sp</dimen>
 </resources>

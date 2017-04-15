@@ -5,9 +5,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.qq.smsparser.controller.utils.OrderSaleUtils;
 import com.example.qq.smsparser.entity.OrderGood;
+import com.example.qq.smsparser.entity.OrderSaleMessage;
 import com.example.qq.smsparser.entity.PayMessage;
 import com.example.qq.smsparser.entity.SendMessage;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 数据库的订单表操作类，主要进行数据的创建和销毁，数据库的增删查改等操作
@@ -161,6 +169,107 @@ public class DbutilOrder{
         return null;
     }
 
+    public List<OrderGood> getAllOrderGood(SQLiteDatabase read_sqlite){
+        Log.e("SQLite","Order数据库检索:getAllOrderGood()");
+
+        List<OrderGood> list=new ArrayList<>();
+
+        Cursor cursor = read_sqlite.query(TABLE_ORDER, ORDER_COLS, null, null, null, null, null);
+        cursor.moveToFirst();
+        if(cursor!=null&&cursor.getCount()>0){
+            for(int i=0;i<cursor.getCount();i++){
+                OrderGood orderGood=new OrderGood();
+                orderGood.setId(cursor.getInt(0));
+                orderGood.setOrder_id(cursor.getString(1));
+                orderGood.setGood_id(cursor.getString(2));
+                orderGood.setGood_name(cursor.getString(3));
+                orderGood.setGood_price(cursor.getString(4));
+                orderGood.setGood_number(cursor.getString(5));
+                orderGood.setCost(cursor.getFloat(6));
+                orderGood.setBuyer_name(cursor.getString(7));
+                orderGood.setBuyer_address(cursor.getString(8));
+                orderGood.setBuyer_phone(cursor.getString(9));
+                orderGood.setBuyer_postcard(cursor.getString(10));
+                orderGood.getPayMessage().setPay(cursor.getInt(11)==1?true:false);
+                orderGood.getPayMessage().setOrder_id(orderGood.getOrder_id());
+                orderGood.setSend(cursor.getInt(16)==1?true:false);
+
+                list.add(orderGood);
+                cursor.moveToNext();
+            }
+            return list;
+        }
+        return null;
+    }
+
+    public Map<Integer,List<OrderSaleMessage>> getAllOrderSaleMessage(SQLiteDatabase read_sqlite){
+        Log.e("SQLite","Order数据库检索:getAllOrderSaleMessage()");
+
+        Map<Integer,List<OrderSaleMessage>> map=new HashMap<>();
+
+        Cursor cursor = read_sqlite.query(TABLE_ORDER, ORDER_COLS, null, null, null, null, null);
+        cursor.moveToFirst();
+        if(cursor!=null&&cursor.getCount()>0){
+            for(int i=0;i<cursor.getCount();i++){
+
+                //当订货数据不是当前的年份的时候
+                if(OrderSaleUtils.getMonth(cursor.getString(14))==-1){
+                    cursor.moveToNext();
+                    continue;
+                }
+                OrderSaleMessage orderSaleMessage=new OrderSaleMessage();
+                orderSaleMessage.setOrderId(cursor.getString(1));
+                orderSaleMessage.setMonth(OrderSaleUtils.getMonth(cursor.getString(14)));
+                orderSaleMessage.setHelpId(cursor.getInt(12));
+                orderSaleMessage.setGood_price(cursor.getFloat(6));
+                orderSaleMessage.setDelivery_price(cursor.getFloat(15));
+                orderSaleMessage.setHelper_cost(OrderSaleUtils.getNumber(cursor.getString(5)));
+                orderSaleMessage.setOther_cost(OrderSaleUtils.getNumber(cursor.getString(5)));
+
+                if(!map.containsKey(orderSaleMessage.getMonth())){
+                    map.put(orderSaleMessage.getMonth(),new ArrayList<OrderSaleMessage>());
+                }
+                map.get(orderSaleMessage.getMonth()).add(orderSaleMessage);
+
+                cursor.moveToNext();
+            }
+            return map;
+        }
+        return null;
+    }
+
+
+    public List<SendMessage> getAllSendMessage(SQLiteDatabase read_sqlite){
+        Log.e("SQLite","Order数据库检索:getAllSendMessage()");
+
+        List<SendMessage> list=new ArrayList<>();
+
+
+        Cursor cursor = read_sqlite.query(TABLE_ORDER, ORDER_COLS, null, null, null, null, null);
+        cursor.moveToFirst();
+        if(cursor!=null&&cursor.getCount()>0){
+            for(int i=0;i<cursor.getCount();i++) {
+                SendMessage sendMessage = new SendMessage();
+                sendMessage.setOrder_id(cursor.getString(1));
+                sendMessage.setGood_id(cursor.getString(2));
+                sendMessage.setGood_name(cursor.getString(3));
+                sendMessage.setBuyer_name(cursor.getString(7));
+                sendMessage.setBuyer_address(cursor.getString(8));
+                sendMessage.setBuyer_phone(cursor.getString(9));
+                sendMessage.setBuyer_postcard(cursor.getString(10));
+                sendMessage.setHelper_id(cursor.getInt(12));
+                sendMessage.setDelivery_name(cursor.getString(13));
+                sendMessage.setDelivery_time(cursor.getString(14));
+                sendMessage.setDelivery_price(cursor.getFloat(15));
+
+                list.add(sendMessage);
+                cursor.moveToNext();
+            }
+            return list;
+        }
+        return null;
+    }
+
     public SendMessage getSendMessage(String orderId,SQLiteDatabase read_sqlite){
         Log.e("SQLite","Order数据库检索:getSendMessage()");
         String selection = "orderId=?";
@@ -178,6 +287,7 @@ public class DbutilOrder{
             sendMessage.setBuyer_address(cursor.getString(8));
             sendMessage.setBuyer_phone(cursor.getString(9));
             sendMessage.setBuyer_postcard(cursor.getString(10));
+            sendMessage.setHelper_id(cursor.getInt(12));
             sendMessage.setDelivery_name(cursor.getString(13));
             sendMessage.setDelivery_time(cursor.getString(14));
             sendMessage.setDelivery_price(cursor.getFloat(15));

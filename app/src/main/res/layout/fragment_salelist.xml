@@ -8,46 +8,114 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="10dp"
+        android:orientation="vertical"
         android:paddingBottom="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:orientation="vertical">
+        android:paddingTop="10dp">
 
-    <TextView
-        android:id="@+id/tv_sales"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="2016年销售额"
-        android:textColor="#000"
-        android:textSize="20sp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <lecho.lib.hellocharts.view.LineChartView
-        android:id="@+id/lvc_sales"
-        android:layout_width="match_parent"
-        android:layout_height="360dp"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:transitionName="line" />
+            <TextView
+                android:id="@+id/tv_sales"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="2016年销售额"
+                android:textColor="#000"
+                android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/tv_profit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:text="2016年纯利润"
-        android:textColor="#000"
-        android:textSize="20sp"/>
+            <LinearLayout
+                android:id="@+id/line_textView1"
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/tv_sales">
 
-    <lecho.lib.hellocharts.view.LineChartView
-        android:id="@+id/lvc_profit"
-        android:layout_width="match_parent"
-        android:layout_height="360dp"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:transitionName="line" />
+                <TextView
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/black"
+                    android:gravity="center_vertical" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/line_name1"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/line_textView1"
+                android:text="销售额" />
+
+            <LinearLayout
+                android:id="@+id/line_textView2"
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:layout_alignLeft="@id/line_textView1"
+                android:layout_below="@id/line_textView1"
+                android:layout_toRightOf="@id/tv_sales">
+
+                <TextView
+                    android:id="@+id/line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/black"
+                    android:gravity="center_vertical" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/line_name2"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_alignTop="@id/line_textView2"
+                android:layout_below="@id/line_name1"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/line_textView2"
+                android:gravity="center_vertical"
+                android:text="纯利润" />
+        </RelativeLayout>
+
+
+        <lecho.lib.hellocharts.view.LineChartView
+            android:id="@+id/lvc_sales"
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:transitionName="line" />
+
+        <TextView
+            android:id="@+id/tv_profit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textColor="#000"
+            android:textSize="20sp" />
+
+        <!--<lecho.lib.hellocharts.view.PieChartView-->
+        <!--android:id="@+id/lvc_pie"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="360dp"-->
+        <!--android:layout_gravity="center|top"-->
+        <!--android:layout_marginTop="-20dp"-->
+        <!--android:transitionName="line" />-->
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/lvc_pie"
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:layout_gravity="center|top"
+            android:transitionName="line">
+
+        </com.github.mikephil.charting.charts.PieChart>
 
     </LinearLayout>
 
