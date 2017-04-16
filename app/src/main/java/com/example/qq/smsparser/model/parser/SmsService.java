@@ -17,6 +17,8 @@ import android.telephony.SmsManager;
 import android.util.Log;
 
 import com.example.qq.smsparser.MyApplication;
+import com.example.qq.smsparser.entity.HelperMessage;
+import com.example.qq.smsparser.model.db.DbutilHelper;
 import com.example.qq.smsparser.model.db.DbutilOrder;
 import com.example.qq.smsparser.model.db.MySQLiteHelper;
 import com.example.qq.smsparser.entity.OrderGood;
@@ -61,15 +63,15 @@ public class SmsService extends Service {
         smsParserUtil = SmsParserUtil.getInstance();
         sendToHelperUtil = SendToHelperUtil.getInstance(this);
 
-//        this.getContentResolver().registerContentObserver(SMS_INBOX,true,smsObserver);
+        this.getContentResolver().registerContentObserver(SMS_INBOX,true,smsObserver);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("TestService","SmsService:onStartCommand()");
-        initOrderTestData();
-        initPayTestData();
-        initSendTestData();
+//        initOrderTestData();
+//        initPayTestData();
+//        initSendTestData();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -154,7 +156,7 @@ public class SmsService extends Service {
         smsObserver=null;
         smsParserUtil =null;
         sendToHelperUtil =null;
-//        getContentResolver().unregisterContentObserver(smsObserver);
+        getContentResolver().unregisterContentObserver(smsObserver);
         super.onDestroy();
     }
 
@@ -211,6 +213,7 @@ public class SmsService extends Service {
     //TODO 短信解析完成后，我们应该新建一个方法调用SendToHelper的短信接口，进行帮工短信的发送（注意多线程）
     private void sendSmsToHelper(OrderGood orderGood){
         Log.e("TestService", "调用了sendSmsToHelper方法:要发送的数据是:"+orderGood.toString());
-//        sendToHelperUtil.sendSms(orderGood);
+        HelperMessage helperMessage= DbutilHelper.getInstance().getHelperMessage(mySQLiteHelper.getReadableDatabase());
+        sendToHelperUtil.sendSms(orderGood,helperMessage);
     }
 }

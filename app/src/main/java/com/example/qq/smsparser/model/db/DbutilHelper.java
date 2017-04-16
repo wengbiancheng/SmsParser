@@ -55,8 +55,25 @@ public class DbutilHelper{
             cursor.moveToNext();
         }
         Log.e("SQLite","Helper数据库检索:getHelperListData()---list集合的大小是:"+list.size());
+        cursor.close();
         return list;
     }
+    public HelperMessage getHelperMessage(SQLiteDatabase read_sqlite){
+        Cursor cursor = read_sqlite.query(TABLE_HELPER, HELPER_COLS, "choose=?", new String[]{"1"}, null, null, null);
+        List<HelperMessage> list=new ArrayList<>();
+        cursor.moveToFirst();
+        for(int i=0;i<cursor.getCount();i++){
+            HelperMessage helperMessage=new HelperMessage();
+            helperMessage.setId(cursor.getInt(0));
+            helperMessage.setName(cursor.getString(1));
+            helperMessage.setPhone(cursor.getString(2));
+            helperMessage.setCheck(cursor.getInt(3)==1?true:false);
+            cursor.close();
+            return helperMessage;
+        }
+        return null;
+    }
+
     /**
      * 根据数据库来获取所有的帮工的电话号码
      * @return
@@ -72,6 +89,7 @@ public class DbutilHelper{
             list.add(cursor.getString(2));
             cursor.moveToNext();
         }
+        cursor.close();
         return list;
     }
 
@@ -86,10 +104,12 @@ public class DbutilHelper{
             if (helperMessage.getId()==id) {
                 ContentValues values = new ContentValues();
                 values.put("choose", helperMessage.isCheck()?1:0);
+                cursor.close();
                 return write_sqlite.update(TABLE_HELPER, values, "_id=?",new String[]{helperMessage.getId()+""});
             }
             cursor.moveToNext();
         }
+        cursor.close();
         return -1;
     }
 }

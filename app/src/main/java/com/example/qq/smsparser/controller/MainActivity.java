@@ -96,7 +96,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         title_right = (Button) findViewById(R.id.title_rightBtn);
         title_middle.setText("订货信息列表");
 
-        controller.showFragment(2);
+        controller.showFragment(0);
     }
 
     @Override

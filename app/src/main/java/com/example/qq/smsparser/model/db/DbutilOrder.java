@@ -86,6 +86,7 @@ public class DbutilOrder{
 //                values.put("buyerPhone", cursor.getString(9));
 //                values.put("postcard", cursor.getString(10));
                 values.put("isPay", payMessage.isPay()?1:0);
+                cursor.close();
 
                 return write_sqlite.update(TABLE_ORDER, values, "_id=" + cursor.getInt(0), null);
             }
@@ -126,7 +127,7 @@ public class DbutilOrder{
                 values.put("sendTime",sendMessage.getDelivery_time());
                 values.put("sendPrice",sendMessage.getDelivery_price());
                 values.put("isSend",sendMessage.isSend()?1:0);
-
+                cursor.close();
                 return write_sqlite.update(TABLE_ORDER, values, "_id=" + cursor.getInt(0), null);
             }
             cursor.moveToNext();
@@ -264,8 +265,10 @@ public class DbutilOrder{
                 list.add(orderSaleMessage);
                 cursor.moveToNext();
             }
+            cursor.close();
             return list;
         }
+        cursor.close();
         return null;
     }
 
@@ -295,8 +298,10 @@ public class DbutilOrder{
                 list.add(sendMessage);
                 cursor.moveToNext();
             }
+            cursor.close();
             return list;
         }
+        cursor.close();
         return null;
     }
 

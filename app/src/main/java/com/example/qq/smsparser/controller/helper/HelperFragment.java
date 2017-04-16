@@ -57,6 +57,20 @@ public class HelperFragment extends BaseFragment {
                     Baseactivity.setFlag(true);
                     Baseactivity.setFlag1(true);
                     Toast.makeText(Baseactivity,"选择成功",Toast.LENGTH_SHORT).show();
+
+                    int count=0;
+                    for(int i=0;i<data.size();i++){
+                        if(data.get(i).isCheck()){
+                            count++;
+                        }
+                    }
+                    if(count<1){
+                        new AlertDialog.Builder(Baseactivity).setTitle("警告").setMessage("你应该选择一个帮工，请点击进行选择")
+                                .setPositiveButton("确定",null).create().show();
+                    }else if(count>1){
+                        new AlertDialog.Builder(Baseactivity).setTitle("警告").setMessage("你应该只选择一个帮工，请点击进行选择")
+                                .setPositiveButton("确定",null).create().show();
+                    }
                 }else{
                     Toast.makeText(Baseactivity,"选择失败",Toast.LENGTH_SHORT).show();
                 }
@@ -132,6 +146,19 @@ public class HelperFragment extends BaseFragment {
                             Toast.makeText(Baseactivity,"删除成功",Toast.LENGTH_SHORT).show();
                             Baseactivity.setFlag(true);
                             Baseactivity.setFlag1(true);
+                            int count=0;
+                            for(int i=0;i<data.size();i++){
+                                if(data.get(i).isCheck()){
+                                    count++;
+                                }
+                            }
+                            if(count<1){
+                                new AlertDialog.Builder(Baseactivity).setTitle("警告").setMessage("你应该选择一个帮工，请点击进行选择")
+                                        .setPositiveButton("确定",null).create().show();
+                            }else if(count>1){
+                                new AlertDialog.Builder(Baseactivity).setTitle("警告").setMessage("你应该只选择一个帮工，请点击进行选择")
+                                        .setPositiveButton("确定",null).create().show();
+                            }
                         }
                         Log.e("SQLite","Helper数据库删除:deleteHelper()的结果是:"+code);
                     }
@@ -170,6 +197,19 @@ public class HelperFragment extends BaseFragment {
                     Toast.makeText(Baseactivity,"添加成功",Toast.LENGTH_SHORT).show();
                     Baseactivity.setFlag(true);
                     Baseactivity.setFlag1(true);
+                    int count=0;
+                    for(int i=0;i<data.size();i++){
+                        if(data.get(i).isCheck()){
+                            count++;
+                        }
+                    }
+                    if(count<1){
+                        new AlertDialog.Builder(Baseactivity).setTitle("警告").setMessage("你应该选择一个帮工，请点击进行选择")
+                                .setPositiveButton("确定",null).create().show();
+                    }else if(count>1){
+                        new AlertDialog.Builder(Baseactivity).setTitle("警告").setMessage("你应该只选择一个帮工，请点击进行选择")
+                                .setPositiveButton("确定",null).create().show();
+                    }
                 }
                 alertDialog1.dismiss();//对话框消失
             }
