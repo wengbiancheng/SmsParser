@@ -205,6 +205,9 @@ public class SaleListFragment extends BaseFragment implements LineChartOnValueSe
      */
     private void setPieDatas() {
         /**各种数据初始化**/
+        if(map == null){
+            return;
+        }
         for (int i = 1; i <= 12; i++) {
             if(!map.containsKey(i)){
                 continue;

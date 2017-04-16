@@ -6,7 +6,7 @@ package com.example.qq.smsparser;
 public class Configs {
 
     //假设服务器发过来的短信号码是:18814122731
-    public final static String SMS_SERVER_NUMBER="+8618814122731";
+    public final static String SMS_SERVER_NUMBER="+8615608443963";
     //假设帮工的电话号码是：+8615608443963，这个帮工可能需要一个List
     public final static String SMS_HELPER_NUMBER="+8615608443963";
 
