@@ -69,12 +69,15 @@ public class SmsService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("TestService","SmsService:onStartCommand()");
+        initOrderTestData();
+        initPayTestData();
+        initSendTestData();
         return super.onStartCommand(intent, flags, startId);
     }
     private void initOrderTestData(){
         int orderId=12345680;
         float cost=10.5f;
-//        for(int i=0;i<12;i++){
+        for(int i=0;i<12;i++){
             String content="订单号:"+orderId+";商品号:87654322,123456;商品名称:蓝天水杯,鸿天纸巾;" +
                     "购买数量:3,5;商品单价:15.5,20.0;需要支付金额:"+cost+";买家昵称:小明买家;" +
                     "买家地址:湖南省长沙市;买家电话:456123789;买家邮编:126456";
@@ -92,13 +95,13 @@ public class SmsService extends Service {
             message.what = 0;
             handler.sendMessage(message);
 
-//            orderId++;
-//            cost=cost+5;
-//        }
+            orderId++;
+            cost=cost+5;
+        }
     }
     private void initPayTestData(){
         int orderId=12345680;
-//        for(int i=0;i<12;i++){
+        for(int i=0;i<12;i++){
             String content="订单号:"+orderId+";是否付款:是";
 
             SmsMessage smsMessage1=new SmsMessage();
@@ -115,8 +118,8 @@ public class SmsService extends Service {
             message.what = 0;
             handler.sendMessage(message);
 
-//            orderId++;
-//        }
+            orderId++;
+        }
     }
     private void initSendTestData(){
         int orderId=12345680;
@@ -209,6 +212,6 @@ public class SmsService extends Service {
         HelperMessage helperMessage= DbutilHelper.getInstance().getHelperMessage(mySQLiteHelper.getReadableDatabase());
         Log.e("TestService", "要发送的电话号码是:"+helperMessage.getPhone());
         Log.e("TestService", "调用了sendSmsToHelper方法:要发送的数据是:"+orderGood.toString());
-        sendToHelperUtil.sendSms(orderGood,helperMessage);
+//        sendToHelperUtil.sendSms(orderGood,helperMessage);
     }
 }
