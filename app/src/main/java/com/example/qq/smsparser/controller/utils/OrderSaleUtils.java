@@ -1,5 +1,7 @@
 package com.example.qq.smsparser.controller.utils;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,6 +22,10 @@ public class OrderSaleUtils {
     }
 
     public static int getMonth(String content){
+        if(content.equals("")||content==null){
+            return -1;
+        }
+        Log.e("TestSale","数据库的数据的月份是:"+content);
         Calendar c = Calendar.getInstance();
         try {
             c.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(content));

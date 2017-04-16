@@ -18,8 +18,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.example.qq.smsparser.MyApplication;
 import com.example.qq.smsparser.R;
+import com.example.qq.smsparser.entity.HelperMessage;
 import com.example.qq.smsparser.entity.OrderGood;
+import com.example.qq.smsparser.model.db.DbutilHelper;
 import com.example.qq.smsparser.model.parser.SmsService;
 import com.example.qq.smsparser.controller.utils.MainFragmentController;
 
@@ -69,7 +72,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         }
 
         //TODO 进行后台的测试工作，测试成功后再开启新的进程变成后台运行的
-//        initTestService();
+        initTestService();
     }
 
 

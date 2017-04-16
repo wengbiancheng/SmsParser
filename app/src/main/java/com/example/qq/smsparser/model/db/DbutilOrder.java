@@ -86,7 +86,6 @@ public class DbutilOrder{
 //                values.put("buyerPhone", cursor.getString(9));
 //                values.put("postcard", cursor.getString(10));
                 values.put("isPay", payMessage.isPay()?1:0);
-                cursor.close();
 
                 return write_sqlite.update(TABLE_ORDER, values, "_id=" + cursor.getInt(0), null);
             }
@@ -127,7 +126,6 @@ public class DbutilOrder{
                 values.put("sendTime",sendMessage.getDelivery_time());
                 values.put("sendPrice",sendMessage.getDelivery_price());
                 values.put("isSend",sendMessage.isSend()?1:0);
-                cursor.close();
                 return write_sqlite.update(TABLE_ORDER, values, "_id=" + cursor.getInt(0), null);
             }
             cursor.moveToNext();
@@ -213,6 +211,7 @@ public class DbutilOrder{
         if(cursor!=null&&cursor.getCount()>0){
             for(int i=0;i<cursor.getCount();i++){
 
+                Log.e("TestSale","查询的订单号是:"+cursor.getString(1));
                 //当订货数据不是当前的年份的时候
                 if(OrderSaleUtils.getMonth(cursor.getString(14))==-1){
                     cursor.moveToNext();
@@ -265,10 +264,8 @@ public class DbutilOrder{
                 list.add(orderSaleMessage);
                 cursor.moveToNext();
             }
-            cursor.close();
             return list;
         }
-        cursor.close();
         return null;
     }
 
@@ -298,10 +295,8 @@ public class DbutilOrder{
                 list.add(sendMessage);
                 cursor.moveToNext();
             }
-            cursor.close();
             return list;
         }
-        cursor.close();
         return null;
     }
 

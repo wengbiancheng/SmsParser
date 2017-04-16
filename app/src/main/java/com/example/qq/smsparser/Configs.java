@@ -10,7 +10,7 @@ public class Configs {
     //假设帮工的电话号码是：+8615608443963，这个帮工可能需要一个List
     public final static String SMS_HELPER_NUMBER="+8615608443963";
 
-    public final static int version = 1;
+    public final static int version = 2 ;
 
     //初始化数据库表
     public final static String[] ORDER_COLS = new String[]{"id", "goodId", "goodName",

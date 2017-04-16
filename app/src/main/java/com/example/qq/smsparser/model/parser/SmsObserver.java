@@ -11,6 +11,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.example.qq.smsparser.Configs;
+import com.example.qq.smsparser.entity.HelperMessage;
 import com.example.qq.smsparser.entity.SmsMessage;
 import com.example.qq.smsparser.model.db.DbutilHelper;
 import com.example.qq.smsparser.model.db.MySQLiteHelper;
@@ -69,7 +70,7 @@ class SmsObserver extends ContentObserver {
         //TODO Android 6.0版本需要显式地请求权限
 
         String[] projection = new String[]{"_id", "address", "body", "date"};
-        String where = "date>" + (System.currentTimeMillis() - 30 * 1000);//30秒内收到的短信
+        String where = "date>" + (System.currentTimeMillis() - 4 * 1000);//30秒内收到的短信
         Cursor cur = contentResolver.query(SMS_INBOX, projection, where, null, "_id desc");//TODO 要设置这些短信为已读
         //当使用date desc进行排序的时候，同个电话号码可以得到我们想要的序列，但是当多个电话号码同时到达的时候，会导致了获取到的cursor发生错乱
         //因此我们还是使用_id进行排序，就可以正确地获取先后顺序到达的短信内容了
@@ -92,7 +93,7 @@ class SmsObserver extends ContentObserver {
         String type = body.substring(0, 2);
         String content = body.substring(3, body.length());
 
-        Log.e("TestService", "收到的短信的号码是:" + number);
+        Log.e("TestService", "收到的短信的号码是:" + number+";短信内容的前两个字是:"+type);
         if (number.equals(Configs.SMS_SERVER_NUMBER)) {
             if (type.equals("订货")) {
                 smsMessage.setType(0);
@@ -100,11 +101,13 @@ class SmsObserver extends ContentObserver {
                 smsMessage.setType(1);
             }
         } else {
-            List<String> helper = DbutilHelper.getInstance().getHelperPhone(sqLiteHelper.getWritableDatabase());
-            if (helper.contains(number)) {
+            HelperMessage helperMessage = DbutilHelper.getInstance().getHelperMessage(sqLiteHelper.getWritableDatabase());
+            if (helperMessage.getPhone().equals(number)) {
                 if (type.equals("发货")) {
                     smsMessage.setType(2);
                 }
+            }else{
+                return;
             }
         }
         smsMessage.setBody(content);
