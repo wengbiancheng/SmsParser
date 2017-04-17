@@ -209,9 +209,9 @@ public class SmsService extends Service {
 
     //TODO 短信解析完成后，我们应该新建一个方法调用SendToHelper的短信接口，进行帮工短信的发送（注意多线程）
     private void sendSmsToHelper(OrderGood orderGood){
-        HelperMessage helperMessage= DbutilHelper.getInstance().getHelperMessage(mySQLiteHelper.getReadableDatabase());
-        Log.e("TestService", "要发送的电话号码是:"+helperMessage.getPhone());
-        Log.e("TestService", "调用了sendSmsToHelper方法:要发送的数据是:"+orderGood.toString());
+//        HelperMessage helperMessage= DbutilHelper.getInstance().getHelperMessage(mySQLiteHelper.getReadableDatabase());
+//        Log.e("TestService", "要发送的电话号码是:"+helperMessage.getPhone());
+//        Log.e("TestService", "调用了sendSmsToHelper方法:要发送的数据是:"+orderGood.toString());
 //        sendToHelperUtil.sendSms(orderGood,helperMessage);
     }
 }
