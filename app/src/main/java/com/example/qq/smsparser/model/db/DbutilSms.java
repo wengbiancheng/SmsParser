@@ -18,7 +18,7 @@ import java.util.List;
 public class DbutilSms {
 
     private Uri SMS_INBOX = Uri.parse("content://sms/inbox");
-    private Uri SMS_OUTBOX=Uri.parse("content://sms/sent");
+    private Uri SMS_OUTBOX=Uri.parse("content://sms/");
     private static DbutilSms dbutils=null;
 
     public static DbutilSms getInstance(){
@@ -138,6 +138,7 @@ public class DbutilSms {
         ContentResolver cr = context.getContentResolver();
         String[] projection = new String[] { "_id", "address", "body","date"};
 
+        //TODO 第二个有问题的地方
         Cursor cur = cr.query(SMS_OUTBOX, projection, "address=?", new String[]{phone}, "date desc");
         if (cur==null) return null;
 
