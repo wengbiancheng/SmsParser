@@ -96,6 +96,9 @@ public class HelperFragment extends BaseFragment {
                 Intent intent = new Intent(Baseactivity, HelperMessageAty.class);
                 List<OrderSaleMessage> list= DbutilOrder.getInstance().getAllHelperSaleMessage(((MyApplication)Baseactivity.getApplication()).
                         getSQLiteOpenHelper().getReadableDatabase(),data.get(i).getId());
+                if(list==null){
+                    list=new ArrayList<OrderSaleMessage>();
+                }
                 float sale=0,helper_cost=0,send_cost=0,other_cost=0,profit=0;
                 for(int t=0;t<list.size();t++){
                     sale=sale+list.get(t).getGood_price();

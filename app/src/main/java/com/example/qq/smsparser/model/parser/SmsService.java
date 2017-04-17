@@ -175,10 +175,16 @@ public class SmsService extends Service {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                updateOrderMessage(payMessage);
-                                OrderGood orderGood = DbutilOrder.getInstance().getOrderGood(payMessage.getOrder_id(), mySQLiteHelper.getReadableDatabase());
-                                HelperMessage helperMessage= DbutilHelper.getInstance().getHelperMessage(mySQLiteHelper.getReadableDatabase());
-                                sendSmsToHelper(orderGood,helperMessage);
+                                int result=updateOrderMessage(payMessage);
+                                if(result==1){
+                                    OrderGood orderGood = DbutilOrder.getInstance().getOrderGood(payMessage.getOrder_id(), mySQLiteHelper.getReadableDatabase());
+                                    HelperMessage helperMessage= DbutilHelper.getInstance().getHelperMessage(mySQLiteHelper.getReadableDatabase());
+                                    if(helperMessage!=null){
+                                        sendSmsToHelper(orderGood,helperMessage);
+                                    }else{
+                                        Log.e("TestService","未选择帮工,无法发送短信");
+                                    }
+                                }
                             }
                         }).start();
 
@@ -201,9 +207,10 @@ public class SmsService extends Service {
         Log.e("TestService", "SmsService:saveOrderMessage():result:" + result);
     }
 
-    private void updateOrderMessage(PayMessage payMessage) {
+    private int updateOrderMessage(PayMessage payMessage) {
         int result = DbutilOrder.getInstance().updateOrderMessage(payMessage, mySQLiteHelper.getReadableDatabase(), mySQLiteHelper.getWritableDatabase());
         Log.e("TestService", "SmsService:updateOrderMessage(PayMessage):result:" + result);
+        return result;
     }
 
     private void updateOrderMessage(SendMessage sendMessage) {
