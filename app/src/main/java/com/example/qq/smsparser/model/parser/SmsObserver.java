@@ -36,30 +36,30 @@ class SmsObserver extends ContentObserver {
         this.sqLiteHelper = sqLiteHelper;
     }
 
-//    @Override
-//    public void onChange(boolean selfChange) {
-//        super.onChange(selfChange);
-//
-//        Log.e("TestService", "触发了SmsObserver:onChange()");
-//        getSmsFromPhone(null);
-//    }
+    @Override
+    public void onChange(boolean selfChange) {
+        super.onChange(selfChange);
+
+        Log.e("TestService", "触发了SmsObserver:onChange()");
+        getSmsFromPhone();
+    }
 
     /**
      * 高版本的onChange()方法
      * @param selfChange
      * @param uri
      */
-    @Override
-    public void onChange(boolean selfChange, Uri uri) {
-        super.onChange(selfChange, uri);
-
-        Log.e("TestService", "触发了SmsObserver:onChange()+uri：" + uri.toString());
-        if (uri.toString().equals("content://sms/raw") || uri.toString().equals("content://sms/inbox")) {
-            return;
-        }
-        getSmsFromPhone();
-        //TODO 存在问题是:当你发送短信息的时候 也会自动调用这个onChange()方法，这显然是我们所不想看到的
-    }
+//    @Override
+//    public void onChange(boolean selfChange, Uri uri) {
+//        super.onChange(selfChange, uri);
+//
+//        Log.e("TestService", "触发了SmsObserver:onChange()+uri：" + uri.toString());
+//        if (uri.toString().equals("content://sms/raw") || uri.toString().equals("content://sms/inbox")) {
+//            return;
+//        }
+//        getSmsFromPhone();
+//        //TODO 存在问题是:当你发送短信息的时候 也会自动调用这个onChange()方法，这显然是我们所不想看到的
+//    }
 
     /**
      * 得到最近收到的短信，跟数据库的帮工号码比较，得到帮工的短信
@@ -70,7 +70,7 @@ class SmsObserver extends ContentObserver {
         //TODO Android 6.0版本需要显式地请求权限
 
         String[] projection = new String[]{"_id", "address", "body", "date"};
-        String where = "date>" + (System.currentTimeMillis() - 4 * 1000);//30秒内收到的短信
+        String where = "date>" + (System.currentTimeMillis() - 1 * 1000);//30秒内收到的短信
         Cursor cur = contentResolver.query(SMS_INBOX, projection, where, null, "_id desc");//TODO 要设置这些短信为已读
         //当使用date desc进行排序的时候，同个电话号码可以得到我们想要的序列，但是当多个电话号码同时到达的时候，会导致了获取到的cursor发生错乱
         //因此我们还是使用_id进行排序，就可以正确地获取先后顺序到达的短信内容了
