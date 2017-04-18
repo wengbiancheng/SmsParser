@@ -26,9 +26,7 @@
 
         <activity android:name=".controller.order.OrderGoodMessageAty"></activity>
 
-        <activity android:name=".controller.send.SendGoodMessageAty">
-
-        </activity>
+        <activity android:name=".controller.send.SendGoodMessageAty"></activity>
 
         <activity android:name=".controller.analysis.SaleMessageAty"></activity>
         <activity android:name=".controller.helper.HelperMessageAty"></activity>

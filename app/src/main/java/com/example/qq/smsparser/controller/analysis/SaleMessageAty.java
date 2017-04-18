@@ -1,6 +1,7 @@
 package com.example.qq.smsparser.controller.analysis;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -13,6 +14,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.example.qq.smsparser.R;
+import com.example.qq.smsparser.controller.MainActivity;
 import com.example.qq.smsparser.entity.OrderSaleMessage;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -170,8 +172,15 @@ public class SaleMessageAty extends Activity implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.title_leftImageBtn:
-                onBackPressed();
+                Intent intent=new Intent(this, MainActivity.class);
+                startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    protected void onStop() {
+        finish();
+        super.onStop();
     }
 }

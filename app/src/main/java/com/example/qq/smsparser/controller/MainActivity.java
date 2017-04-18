@@ -63,6 +63,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         setContentView(R.layout.activity_main);
         controller = MainFragmentController.getInstance(this, R.id.fl_content);
 
+        Log.e("Process1","MainActivity：OnCreate()");
         initUI();
 
         //申请相应的权限
@@ -81,8 +82,10 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
      */
     private void initTestService() {
         Log.e("TestService", "startService");
-        Intent intent = new Intent(MainActivity.this, SmsService.class);
-        this.startService(intent);
+        Intent mIntent = new Intent();
+        mIntent.setAction("com.example.qq.server");//你定义的service的action
+        mIntent.setPackage(getPackageName());//这里你需要设置你应用的包名
+        startService(mIntent);
     }
 
     private void initUI() {
@@ -124,6 +127,13 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onStop() {
+        MainFragmentController.onDestroy();
+        finish();
+        super.onStop();
     }
 
     @Override

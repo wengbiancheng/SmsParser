@@ -18,7 +18,7 @@ import java.util.List;
 public class DbutilSms {
 
     private Uri SMS_INBOX = Uri.parse("content://sms/inbox");
-    private Uri SMS_OUTBOX=Uri.parse("content://sms/");
+    private Uri SMS_OUTBOX=Uri.parse("content://sms/sent");
     private static DbutilSms dbutils=null;
 
     public static DbutilSms getInstance(){

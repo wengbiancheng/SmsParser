@@ -1,6 +1,7 @@
 package com.example.qq.smsparser.controller.send;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.qq.smsparser.MyApplication;
 import com.example.qq.smsparser.R;
+import com.example.qq.smsparser.controller.MainActivity;
 import com.example.qq.smsparser.entity.OrderGood;
 import com.example.qq.smsparser.entity.SendMessage;
 import com.example.qq.smsparser.model.db.DbutilOrder;
@@ -75,8 +77,15 @@ public class SendGoodMessageAty extends Activity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.title_leftImageBtn:
-                onBackPressed();
+                Intent intent=new Intent(this, MainActivity.class);
+                startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    protected void onStop() {
+        finish();
+        super.onStop();
     }
 }
