@@ -47,7 +47,7 @@ public class ServiceTwo extends Service {
                     }
                 }
             };
-            timer.schedule(task, 0, 1000);
+            timer.schedule(task, 0, 10*60*1000);
         }
     });
 
