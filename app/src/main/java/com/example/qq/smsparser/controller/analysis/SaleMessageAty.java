@@ -173,6 +173,7 @@ public class SaleMessageAty extends Activity implements View.OnClickListener{
         switch (view.getId()){
             case R.id.title_leftImageBtn:
                 Intent intent=new Intent(this, MainActivity.class);
+                intent.putExtra("Fragment",2);
                 startActivity(intent);
                 break;
         }

@@ -89,6 +89,7 @@ public class OrderGoodMessageAty extends Activity implements View.OnClickListene
         switch (view.getId()){
             case R.id.title_leftImageBtn:
                 Intent intent=new Intent(this, MainActivity.class);
+                intent.putExtra("Fragment",0);
                 startActivity(intent);
                 break;
         }

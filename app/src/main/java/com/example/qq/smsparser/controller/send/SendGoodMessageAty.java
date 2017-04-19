@@ -90,6 +90,7 @@ public class SendGoodMessageAty extends Activity implements View.OnClickListener
         switch (view.getId()){
             case R.id.title_leftImageBtn:
                 Intent intent=new Intent(this, MainActivity.class);
+                intent.putExtra("Fragment",1);
                 startActivity(intent);
                 break;
         }

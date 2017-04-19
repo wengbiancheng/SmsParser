@@ -19,10 +19,14 @@ public class ServiceTwo extends Service {
     private Timer timer = new Timer();
 
     @Override
+    public void onCreate() {
+        thread.start();
+        super.onCreate();
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e(TAG, "ServiceTwo:onStartCommand");
-
-        thread.start();
         return START_REDELIVER_INTENT;
     }
 
@@ -40,14 +44,14 @@ public class ServiceTwo extends Service {
                 @Override
                 public void run() {
                     boolean b = MyApplication.isServiceWorked(ServiceTwo.this, "com.example.qq.smsparser.model.parser.SmsService");
-                    Log.e(TAG, "SmsService的存活情况是:"+b);
-                    if(!b) {
+                    Log.e(TAG, "SmsService的存活情况是:" + b);
+                    if (!b) {
                         Intent service = new Intent(ServiceTwo.this, SmsService.class);
                         startService(service);
                     }
                 }
             };
-            timer.schedule(task, 0, 10*60*1000);
+            timer.schedule(task, 0, 10 * 60 * 1000);
         }
     });
 

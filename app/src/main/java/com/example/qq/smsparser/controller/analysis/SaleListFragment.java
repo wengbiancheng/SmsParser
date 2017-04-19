@@ -281,12 +281,14 @@ public class SaleListFragment extends BaseFragment implements LineChartOnValueSe
         Intent intent = new Intent(Baseactivity, SaleMessageAty.class);
         List<OrderSaleMessage> list=map.get(month+1);
         float sale=0,helper_cost=0,send_cost=0,other_cost=0,profit=0;
-        for(int i=0;i<list.size();i++){
-            sale=sale+list.get(i).getGood_price();
-            helper_cost=helper_cost+list.get(i).getHelper_cost();
-            send_cost=send_cost+list.get(i).getDelivery_price();
-            other_cost=other_cost+list.get(i).getOther_cost();
-            profit=profit+list.get(i).getProfit();
+        if(list!=null){
+            for(int i=0;i<list.size();i++){
+                sale=sale+list.get(i).getGood_price();
+                helper_cost=helper_cost+list.get(i).getHelper_cost();
+                send_cost=send_cost+list.get(i).getDelivery_price();
+                other_cost=other_cost+list.get(i).getOther_cost();
+                profit=profit+list.get(i).getProfit();
+            }
         }
         intent.putExtra("month",month+1);
         intent.putExtra("sale",sale);

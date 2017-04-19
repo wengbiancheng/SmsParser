@@ -39,6 +39,8 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
 
     private Uri SMS_INBOX = Uri.parse("content://sms/inbox");
 
+    private int FragmentFlag=0;
+
     //帮工数据是否修改的标志位
     private boolean flag=false;
     private boolean flag1=false;
@@ -58,6 +60,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         setContentView(R.layout.activity_main);
         controller = MainFragmentController.getInstance(this, R.id.fl_content);
 
+        FragmentFlag=getIntent().getIntExtra("Fragment",0);
         Log.e("Process1","MainActivity：OnCreate()");
         initUI();
 
@@ -99,7 +102,17 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         title_right = (Button) findViewById(R.id.title_rightBtn);
         title_middle.setText("订货信息列表");
 
-        controller.showFragment(0);
+        if(FragmentFlag==0){
+            controller.showFragment(0);
+        }else{
+            if(FragmentFlag==1){
+                ((RadioButton) findViewById(R.id.main_rb_send)).setChecked(true);
+            }else if(FragmentFlag==2){
+                ((RadioButton) findViewById(R.id.main_rb_sale)).setChecked(true);
+            }else if(FragmentFlag==3){
+                ((RadioButton) findViewById(R.id.main_rb_helper)).setChecked(true);
+            }
+        }
     }
 
     @Override
@@ -112,14 +125,10 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
             case R.id.main_rb_send:
                 controller.showFragment(1);
                 title_middle.setText("发货信息列表");
-                Intent intent=new Intent(MainActivity.this,SmsService.class);
-                stopService(intent);
                 break;
             case R.id.main_rb_sale:
                 controller.showFragment(2);
                 title_middle.setText("销售数据展示");
-                Intent intent1=new Intent(MainActivity.this,ServiceTwo.class);
-                stopService(intent1);
                 break;
             case R.id.main_rb_helper:
                 controller.showFragment(3);

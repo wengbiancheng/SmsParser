@@ -55,7 +55,6 @@ public class SmsService extends Service {
 
     public final static String TAG = "TestService";
     private Timer timer = new Timer();
-    private Thread thread=null;
 
     @Nullable
     @Override
@@ -72,6 +71,7 @@ public class SmsService extends Service {
         smsParserUtil = SmsParserUtil.getInstance();
         sendToHelperUtil = SendToHelperUtil.getInstance(this);
 
+        thread.start();
         this.getContentResolver().registerContentObserver(SMS_INBOX, true, smsObserver);
     }
 
@@ -79,28 +79,6 @@ public class SmsService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e(TAG, "SmsService:onStartCommand");
 
-        thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                TimerTask task = new TimerTask() {
-
-                    @Override
-                    public void run() {
-                        boolean b = MyApplication.isServiceWorked(SmsService.this, "com.example.qq.smsparser.ServiceTwo");
-                        Log.e(TAG, "ServiceTwo的存活情况是:"+b);
-                        if(!b) {
-                            Intent service = new Intent(SmsService.this, ServiceTwo.class);
-                            startService(service);
-                        }
-                    }
-                };
-                timer.schedule(task, 0, 10*60*1000);
-            }
-        });
-
-
-        thread.start();
         return START_STICKY;
     }
 
@@ -246,6 +224,26 @@ public class SmsService extends Service {
         Log.e("TestService", "调用了sendSmsToHelper方法:要发送的数据是:"+orderGood.toString());
         sendToHelperUtil.sendSms(orderGood,helperMessage);
     }
+
+    private Thread thread = new Thread(new Runnable() {
+
+        @Override
+        public void run() {
+            TimerTask task = new TimerTask() {
+
+                @Override
+                public void run() {
+                    boolean b = MyApplication.isServiceWorked(SmsService.this, "com.example.qq.smsparser.ServiceTwo");
+                    Log.e(TAG, "ServiceTwo的存活情况是:"+b);
+                    if(!b) {
+                        Intent service = new Intent(SmsService.this, ServiceTwo.class);
+                        startService(service);
+                    }
+                }
+            };
+            timer.schedule(task, 0, 10*60*1000);
+        }
+    });
 
     @Override
     public void onDestroy() {
