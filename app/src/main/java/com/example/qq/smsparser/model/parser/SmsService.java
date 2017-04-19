@@ -1,8 +1,10 @@
 package com.example.qq.smsparser.model.parser;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -62,6 +64,16 @@ public class SmsService extends Service {
         smsObserver = new SmsObserver(this, handler, mySQLiteHelper);
         smsParserUtil = SmsParserUtil.getInstance();
         sendToHelperUtil = SendToHelperUtil.getInstance(this);
+
+        int pid = android.os.Process.myPid();
+        ActivityManager mActivityManager = (ActivityManager) this
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo appProcess : mActivityManager
+                .getRunningAppProcesses()) {
+            if (appProcess.pid == pid) {
+                Log.e("TestService", "SmsService的进程名字是:"+appProcess.processName);
+            }
+        }
 
         this.getContentResolver().registerContentObserver(SMS_INBOX, true, smsObserver);
     }

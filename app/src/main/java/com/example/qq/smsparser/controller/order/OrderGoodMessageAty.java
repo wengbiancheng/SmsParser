@@ -1,6 +1,8 @@
 package com.example.qq.smsparser.controller.order;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +39,16 @@ public class OrderGoodMessageAty extends Activity implements View.OnClickListene
 //        initTest();
         initUI();
         initData();
+
+        int pid = android.os.Process.myPid();
+        ActivityManager mActivityManager = (ActivityManager) this
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo appProcess : mActivityManager
+                .getRunningAppProcesses()) {
+            if (appProcess.pid == pid) {
+                Log.e("TestService", "OrderGoodMessageAty的进程名字是:"+appProcess.processName);
+            }
+        }
     }
 
     private void initTest(){

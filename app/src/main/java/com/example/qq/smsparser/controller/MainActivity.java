@@ -1,7 +1,9 @@
 package com.example.qq.smsparser.controller;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -72,6 +74,16 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS}, 0);
         }
 
+
+        int pid = android.os.Process.myPid();
+        ActivityManager mActivityManager = (ActivityManager) this
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo appProcess : mActivityManager
+                .getRunningAppProcesses()) {
+            if (appProcess.pid == pid) {
+                Log.e("TestService", "MainActivity的进程名字是:"+appProcess.processName);
+            }
+        }
         //TODO 进行后台的测试工作，测试成功后再开启新的进程变成后台运行的
         initTestService();
     }
@@ -82,9 +94,9 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
      */
     private void initTestService() {
         Log.e("TestService", "startService");
-        Intent mIntent = new Intent();
-        mIntent.setAction("com.example.qq.server");//你定义的service的action
-        mIntent.setPackage(getPackageName());//这里你需要设置你应用的包名
+        Intent mIntent = new Intent(MainActivity.this,SmsService.class);
+//        mIntent.setAction("com.example.qq.server");//你定义的service的action
+//        mIntent.setPackage(getPackageName());//这里你需要设置你应用的包名
         startService(mIntent);
     }
 
