@@ -30,15 +30,15 @@ public class SendToHelperUtil {
     }
 
     public void sendSms(OrderGood orderGood, HelperMessage helperMessage) {
-        //TODO  发送的电话号码部分需要提取帮工的数据库表数据
         /**
          * 拼接短信内容
          */
         try {
             String content = "帮工:订单号:" + orderGood.getOrder_id() + ";商品号:" + orderGood.getGood_id()
-                    + ";商品名称:" + orderGood.getGood_name() + ";买家昵称:" + orderGood.getBuyer_name() +
-                    ";买家地址:" + orderGood.getBuyer_address() + ";买家电话:" + orderGood.getBuyer_phone();
-//                    ";买家邮编:" + orderGood.getBuyer_postcard() + ";请以下面的格式发回给我信息---" +
+                    + ";商品名称:" + orderGood.getGood_name()+";商品数量:"+orderGood.getGood_number()+";买家昵称:" + orderGood.getBuyer_name() +
+                    ";买家地址:" + orderGood.getBuyer_address() + ";买家电话:" + orderGood.getBuyer_phone()+
+                    ";买家邮编:" + orderGood.getBuyer_postcard()+";你的帮工号是:"+ helperMessage.getId();
+//                    + ";请以下面的格式发回给我信息---" +
 //                    "发货;订单号:订单号:" + orderGood.getOrder_id() + ";商品号:" + orderGood.getGood_id()+ ";帮工号:" + helperMessage.getId()
 //                    + ";商品名称:" + orderGood.getGood_name() + ";买家昵称:" + orderGood.getBuyer_name() +
 //                    ";买家地址:" + orderGood.getBuyer_address() + ";买家电话:" + orderGood.getBuyer_phone() +
