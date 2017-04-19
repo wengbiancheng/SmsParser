@@ -38,13 +38,20 @@
 
         <service
             android:name=".model.parser.SmsService"
-            android:exported="false"
-            android:persistent="true"
             android:process=":remote">
             <intent-filter>
-                <action android:name="com.example.qq.server"/>
+                <action android:name="com.example.qq.SmsService"/>
             </intent-filter>
         </service>
+
+        <service
+            android:name=".ServiceTwo"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.example.qq.serviceTwo" />
+            </intent-filter>
+        </service>
+
 
     </application>
 

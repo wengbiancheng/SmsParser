@@ -19,6 +19,7 @@ import android.telephony.SmsManager;
 import android.util.Log;
 
 import com.example.qq.smsparser.MyApplication;
+import com.example.qq.smsparser.ServiceTwo;
 import com.example.qq.smsparser.entity.HelperMessage;
 import com.example.qq.smsparser.model.db.DbutilHelper;
 import com.example.qq.smsparser.model.db.DbutilOrder;
@@ -30,6 +31,8 @@ import com.example.qq.smsparser.entity.SmsMessage;
 import com.example.qq.smsparser.model.send.SendToHelperUtil;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 运行在后台的Service，有短信到达的时候触发这个Service进行短信获取，然后
@@ -50,6 +53,10 @@ public class SmsService extends Service {
     private SendMessage sendMessage = new SendMessage();
     private MySQLiteHelper mySQLiteHelper;
 
+    public final static String TAG = "TestService";
+    private Timer timer = new Timer();
+    private Thread thread=null;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -65,23 +72,36 @@ public class SmsService extends Service {
         smsParserUtil = SmsParserUtil.getInstance();
         sendToHelperUtil = SendToHelperUtil.getInstance(this);
 
-        int pid = android.os.Process.myPid();
-        ActivityManager mActivityManager = (ActivityManager) this
-                .getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningAppProcessInfo appProcess : mActivityManager
-                .getRunningAppProcesses()) {
-            if (appProcess.pid == pid) {
-                Log.e("TestService", "SmsService的进程名字是:"+appProcess.processName);
-            }
-        }
-
         this.getContentResolver().registerContentObserver(SMS_INBOX, true, smsObserver);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.e("TestService", "SmsService:onStartCommand()");
-        return super.onStartCommand(intent, flags, startId);
+        Log.e(TAG, "SmsService:onStartCommand");
+
+        thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                TimerTask task = new TimerTask() {
+
+                    @Override
+                    public void run() {
+                        boolean b = MyApplication.isServiceWorked(SmsService.this, "com.example.qq.smsparser.ServiceTwo");
+                        Log.e(TAG, "ServiceTwo的存活情况是:"+b);
+                        if(!b) {
+                            Intent service = new Intent(SmsService.this, ServiceTwo.class);
+                            startService(service);
+                        }
+                    }
+                };
+                timer.schedule(task, 0, 1000);
+            }
+        });
+
+
+        thread.start();
+        return START_STICKY;
     }
 
     private void initOrderTestData() {
@@ -157,16 +177,6 @@ public class SmsService extends Service {
         }
     }
 
-    @Override
-    public void onDestroy() {
-        Log.e("TestService", "SmsService:onDestroy()");
-        smsObserver = null;
-        smsParserUtil = null;
-        sendToHelperUtil = null;
-        getContentResolver().unregisterContentObserver(smsObserver);
-        super.onDestroy();
-    }
-
     /**
      * 每当有短信到来的时候，就会发送到Handler中来
      */
@@ -235,5 +245,23 @@ public class SmsService extends Service {
         Log.e("TestService", "要发送的电话号码是:"+helperMessage.getPhone());
         Log.e("TestService", "调用了sendSmsToHelper方法:要发送的数据是:"+orderGood.toString());
         sendToHelperUtil.sendSms(orderGood,helperMessage);
+    }
+
+    @Override
+    public void onDestroy() {
+        smsObserver = null;
+        smsParserUtil = null;
+        sendToHelperUtil = null;
+        getContentResolver().unregisterContentObserver(smsObserver);
+
+        timer.cancel();
+        thread.interrupt();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.e(TAG, "SmsService onDestroy");
+        super.onDestroy();
     }
 }

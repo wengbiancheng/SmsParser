@@ -1,18 +1,13 @@
 package com.example.qq.smsparser.controller;
 
 import android.Manifest;
-import android.app.ActivityManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -22,9 +17,7 @@ import android.widget.TextView;
 
 import com.example.qq.smsparser.MyApplication;
 import com.example.qq.smsparser.R;
-import com.example.qq.smsparser.entity.HelperMessage;
-import com.example.qq.smsparser.entity.OrderGood;
-import com.example.qq.smsparser.model.db.DbutilHelper;
+import com.example.qq.smsparser.ServiceTwo;
 import com.example.qq.smsparser.model.parser.SmsService;
 import com.example.qq.smsparser.controller.utils.MainFragmentController;
 
@@ -74,30 +67,22 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS}, 0);
         }
 
-
-        int pid = android.os.Process.myPid();
-        ActivityManager mActivityManager = (ActivityManager) this
-                .getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningAppProcessInfo appProcess : mActivityManager
-                .getRunningAppProcesses()) {
-            if (appProcess.pid == pid) {
-                Log.e("TestService", "MainActivity的进程名字是:"+appProcess.processName);
-            }
-        }
         //TODO 进行后台的测试工作，测试成功后再开启新的进程变成后台运行的
-        initTestService();
+        initService();
     }
 
 
     /**
-     * 测试后台数据
+     * 后台开启
      */
-    private void initTestService() {
-        Log.e("TestService", "startService");
-        Intent mIntent = new Intent(MainActivity.this,SmsService.class);
-//        mIntent.setAction("com.example.qq.server");//你定义的service的action
-//        mIntent.setPackage(getPackageName());//这里你需要设置你应用的包名
-        startService(mIntent);
+    private void initService() {
+        Intent serviceOne = new Intent();
+        serviceOne.setClass(MainActivity.this, SmsService.class);
+        startService(serviceOne);
+
+        Intent serviceTwo = new Intent();
+        serviceTwo.setClass(MainActivity.this, ServiceTwo.class);
+        startService(serviceTwo);
     }
 
     private void initUI() {
@@ -127,10 +112,14 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
             case R.id.main_rb_send:
                 controller.showFragment(1);
                 title_middle.setText("发货信息列表");
+                Intent intent=new Intent(MainActivity.this,SmsService.class);
+                stopService(intent);
                 break;
             case R.id.main_rb_sale:
                 controller.showFragment(2);
                 title_middle.setText("销售数据展示");
+                Intent intent1=new Intent(MainActivity.this,ServiceTwo.class);
+                stopService(intent1);
                 break;
             case R.id.main_rb_helper:
                 controller.showFragment(3);
@@ -143,6 +132,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
 
     @Override
     protected void onStop() {
+
         MainFragmentController.onDestroy();
         finish();
         super.onStop();
