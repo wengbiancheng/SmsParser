@@ -54,6 +54,9 @@ public class PaySmsListFragment extends BaseFragment {
             }
         });
         list= DbutilSms.getInstance().getPaySmsList(Baseactivity.getApplicationContext());
+        if(list==null){
+            list=new ArrayList<>();
+        }
         adapter=new SonFragmentAdapter(Baseactivity,list);
         listView.setAdapter(adapter);
         return view;

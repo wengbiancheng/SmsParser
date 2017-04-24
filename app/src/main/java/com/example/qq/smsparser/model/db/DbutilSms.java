@@ -47,11 +47,11 @@ public class DbutilSms {
             String body = cur.getString(cur.getColumnIndex("body"));//短信具体内容
             String date=cur.getString(cur.getColumnIndex("date"));
 
-            String type = body.substring(0, 2);
+            String type = body.substring(8, 10);
             if(type.equals("订货")){
                 SmsMessage smsMessage=new SmsMessage();
 
-                smsMessage.setBody(body);
+                smsMessage.setBody(body.substring(8,body.length()));
                 smsMessage.setId(id);
                 smsMessage.setNumber(number);
                 smsMessage.setTime(date);
@@ -81,11 +81,11 @@ public class DbutilSms {
             String body = cur.getString(cur.getColumnIndex("body"));//短信具体内容
             String date=cur.getString(cur.getColumnIndex("date"));
 
-            String type = body.substring(0, 2);
+            String type = body.substring(8, 10);
             if(type.equals("付款")){
                 SmsMessage smsMessage=new SmsMessage();
 
-                smsMessage.setBody(body);
+                smsMessage.setBody(body.substring(8,body.length()));
                 smsMessage.setId(id);
                 smsMessage.setNumber(number);
                 smsMessage.setTime(date);

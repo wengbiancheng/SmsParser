@@ -96,6 +96,8 @@ class SmsObserver extends ContentObserver {
 
         Log.e("TestService", "收到的短信的号码是:" + number+";短信内容的前两个字是:"+type);
         if (number.equals(Configs.SMS_SERVER_NUMBER)) {
+            type=body.substring(8,10);
+            content=body.substring(11,body.length());
             if (type.equals("订货")) {
                 smsMessage.setType(0);
             } else if (type.equals("付款")) {

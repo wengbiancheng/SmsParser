@@ -54,6 +54,9 @@ public class OrderGoodSmsListFragment extends BaseFragment{
             }
         });
         list= DbutilSms.getInstance().getOrderSmsList(Baseactivity.getApplicationContext());
+        if(list==null){
+            list=new ArrayList<>();
+        }
         adapter=new SonFragmentAdapter(Baseactivity,list);
         listView.setAdapter(adapter);
         return view;
