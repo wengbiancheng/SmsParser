@@ -78,17 +78,6 @@ public class DbutilOrder {
                 if (payMessage.getOrder_id().equals(order_id)) {
                     ContentValues values = new ContentValues();
 
-//                values.put("_id", cursor.getInt(0));
-//                values.put("orderId", cursor.getString(1));
-//                values.put("goodId", cursor.getString(2));
-//                values.put("goodName", cursor.getString(3));
-//                values.put("price", cursor.getFloat(4));
-//                values.put("number", cursor.getInt(5));
-//                values.put("cost", cursor.getFloat(6));
-//                values.put("buyerName", cursor.getString(7));
-//                values.put("buyerAddress", cursor.getString(8));
-//                values.put("buyerPhone", cursor.getString(9));
-//                values.put("postcard", cursor.getString(10));
                     values.put("isPay", payMessage.isPay() ? 1 : 0);
                     return write_sqlite.update(TABLE_ORDER, values, "_id=" + cursor.getInt(0), null);
                 }

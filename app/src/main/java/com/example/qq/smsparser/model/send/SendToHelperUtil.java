@@ -1,6 +1,9 @@
 package com.example.qq.smsparser.model.send;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
+import android.net.Uri;
 import android.telephony.SmsManager;
 import android.util.Log;
 
@@ -29,7 +32,7 @@ public class SendToHelperUtil {
         return sendToHelperUtil;
     }
 
-    public void sendSms(OrderGood orderGood, HelperMessage helperMessage) {
+    public void sendSms(OrderGood orderGood, HelperMessage helperMessage,ContentResolver contentResolver) {
         /**
          * 拼接短信内容
          */
@@ -53,6 +56,15 @@ public class SendToHelperUtil {
                 //不超过70字时使用sendTextMessage发送
                 sms.sendTextMessage(helperMessage.getPhone(), null, content, null, null);
             }
+
+            ContentValues values = new ContentValues();
+            values.put("date", System.currentTimeMillis());
+            values.put("read", 1);
+            values.put("type", 2);
+            values.put("address",helperMessage.getPhone());
+            values.put("body", content);
+            contentResolver.insert(Uri.parse("content://sms/sent"), values);
+
             Log.e("TestService", "SmsService:sendSms()发送短信成功;号码是:"+helperMessage.getPhone());
         } catch (Exception e) {
             e.printStackTrace();

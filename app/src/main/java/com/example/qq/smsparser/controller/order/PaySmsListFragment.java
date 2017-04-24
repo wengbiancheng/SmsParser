@@ -50,6 +50,7 @@ public class PaySmsListFragment extends BaseFragment {
                         .getOrderData(content.substring(3,content.length()));
                 intent.putExtra("orderId",orderGood.getOrder_id());
                 startActivity(intent);
+                Baseactivity.finish();
             }
         });
         list= DbutilSms.getInstance().getPaySmsList(Baseactivity.getApplicationContext());

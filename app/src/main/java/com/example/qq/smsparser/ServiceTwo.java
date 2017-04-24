@@ -11,7 +11,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Created by qq on 2017/4/19.
+ * 守护进程
  */
 public class ServiceTwo extends Service {
 

@@ -70,6 +70,7 @@ public class ReceiveSmsListFragment extends BaseFragment {
                             .getOrderData(content.substring(3,content.length()));
                     intent.putExtra("orderId",orderGood.getOrder_id());
                     startActivity(intent);
+                    Baseactivity.finish();
                 }
             }
         });

@@ -222,7 +222,7 @@ public class SmsService extends Service {
     private void sendSmsToHelper(OrderGood orderGood,HelperMessage helperMessage) {
         Log.e("TestService", "要发送的电话号码是:"+helperMessage.getPhone());
         Log.e("TestService", "调用了sendSmsToHelper方法:要发送的数据是:"+orderGood.toString());
-        sendToHelperUtil.sendSms(orderGood,helperMessage);
+        sendToHelperUtil.sendSms(orderGood,helperMessage,this.getContentResolver());
     }
 
     private Thread thread = new Thread(new Runnable() {
