@@ -69,6 +69,7 @@ public class ReceiveSmsListFragment extends BaseFragment {
                     OrderGood orderGood= SmsParserUtil.getInstance()
                             .getOrderData(content.substring(3,content.length()));
                     intent.putExtra("orderId",orderGood.getOrder_id());
+                    intent.putExtra("SonFragment",3);
                     startActivity(intent);
                     Baseactivity.finish();
                 }

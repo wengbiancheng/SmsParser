@@ -29,6 +29,7 @@ public class OrderGoodMessageAty extends Activity implements View.OnClickListene
     private Button title_right;
 
     private String orderId;
+    private int sonFragmentFlag=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class OrderGoodMessageAty extends Activity implements View.OnClickListene
         setContentView(R.layout.activity_order_good_message);
 
         orderId=getIntent().getStringExtra("orderId");
+        sonFragmentFlag=getIntent().getIntExtra("SonFragment",0);
 //        initTest();
         initUI();
         initData();
@@ -90,6 +92,7 @@ public class OrderGoodMessageAty extends Activity implements View.OnClickListene
             case R.id.title_leftImageBtn:
                 Intent intent=new Intent(this, MainActivity.class);
                 intent.putExtra("Fragment",0);
+                intent.putExtra("SonFragment",sonFragmentFlag);
                 startActivity(intent);
                 break;
         }

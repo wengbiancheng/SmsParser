@@ -28,6 +28,8 @@ import com.example.qq.smsparser.model.db.DbutilOrder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 帮工界面，主要用来对帮工的数据进行增删查改，然后也涉及到数据库的操作
@@ -38,6 +40,7 @@ public class HelperFragment extends BaseFragment {
     private HelperAdapter adapter;
 
     private List<HelperMessage> data = new ArrayList<>();
+    public final  String PHONE_PATTERN = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
 
     private Handler handler=new Handler(new Handler.Callback() {
         @Override
@@ -183,13 +186,33 @@ public class HelperFragment extends BaseFragment {
         view.findViewById(R.id.alertDialog_confirmBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //判断是否添加为空
+                String phoneMessage=phone.getText().toString();
+                String nameMessage=name.getText().toString();
+                if(phoneMessage==null||phoneMessage.isEmpty()||nameMessage==null||nameMessage.isEmpty()){
+                    Toast.makeText(Baseactivity,"电话号码不符合要求,请重新输入",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 HelperMessage helperMessage=new HelperMessage();
                 helperMessage.setName(name.getText().toString());
-                if(phone.getText().toString().substring(0,3).equals("+86")){
+
+                //添加+86首字段
+                if(phoneMessage.length()>=3 && phoneMessage.substring(0,3).equals("+86")){
                     helperMessage.setPhone(phone.getText().toString());
                 }else{
                     helperMessage.setPhone("+86"+phone.getText().toString());
                 }
+
+                //判断电话号码是否符合要求
+                String tempPhoneNumber=helperMessage.getPhone().substring(4,helperMessage.getPhone().length());
+                if(IsVaild(tempPhoneNumber)){
+                    Toast.makeText(Baseactivity,"电话号码不符合要求,请重新输入",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                //数据库的帮工操作
                 helperMessage.setCheck(false);
                 long code=DbutilHelper.getInstance().saveHelper(helperMessage,((MyApplication)Baseactivity.getApplication()).getSQLiteOpenHelper().getWritableDatabase());
                 Log.e("SQLite","Helper数据库插入:saveHelper()的结果是:"+code);
@@ -224,6 +247,12 @@ public class HelperFragment extends BaseFragment {
                 alertDialog1.dismiss();
             }
         });
+    }
 
+    private boolean IsVaild(String temp){
+        Pattern p = Pattern
+                .compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+        Matcher m = p.matcher(temp);
+        return m.matches()?false:true;
     }
 }

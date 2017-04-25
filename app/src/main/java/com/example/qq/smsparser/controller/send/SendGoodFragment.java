@@ -59,7 +59,11 @@ public class SendGoodFragment extends BaseFragment implements RadioGroup.OnCheck
             }
         });
 
-        viewPager.setCurrentItem(0);
+        if(Baseactivity.SonFragmentFlag==3){
+            viewPager.setCurrentItem(1);
+        }else{
+            viewPager.setCurrentItem(0);
+        }
         return view;
     }
 

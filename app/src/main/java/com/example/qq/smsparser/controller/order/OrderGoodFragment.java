@@ -56,7 +56,11 @@ public class OrderGoodFragment extends BaseFragment implements RadioGroup.OnChec
 
             }
         });
-        viewPager.setCurrentItem(0);
+        if(Baseactivity.SonFragmentFlag==1){
+            viewPager.setCurrentItem(1);
+        }else{
+            viewPager.setCurrentItem(0);
+        }
         return view;
     }
 

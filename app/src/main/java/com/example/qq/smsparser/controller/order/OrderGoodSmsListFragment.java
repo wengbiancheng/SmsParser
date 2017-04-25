@@ -49,6 +49,7 @@ public class OrderGoodSmsListFragment extends BaseFragment{
                 OrderGood orderGood= SmsParserUtil.getInstance()
                         .getOrderData(content.substring(3,content.length()));
                 intent.putExtra("orderId",orderGood.getOrder_id());
+                intent.putExtra("SonFragment",0);
                 startActivity(intent);
                 Baseactivity.finish();
             }

@@ -40,6 +40,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     private Uri SMS_INBOX = Uri.parse("content://sms/inbox");
 
     private int FragmentFlag=0;
+    public  int SonFragmentFlag=0;
 
     //帮工数据是否修改的标志位
     private boolean flag=false;
@@ -58,9 +59,10 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        controller = MainFragmentController.getInstance(this, R.id.fl_content);
-
         FragmentFlag=getIntent().getIntExtra("Fragment",0);
+        SonFragmentFlag=getIntent().getIntExtra("SonFragment",0);
+
+        controller = MainFragmentController.getInstance(this, R.id.fl_content);
         Log.e("Process1","MainActivity：OnCreate()");
         initUI();
 
@@ -70,7 +72,6 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS}, 0);
         }
 
-        //TODO 进行后台的测试工作，测试成功后再开启新的进程变成后台运行的
         initService();
     }
 

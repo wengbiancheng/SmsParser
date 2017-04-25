@@ -71,6 +71,7 @@ public class SendSmsListFragment extends BaseFragment {
                     String content=list.get(position).getBody();
                     String orderId=SmsParserUtil.getInstance().getOrderId(content.substring(3,content.length()));
                     intent.putExtra("orderId",orderId);
+                    intent.putExtra("SonFragment",2);
                     startActivity(intent);
                     Baseactivity.finish();
                 }
