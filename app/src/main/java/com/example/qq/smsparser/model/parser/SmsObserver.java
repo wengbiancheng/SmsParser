@@ -77,7 +77,10 @@ class SmsObserver extends ContentObserver {
         //因此我们还是使用_id进行排序，就可以正确地获取先后顺序到达的短信内容了
         Log.e("TestService", "获取短信数量是:" + cur.getCount());
 
-        if (cur == null || cur.getCount() == 0) return;
+        if (cur == null || cur.getCount() == 0){
+            Log.e("TestService", "===========retrun===========");
+            return;
+        }
         cur.moveToFirst();
 
         //TODO 解析短信，一共有三种类型的短信
@@ -91,10 +94,13 @@ class SmsObserver extends ContentObserver {
         cur.close();
         //TODO 短信检索就先利用号码进行过滤，然后判断前两个字符来选出 订货短信或者付款短信，就不存入数据库了。
         SmsMessage smsMessage = new SmsMessage();
+        if(body.length()<4){
+            Log.e("TestService","该短信不是我们想要的");
+            return;
+        }
         String type = body.substring(0, 2);
         String content = body.substring(3, body.length());
 
-        Log.e("TestService", "收到的短信的号码是:" + number+";短信内容的前两个字是:"+type);
         if (number.equals(Configs.SMS_SERVER_NUMBER)) {
             type=body.substring(8,10);
             content=body.substring(11,body.length());
@@ -103,7 +109,9 @@ class SmsObserver extends ContentObserver {
             } else if (type.equals("付款")) {
                 smsMessage.setType(1);
             }
+            Log.e("TestService", "收到的短信的号码是:" + number+";短信内容的前两个字是:"+type);
         } else {
+            Log.e("TestService", "收到的短信的号码是:" + number+";短信内容的前两个字是:"+type);
             HelperMessage helperMessage = DbutilHelper.getInstance().getHelperMessage(sqLiteHelper.getWritableDatabase());
             Log.e("TestService","搜索得到的帮工电话号码是:"+helperMessage.getPhone()+";短信的电话号码是:"+number);
             if (helperMessage.getPhone().equals(number)) {

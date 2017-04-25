@@ -24,7 +24,6 @@ public class SmsParserUtil {
     }
 
     public OrderGood getOrderData(String content){
-        Log.e("TestService","SmsParserUtil:getOrderData()的内容是:"+content);
         OrderGood orderGood=new OrderGood();
         String[] data=content.split(";");
         for(int i=0;i<data.length;i++){
@@ -56,7 +55,6 @@ public class SmsParserUtil {
     }
 
     public PayMessage getPayMessage(String content) {
-        Log.e("TestService","SmsParserUtil:getPayMessage()的内容是:"+content);
         PayMessage paymessage=new PayMessage();
         String[] data=content.split(";");
         for(int i=0;i<data.length;i++) {
@@ -76,7 +74,6 @@ public class SmsParserUtil {
     }
 
     public SendMessage getSendMessage(String content) {
-        Log.e("TestService","SmsParserUtil:getSendMessage()的内容是:"+content);
         SendMessage sendMessage=new SendMessage();
         String[] data=content.split(";");
         for(int i=0;i<data.length;i++) {

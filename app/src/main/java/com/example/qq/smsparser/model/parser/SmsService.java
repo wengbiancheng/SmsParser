@@ -53,7 +53,7 @@ public class SmsService extends Service {
     private SendMessage sendMessage = new SendMessage();
     private MySQLiteHelper mySQLiteHelper;
 
-    public final static String TAG = "TestService";
+    public final static String TAG = "ServiceLife";
     private Timer timer = new Timer();
 
     @Nullable
@@ -82,78 +82,78 @@ public class SmsService extends Service {
         return START_STICKY;
     }
 
-    private void initOrderTestData() {
-        int orderId = 12345679;
-        float cost = 10.5f;
-        for (int i = 0; i < 4; i++) {
-            String content = "订单号:" + orderId + ";商品号:87654322,123456;商品名称:蓝天水杯,鸿天纸巾;" +
-                    "购买数量:3,5;商品单价:15.5,20.0;需要支付金额:" + cost + ";买家昵称:小明买家;" +
-                    "买家地址:湖南省长沙市;买家电话:456123789;买家邮编:126456";
-            SmsMessage smsMessage1 = new SmsMessage();
-            smsMessage1.setBody(content);
-            smsMessage1.setId(1);
-            smsMessage1.setNumber("+8618814122731");
-            smsMessage1.setTime(System.currentTimeMillis() + "");
-            smsMessage1.setType(0);
-
-            Message message = new Message();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("sms", smsMessage1);
-            message.setData(bundle);
-            message.what = 0;
-            handler.sendMessage(message);
-
-            orderId++;
-            cost = cost + 5;
-        }
-    }
-    private void initPayTestData() {
-        int orderId = 12345679;
-        for (int i = 0; i < 4; i++) {
-            String content = "订单号:" + orderId + ";是否付款:是";
-
-            SmsMessage smsMessage1 = new SmsMessage();
-            smsMessage1.setBody(content);
-            smsMessage1.setId(1);
-            smsMessage1.setNumber("+8618814122731");
-            smsMessage1.setTime(System.currentTimeMillis() + "");
-            smsMessage1.setType(1);
-
-            Message message = new Message();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("sms", smsMessage1);
-            message.setData(bundle);
-            message.what = 0;
-            handler.sendMessage(message);
-
-            orderId++;
-        }
-    }
-    private void initSendTestData() {
-        int orderId = 12345679;
-        int month = 1;
-        for (int i = 0; i < 4; i++) {
-            String content = "订单号:" + orderId + ";商品号:87654322,123456;帮工号:1;商品名称:蓝天水杯,鸿天纸巾;" +
-                    "买家昵称:小明买家;买家地址:湖南省长沙市;买家电话:456123789;买家邮编:126456;" +
-                    "发货快递:申通快递;发货时间:2017-0" + month + "-01 15:36;发货费用:5.5;是否发货:是";
-            SmsMessage smsMessage1 = new SmsMessage();
-            smsMessage1.setBody(content);
-            smsMessage1.setId(1);
-            smsMessage1.setNumber("+8618814122731");
-            smsMessage1.setTime(System.currentTimeMillis() + "");
-            smsMessage1.setType(2);
-
-            Message message = new Message();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("sms", smsMessage1);
-            message.setData(bundle);
-            message.what = 0;
-            handler.sendMessage(message);
-
-            orderId++;
-            month++;
-        }
-    }
+//    private void initOrderTestData() {
+//        int orderId = 12345679;
+//        float cost = 10.5f;
+//        for (int i = 0; i < 4; i++) {
+//            String content = "订单号:" + orderId + ";商品号:87654322,123456;商品名称:蓝天水杯,鸿天纸巾;" +
+//                    "购买数量:3,5;商品单价:15.5,20.0;需要支付金额:" + cost + ";买家昵称:小明买家;" +
+//                    "买家地址:湖南省长沙市;买家电话:456123789;买家邮编:126456";
+//            SmsMessage smsMessage1 = new SmsMessage();
+//            smsMessage1.setBody(content);
+//            smsMessage1.setId(1);
+//            smsMessage1.setNumber("+8618814122731");
+//            smsMessage1.setTime(System.currentTimeMillis() + "");
+//            smsMessage1.setType(0);
+//
+//            Message message = new Message();
+//            Bundle bundle = new Bundle();
+//            bundle.putSerializable("sms", smsMessage1);
+//            message.setData(bundle);
+//            message.what = 0;
+//            handler.sendMessage(message);
+//
+//            orderId++;
+//            cost = cost + 5;
+//        }
+//    }
+//    private void initPayTestData() {
+//        int orderId = 12345679;
+//        for (int i = 0; i < 4; i++) {
+//            String content = "订单号:" + orderId + ";是否付款:是";
+//
+//            SmsMessage smsMessage1 = new SmsMessage();
+//            smsMessage1.setBody(content);
+//            smsMessage1.setId(1);
+//            smsMessage1.setNumber("+8618814122731");
+//            smsMessage1.setTime(System.currentTimeMillis() + "");
+//            smsMessage1.setType(1);
+//
+//            Message message = new Message();
+//            Bundle bundle = new Bundle();
+//            bundle.putSerializable("sms", smsMessage1);
+//            message.setData(bundle);
+//            message.what = 0;
+//            handler.sendMessage(message);
+//
+//            orderId++;
+//        }
+//    }
+//    private void initSendTestData() {
+//        int orderId = 12345679;
+//        int month = 1;
+//        for (int i = 0; i < 4; i++) {
+//            String content = "订单号:" + orderId + ";商品号:87654322,123456;帮工号:1;商品名称:蓝天水杯,鸿天纸巾;" +
+//                    "买家昵称:小明买家;买家地址:湖南省长沙市;买家电话:456123789;买家邮编:126456;" +
+//                    "发货快递:申通快递;发货时间:2017-0" + month + "-01 15:36;发货费用:5.5;是否发货:是";
+//            SmsMessage smsMessage1 = new SmsMessage();
+//            smsMessage1.setBody(content);
+//            smsMessage1.setId(1);
+//            smsMessage1.setNumber("+8618814122731");
+//            smsMessage1.setTime(System.currentTimeMillis() + "");
+//            smsMessage1.setType(2);
+//
+//            Message message = new Message();
+//            Bundle bundle = new Bundle();
+//            bundle.putSerializable("sms", smsMessage1);
+//            message.setData(bundle);
+//            message.what = 0;
+//            handler.sendMessage(message);
+//
+//            orderId++;
+//            month++;
+//        }
+//    }
 
     /**
      * 每当有短信到来的时候，就会发送到Handler中来
@@ -164,7 +164,7 @@ public class SmsService extends Service {
             switch (message.what) {
                 case 0:
                     smsMessage = (SmsMessage) message.getData().getSerializable("sms");
-                    Log.e("TestService1", "SmsService:handleMessage()" + smsMessage.getBody() + ";smsType:" + smsMessage.getType());
+                    Log.e("TestService", "SmsService:handler得到的数据是:" + smsMessage.getBody() + ";smsType:" + smsMessage.getType());
 
                     if (smsMessage.getType() == 0) {
                         orderGood = smsParserUtil.getOrderData(smsMessage.getBody());
