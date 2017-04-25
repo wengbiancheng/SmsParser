@@ -205,12 +205,12 @@ public class HelperFragment extends BaseFragment {
                     helperMessage.setPhone("+86"+phone.getText().toString());
                 }
 
-                //判断电话号码是否符合要求
-                String tempPhoneNumber=helperMessage.getPhone().substring(4,helperMessage.getPhone().length());
-                if(IsVaild(tempPhoneNumber)){
-                    Toast.makeText(Baseactivity,"电话号码不符合要求,请重新输入",Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                //判断电话号码是否符合要求
+//                String tempPhoneNumber=helperMessage.getPhone().substring(4,helperMessage.getPhone().length());
+//                if(IsVaild(tempPhoneNumber)){
+//                    Toast.makeText(Baseactivity,"电话号码不符合要求,请重新输入",Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
 
                 //数据库的帮工操作
                 helperMessage.setCheck(false);
@@ -251,7 +251,7 @@ public class HelperFragment extends BaseFragment {
 
     private boolean IsVaild(String temp){
         Pattern p = Pattern
-                .compile("[1][34578]\\d{9}");
+                .compile("[1][34578]\\\\d{9}");
         Matcher m = p.matcher(temp);
         return m.matches()?false:true;
     }
