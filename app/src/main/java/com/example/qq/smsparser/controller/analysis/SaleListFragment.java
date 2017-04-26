@@ -163,6 +163,7 @@ public class SaleListFragment extends BaseFragment implements LineChartOnValueSe
 
         mLineData = new LineChartData(lines);                      //将所有的线加入线数据类中
         mLineData.setBaseValue(Float.NEGATIVE_INFINITY);           //设置基准数(大概是数据范围)
+        mLineData.setValueLabelTextSize(8);
 
         //如果显示坐标轴
         if (isHasAxes) {
@@ -193,7 +194,7 @@ public class SaleListFragment extends BaseFragment implements LineChartOnValueSe
         //创建一个图标视图 大小为控件的最大大小
         final Viewport v = new Viewport(lvc_salse.getMaximumViewport());
         v.bottom = 0;                          //y轴最小值
-        v.top = 200;                            //y轴最大值
+        v.top = 600;                            //y轴最大值
         v.left = 0;                             //x轴最小值
         v.right = maxNumberOfPoints + 1;           //y轴最大值
         lvc_salse.setMaximumViewport(v);   //给最大的视图设置 相当于原图
