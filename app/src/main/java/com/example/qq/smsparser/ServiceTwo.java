@@ -26,7 +26,7 @@ public class ServiceTwo extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.e(TAG, "ServiceTwo:onStartCommand");
+        Log.e(TAG, "APP数据重新加载完成");
         return START_REDELIVER_INTENT;
     }
 

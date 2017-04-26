@@ -72,7 +72,7 @@ class SmsObserver extends ContentObserver {
 
         String[] projection = new String[]{"_id", "address", "body", "date"};
 //        String where = "date>" + (System.currentTimeMillis() - 1 * 1000);//30秒内收到的短信
-        Cursor cur = contentResolver.query(SMS_INBOX, projection, "date>?", new String[]{(System.currentTimeMillis() - 15 * 1000)+""}, "_id desc");//TODO 要设置这些短信为已读
+        Cursor cur = contentResolver.query(SMS_INBOX, projection, "date>?", new String[]{(System.currentTimeMillis() - 30 * 1000)+""}, "_id desc");//TODO 要设置这些短信为已读
         //当使用date desc进行排序的时候，同个电话号码可以得到我们想要的序列，但是当多个电话号码同时到达的时候，会导致了获取到的cursor发生错乱
         //因此我们还是使用_id进行排序，就可以正确地获取先后顺序到达的短信内容了
         Log.e("TestService", "获取短信数量是:" + cur.getCount());

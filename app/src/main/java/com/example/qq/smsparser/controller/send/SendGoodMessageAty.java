@@ -42,15 +42,6 @@ public class SendGoodMessageAty extends Activity implements View.OnClickListener
         initUI();
         initData();
 
-        int pid = android.os.Process.myPid();
-        ActivityManager mActivityManager = (ActivityManager) this
-                .getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningAppProcessInfo appProcess : mActivityManager
-                .getRunningAppProcesses()) {
-            if (appProcess.pid == pid) {
-                Log.e("TestService", "SendGoodMessageAty的进程名字是:"+appProcess.processName);
-            }
-        }
     }
 
     private void initTest(){
