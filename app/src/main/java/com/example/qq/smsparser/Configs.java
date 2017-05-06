@@ -6,7 +6,7 @@ package com.example.qq.smsparser;
 public class Configs {
 
     //假设服务器发过来的短信号码是:18814122731
-    public final static String SMS_SERVER_NUMBER="106902208411010008";
+    public volatile static String SMS_SERVER_NUMBER="106902208411010008";
 
     public final static int version = 1 ;
 

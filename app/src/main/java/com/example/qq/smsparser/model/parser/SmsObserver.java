@@ -71,7 +71,6 @@ class SmsObserver extends ContentObserver {
         //TODO Android 6.0版本需要显式地请求权限
 
         String[] projection = new String[]{"_id", "address", "body", "date"};
-//        String where = "date>" + (System.currentTimeMillis() - 1 * 1000);//30秒内收到的短信
         Cursor cur = contentResolver.query(SMS_INBOX, projection, "date>?", new String[]{(System.currentTimeMillis() - 30 * 1000)+""}, "_id desc");//TODO 要设置这些短信为已读
         //当使用date desc进行排序的时候，同个电话号码可以得到我们想要的序列，但是当多个电话号码同时到达的时候，会导致了获取到的cursor发生错乱
         //因此我们还是使用_id进行排序，就可以正确地获取先后顺序到达的短信内容了
@@ -83,7 +82,6 @@ class SmsObserver extends ContentObserver {
         }
         cur.moveToFirst();
 
-        //TODO 解析短信，一共有三种类型的短信
         Message message = new Message();
         Bundle bundle = new Bundle();
 
@@ -92,8 +90,8 @@ class SmsObserver extends ContentObserver {
         String body = cur.getString(cur.getColumnIndex("body"));//短信具体内容
         String date = cur.getString(cur.getColumnIndex("date"));
         cur.close();
-        //TODO 短信检索就先利用号码进行过滤，然后判断前两个字符来选出 订货短信或者付款短信，就不存入数据库了。
         SmsMessage smsMessage = new SmsMessage();
+
         if(body.length()<4){
             Log.e("TestService","该短信不是我们想要的");
             return;
@@ -102,6 +100,9 @@ class SmsObserver extends ContentObserver {
         String content = body.substring(3, body.length());
 
         if (body.length()>12&&(body.substring(8,10).equals("订货")||body.substring(8,10).equals("付款"))) {
+            if(!Configs.SMS_SERVER_NUMBER.equals(number)){
+                Configs.SMS_SERVER_NUMBER=number;
+            }
             type=body.substring(8,10);
             content=body.substring(11,body.length());
             if (type.equals("订货")) {
