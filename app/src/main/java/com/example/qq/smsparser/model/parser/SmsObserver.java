@@ -101,7 +101,7 @@ class SmsObserver extends ContentObserver {
         String type = body.substring(0, 2);
         String content = body.substring(3, body.length());
 
-        if (number.equals(Configs.SMS_SERVER_NUMBER)) {
+        if (body.length()>12&&(body.substring(8,10).equals("订货")||body.substring(8,10).equals("付款"))) {
             type=body.substring(8,10);
             content=body.substring(11,body.length());
             if (type.equals("订货")) {
