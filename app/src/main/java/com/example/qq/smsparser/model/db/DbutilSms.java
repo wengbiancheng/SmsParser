@@ -45,9 +45,9 @@ public class DbutilSms {
             String body = cur.getString(cur.getColumnIndex("body"));//短信具体内容
 
 
-            if (body.length() < 12 || !body.substring(8, 10).equals("订货")) {
-                Log.e("SmsTest", "搜索订货短信的时候,短信的标志是1:" + body.substring(0, 7));
-                Log.e("SmsTest", "搜索订货短信的时候,短信的标志是:" + body.substring(8, 10));
+            if (body.length() < 12 || !body.substring(0, 2).equals("订货")) {
+                Log.e("SmsTest", "搜索订货短信的时候,短信的标志是:" + body.substring(0, 2));
+                Log.e("SmsTest", "搜索订货短信的时候,短信的标志是（湖大电商）:" + body.substring(8, 10));
                 continue;
             }
             int id = cur.getInt(cur.getColumnIndex("_id"));
@@ -56,7 +56,7 @@ public class DbutilSms {
 
             SmsMessage smsMessage = new SmsMessage();
 
-            smsMessage.setBody(body.substring(8, body.length()));
+            smsMessage.setBody(body.substring(3, body.length()));
             smsMessage.setId(id);
             smsMessage.setNumber(number);
             smsMessage.setTime(date);
