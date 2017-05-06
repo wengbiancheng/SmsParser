@@ -46,6 +46,7 @@ public class DbutilSms {
 
 
             if (body.length() < 12 || !body.substring(8, 10).equals("订货")) {
+                Log.e("SmsTest", "搜索订货短信的时候,短信的标志是1:" + body.substring(0, 7));
                 Log.e("SmsTest", "搜索订货短信的时候,短信的标志是:" + body.substring(8, 10));
                 continue;
             }
