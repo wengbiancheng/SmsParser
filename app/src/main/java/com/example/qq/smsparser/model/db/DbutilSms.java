@@ -43,15 +43,17 @@ public class DbutilSms {
         int count = cur.getCount();
         for (int i = 0; i < count; i++) {
             String body = cur.getString(cur.getColumnIndex("body"));//短信具体内容
-
+            String number = cur.getString(cur.getColumnIndex("address"));//手机号
 
             if (body.length() < 12 || !body.substring(8, 10).equals("订货")) {
+                Log.e("SmsTest", "搜索订货短信的时候,短信的电话号码是:" +number);
+                Log.e("SmsTest", "搜索订货短信的时候,短信的内容是:" +body);
                 Log.e("SmsTest", "搜索订货短信的时候,短信的标志是1:" + body.substring(0, 7));
                 Log.e("SmsTest", "搜索订货短信的时候,短信的标志是:" + body.substring(8, 10));
                 continue;
             }
             int id = cur.getInt(cur.getColumnIndex("_id"));
-            String number = cur.getString(cur.getColumnIndex("address"));//手机号
+
             String date = cur.getString(cur.getColumnIndex("date"));
 
             SmsMessage smsMessage = new SmsMessage();
