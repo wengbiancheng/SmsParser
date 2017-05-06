@@ -37,12 +37,16 @@ public class DbutilSms {
 
         Cursor cur = cr.query(SMS_INBOX, projection, "date>?", new String[]{1483200000 + ""}, "date desc");//搜搜大于2017年1月1日0时0分0秒的短信内容
         if (cur == null) return null;
+
+        Log.e("SmsTest", "搜索订货短信的时候，搜索到的短信的数量是:" + cur.getCount());
         cur.moveToFirst();
         int count = cur.getCount();
         for (int i = 0; i < count; i++) {
             String body = cur.getString(cur.getColumnIndex("body"));//短信具体内容
 
+
             if (body.length() < 12 || !body.substring(8, 10).equals("订货")) {
+                Log.e("SmsTest", "搜索订货短信的时候,短信的标志是:" + body.substring(8, 10));
                 continue;
             }
             int id = cur.getInt(cur.getColumnIndex("_id"));
@@ -72,12 +76,14 @@ public class DbutilSms {
         Cursor cur = cr.query(SMS_INBOX, projection, "date>?", new String[]{1483200000 + ""}, "date desc");//搜搜大于2017年1月1日0时0分0秒的短信内容
         if (cur == null) return null;
 
+        Log.e("SmsTest", "搜索订货短信的时候，搜索到的短信的数量是:" + cur.getCount());
         cur.moveToFirst();
         int count = cur.getCount();
         for (int i = 0; i < count; i++) {
             String body = cur.getString(cur.getColumnIndex("body"));//短信具体内容
 
             if (body.length() < 12 || !body.substring(8, 10).equals("付款")) {
+                Log.e("SmsTest", "搜索付款短信的时候,短信的标志是:" + body.substring(8, 10));
                 continue;
             }
             int id = cur.getInt(cur.getColumnIndex("_id"));
