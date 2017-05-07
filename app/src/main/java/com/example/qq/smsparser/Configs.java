@@ -5,8 +5,6 @@ package com.example.qq.smsparser;
  */
 public class Configs {
 
-    //假设服务器发过来的短信号码是:18814122731
-
     public final static int version = 1 ;
 
     //初始化数据库表

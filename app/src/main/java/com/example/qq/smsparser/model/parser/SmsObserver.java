@@ -16,6 +16,7 @@ import com.example.qq.smsparser.entity.HelperMessage;
 import com.example.qq.smsparser.entity.SmsMessage;
 import com.example.qq.smsparser.model.db.DbutilHelper;
 import com.example.qq.smsparser.model.db.MySQLiteHelper;
+import com.example.qq.smsparser.model.db.SharedPreferenceUtil;
 
 import java.util.List;
 
@@ -101,9 +102,13 @@ class SmsObserver extends ContentObserver {
         String content = body.substring(3, body.length());
 
         if (body.length()>12&&(body.substring(8,10).equals("订货")||body.substring(8,10).equals("付款"))) {
-            if(!MyApplication.SMS_SERVER_NUMBER.equals(number)){
-                MyApplication.SMS_SERVER_NUMBER=number;
+
+            //SharedPreferences存储短信平台的号码，如果有变化，则更新号码
+            if(!SharedPreferenceUtil.getServerNumber(context).equals(number)){
+                SharedPreferenceUtil.writeServerNumber(number,context);
             }
+
+
             type=body.substring(8,10);
             content=body.substring(11,body.length());
             if (type.equals("订货")) {

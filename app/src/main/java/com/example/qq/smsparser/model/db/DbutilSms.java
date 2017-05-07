@@ -36,7 +36,10 @@ public class DbutilSms {
         ContentResolver cr = context.getContentResolver();
         String[] projection = new String[] { "_id", "address", "body","date"};
 
-        Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{MyApplication.SMS_SERVER_NUMBER}, "date desc");
+        String SMS_SERVER_NUMBER=SharedPreferenceUtil.getServerNumber(context);
+        Log.e("SmsTest","短信平台发过来的号码是:"+SMS_SERVER_NUMBER);
+
+        Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{SMS_SERVER_NUMBER}, "date desc");
         if (cur==null) return null;
 
         Log.e("SmsTest","得到的订货短信的cur数量是:"+cur.getCount());
@@ -71,7 +74,10 @@ public class DbutilSms {
         ContentResolver cr = context.getContentResolver();
         String[] projection = new String[] { "_id", "address", "body","date"};
 
-        Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{MyApplication.SMS_SERVER_NUMBER}, "date desc");
+        String SMS_SERVER_NUMBER=SharedPreferenceUtil.getServerNumber(context);
+        Log.e("SmsTest","短信平台发过来的号码是:"+SMS_SERVER_NUMBER);
+
+        Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{SMS_SERVER_NUMBER}, "date desc");
         if (cur==null) return null;
 
         cur.moveToFirst();
