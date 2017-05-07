@@ -15,7 +15,7 @@ public class SharedPreferenceUtil {
     }
 
     public static String getServerNumber(Context context){
-        SharedPreferences sharedPreferences= context.getApplicationContext().getSharedPreferences("test",
+        SharedPreferences sharedPreferences= context.getApplicationContext().getSharedPreferences("server",
                 Context.MODE_PRIVATE);
         String number=sharedPreferences.getString("number","106902208411010008");
         return number;
