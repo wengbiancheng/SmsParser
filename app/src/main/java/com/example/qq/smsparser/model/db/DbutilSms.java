@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.example.qq.smsparser.Configs;
+import com.example.qq.smsparser.MyApplication;
 import com.example.qq.smsparser.entity.SmsMessage;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class DbutilSms {
         ContentResolver cr = context.getContentResolver();
         String[] projection = new String[] { "_id", "address", "body","date"};
 
-        Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{Configs.SMS_SERVER_NUMBER}, "date desc");
+        Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{MyApplication.SMS_SERVER_NUMBER}, "date desc");
         if (cur==null) return null;
 
         Log.e("SmsTest","得到的订货短信的cur数量是:"+cur.getCount());
@@ -70,7 +71,7 @@ public class DbutilSms {
         ContentResolver cr = context.getContentResolver();
         String[] projection = new String[] { "_id", "address", "body","date"};
 
-        Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{Configs.SMS_SERVER_NUMBER}, "date desc");
+        Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{MyApplication.SMS_SERVER_NUMBER}, "date desc");
         if (cur==null) return null;
 
         cur.moveToFirst();

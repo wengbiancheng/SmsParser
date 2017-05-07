@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public class MyApplication extends Application {
 
     private MySQLiteHelper sqLiteOpenHelper;
+    public  static String SMS_SERVER_NUMBER="106902208411010008";
+
 
     public synchronized MySQLiteHelper getSQLiteOpenHelper() {
         if (sqLiteOpenHelper == null) {

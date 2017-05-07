@@ -11,6 +11,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.example.qq.smsparser.Configs;
+import com.example.qq.smsparser.MyApplication;
 import com.example.qq.smsparser.entity.HelperMessage;
 import com.example.qq.smsparser.entity.SmsMessage;
 import com.example.qq.smsparser.model.db.DbutilHelper;
@@ -100,8 +101,8 @@ class SmsObserver extends ContentObserver {
         String content = body.substring(3, body.length());
 
         if (body.length()>12&&(body.substring(8,10).equals("订货")||body.substring(8,10).equals("付款"))) {
-            if(!Configs.SMS_SERVER_NUMBER.equals(number)){
-                Configs.SMS_SERVER_NUMBER=number;
+            if(!MyApplication.SMS_SERVER_NUMBER.equals(number)){
+                MyApplication.SMS_SERVER_NUMBER=number;
             }
             type=body.substring(8,10);
             content=body.substring(11,body.length());
