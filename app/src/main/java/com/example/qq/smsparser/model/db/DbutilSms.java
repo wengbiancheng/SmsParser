@@ -39,6 +39,10 @@ public class DbutilSms {
         String SMS_SERVER_NUMBER=MyApplication.getServerNumber(context);
         Log.e("SmsTest","短信平台发过来的号码是:"+SMS_SERVER_NUMBER);
 
+        if(SMS_SERVER_NUMBER==null||SMS_SERVER_NUMBER.equals("")){
+            return list;
+        }
+
         Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{SMS_SERVER_NUMBER}, "date desc");
         if (cur==null) return null;
 
@@ -76,6 +80,9 @@ public class DbutilSms {
 
         String SMS_SERVER_NUMBER=MyApplication.getServerNumber(context);
         Log.e("SmsTest","短信平台发过来的号码是:"+SMS_SERVER_NUMBER);
+        if(SMS_SERVER_NUMBER==null||SMS_SERVER_NUMBER.equals("")){
+            return list;
+        }
 
         Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{SMS_SERVER_NUMBER}, "date desc");
         if (cur==null) return null;

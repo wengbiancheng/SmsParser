@@ -10,15 +10,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.example.qq.smsparser.Configs;
 import com.example.qq.smsparser.MyApplication;
 import com.example.qq.smsparser.entity.HelperMessage;
 import com.example.qq.smsparser.entity.SmsMessage;
 import com.example.qq.smsparser.model.db.DbutilHelper;
 import com.example.qq.smsparser.model.db.MySQLiteHelper;
-import com.example.qq.smsparser.model.db.SharedPreferenceUtil;
-
-import java.util.List;
 
 /**
  * 获取短信类，通过onChange进行相应的回调，有订货短信、付款短信和帮工短信共三种形式的短信
