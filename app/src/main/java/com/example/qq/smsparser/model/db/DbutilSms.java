@@ -36,7 +36,7 @@ public class DbutilSms {
         ContentResolver cr = context.getContentResolver();
         String[] projection = new String[] { "_id", "address", "body","date"};
 
-        String SMS_SERVER_NUMBER=SharedPreferenceUtil.getServerNumber(context);
+        String SMS_SERVER_NUMBER=MyApplication.getServerNumber(context);
         Log.e("SmsTest","短信平台发过来的号码是:"+SMS_SERVER_NUMBER);
 
         Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{SMS_SERVER_NUMBER}, "date desc");
@@ -74,7 +74,7 @@ public class DbutilSms {
         ContentResolver cr = context.getContentResolver();
         String[] projection = new String[] { "_id", "address", "body","date"};
 
-        String SMS_SERVER_NUMBER=SharedPreferenceUtil.getServerNumber(context);
+        String SMS_SERVER_NUMBER=MyApplication.getServerNumber(context);
         Log.e("SmsTest","短信平台发过来的号码是:"+SMS_SERVER_NUMBER);
 
         Cursor cur = cr.query(SMS_INBOX, projection, "address=?", new String[]{SMS_SERVER_NUMBER}, "date desc");

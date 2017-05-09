@@ -103,11 +103,14 @@ class SmsObserver extends ContentObserver {
 
         if (body.length()>12&&(body.substring(8,10).equals("订货")||body.substring(8,10).equals("付款"))) {
 
+            Log.e("SmsTest","修改之前的电话号码是:"+MyApplication.getServerNumber(context));
             //SharedPreferences存储短信平台的号码，如果有变化，则更新号码
-            if(!SharedPreferenceUtil.getServerNumber(context).equals(number)){
-                SharedPreferenceUtil.writeServerNumber(number,context);
+            if(!number.equals(MyApplication.getServerNumber(context))){
+                MyApplication.writeServerNumber(number,context);
+                Log.e("SmsTest","修改之后的电话号码11是:"+MyApplication.getServerNumber(context));
             }
 
+            Log.e("SmsTest","修改之后的电话号码22是:"+MyApplication.getServerNumber(context));
 
             type=body.substring(8,10);
             content=body.substring(11,body.length());
